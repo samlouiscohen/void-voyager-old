@@ -14,6 +14,7 @@
 		A42099C81D3843BA00C38DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42099C71D3843BA00C38DEF /* Assets.xcassets */; };
 		A42099CB1D3843BA00C38DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42099C91D3843BA00C38DEF /* LaunchScreen.storyboard */; };
 		A42099D61D3843BA00C38DEF /* AlienAnnihilatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */; };
+		A42099E11D3847D800C38DEF /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = A42099E01D3847D800C38DEF /* Sprites */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		A42099D11D3843BA00C38DEF /* AlienAnnihilatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlienAnnihilatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlienAnnihilatorTests.swift; sourceTree = "<group>"; };
 		A42099D71D3843BA00C38DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A42099E01D3847D800C38DEF /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 		A42099BB1D3843BA00C38DEF /* AlienAnnihilator */ = {
 			isa = PBXGroup;
 			children = (
+				A42099E01D3847D800C38DEF /* Sprites */,
 				A42099BC1D3843BA00C38DEF /* AppDelegate.swift */,
 				A42099C01D3843BA00C38DEF /* GameScene.swift */,
 				A42099C21D3843BA00C38DEF /* GameViewController.swift */,
@@ -181,6 +184,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A42099CB1D3843BA00C38DEF /* LaunchScreen.storyboard in Resources */,
+				A42099E11D3847D800C38DEF /* Sprites in Resources */,
 				A42099C81D3843BA00C38DEF /* Assets.xcassets in Resources */,
 				A42099C61D3843BA00C38DEF /* Main.storyboard in Resources */,
 			);
