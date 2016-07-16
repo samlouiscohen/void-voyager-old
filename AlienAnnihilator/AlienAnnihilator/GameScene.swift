@@ -236,6 +236,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             
             
+            
+            
+//            if((CGRectContainsPoint(joyBase.frame, location)){
+//                let alien = SKSpriteNode(imageNamed: "Sprites/alien")
+//                alien.setScale(0.1)
+//                alien.position = location
+//            
+//                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+//            
+//                alien.runAction(SKAction.repeatActionForever(action))
+//            
+//                self.addChild(alien)
+//            }
+
+            
+            
+            
+            if(!CGRectContainsPoint(joyBase.frame, location)){
+                let alien = SKSpriteNode(imageNamed: "Sprites/alien")
+                alien.setScale(0.1)
+                alien.position = location
+                
+                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+                
+                alien.runAction(SKAction.repeatActionForever(action))
+                
+                self.addChild(alien)
+
+            }
+            
             if(controllerOn == true){
                 
                 let joyVector = CGVector(dx:location.x - joyBase.position.x, dy:location.y - joyBase.position.y)
@@ -268,10 +298,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let xVelocity = 50 * CGFloat(cosf(calcRotation))
                 let yVelocity = 50 * CGFloat(sinf(calcRotation))
                 let velocityVector:CGVector = CGVector(dx: xVelocity, dy: yVelocity)
-                let v:CGVector = CGVector(dx:joyVector.dx*50,dy:joyVector.dy*50)
+                let v:CGVector = CGVector(dx:joyVector.dx,dy:joyVector.dy)
                 //Use velocity vector to apply a force on the ship
 //                ship.physicsBody?.applyForce(velocityVector)
-                ship.physicsBody?.applyForce(v)
+                
+                func normalizeVector(v:CGVector) -> CGVector{
+                    
+                    let length: CGFloat = sqrt((v.dx*v.dx)+(v.dy*v.dy))
+                    
+                    let ans:CGVector = CGVector(dx:v.dx/length,dy:v.dy/length)
+                    
+                    return ans
+                }
+                
+                let unitVector:CGVector = normalizeVector(v)
+                let forceVector:CGVector = CGVector(dx:unitVector.dx*200,dy:unitVector.dy*200)
+                
+                ship.physicsBody?.applyForce(forceVector)
                 
             }
         }
