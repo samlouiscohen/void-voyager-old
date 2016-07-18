@@ -1,0 +1,20 @@
+TO DO:
+
+
+-Refactor Code: Design generic ship & Alien classes (Will be useful for later inheritance of alien species)
+
+-Work on collisions: alien & ship/ alien & laser and also the outcomes of each
+
+-Improve ship motion
+
+-**Allow for multiple finger input: So ship doesn’t freeze when shooting
+
+-Design gun classes: Some sort of reload mechanism to provide a reasonable delay between allowed shots. Also necessary for future laser upgrades or powers (inheritance of some generic laser)
+
+-Implement sound effects and look for a background track to play
+
+-Consider shooting from all angles (or just right to left?) - could be better game play
+
+-Look into multiplayer: Maybe two ships fighting across from one another with aliens attacking simultaneously 
+
+-Look into process of submitting to apple
