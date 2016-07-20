@@ -111,18 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //This line handles collisions (not just contact) so like bouncing off ect - dont need it
         alien.physicsBody?.collisionBitMask = PhysicsCategory.None
         
-        
-        //        //Determine speed of the monster
-        //        let actualDuration = random(min:CGFloat(2.0), max:CGFloat(4.0))
-        //
-        //        //Create the actions
-        //        let actionMove = SKAction.moveTo(CGPoint(x:-monster.size.width/2, y:actualY), duration: NSTimeInterval(actualDuration))
-        //
-        //        let actionMoveDone = SKAction.removeFromParent()
-        //
-        //        monster.runAction(SKAction.sequence([actionMove,actionMoveDone]))
-        
-        
+
         //Create time to cross screen
         let travelTime:Double = Double(random(2, max: 4))
         
@@ -234,96 +223,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
        laser.runAction(moveLaser)
-        
-        
-//        let laserVelocity = CGVector(dx:5, dy:0)
-//        laser.physicsBody?.velocity = CGVector(dx:50, dy:5.0)
-//        let reloadLaser = SKAction.runBlock(loadLaser)
-//
-//        let loadWaitTime = SKAction.waitForDuration(1)
-//
-//        let removeLaser = SKAction.removeFromParent()
-//        
-//        laser.runAction(SKAction.sequence([removeLaser,reloadLaser,loadWaitTime]))
-        print("shoot?")
-        
-        
-            
-            
-//            reloadLaser,loadTime)
-        
-        
-        
-        
-//        let laser = SKSpriteNode(imageNamed: "Sprites/laser")
-
-        
-        
-        //apply a velocity vector or just move action
-//        let laserMove = SKAction.moveTo(CGPoint(x:size.width+laser.size.width/2, y:shootY))
-//        laserTime =
-//        
-//        laser.runAction(laserMove,laserTime)
-        
-        
-        //Provide a slight delay
-//        LoadLaser()
     }
     
     
     
     
-    
-    
-    
-//    func addMonster() {
-//        
-//        //Create sprite
-//        let monster = SKSpriteNode(imageNamed:"monster")
-//        
-//        
-//        //Makeshift:
-//        //    let screenSize: CGRect = UIScreen.mainScreen().bounds
-//        
-//        //Deterime where to spawn the monster along the Y axis
-//        let actualY = random(min:monster.size.height/2, max:size.height - monster.size.height/2)
-//        
-//        
-//        monster.position = CGPoint(x:size.width + monster.size.width/2, y:actualY)
-//        
-//        //Add monster to the scene
-//        addChild(monster)
-//        
-//        
-//        /** Monster physics **/
-//        
-//        //Create a physics body for the sprite, defined as a rectangle
-//        monster.physicsBody = SKPhysicsBody(rectangleOfSize: monster.size)
-//        //Sprite is dynamic, the physics engine will not control movement (only the move actions will)
-//        monster.physicsBody?.dynamic = true
-//        //Sets the category bitmask to the monsterCategory defined above
-//        monster.physicsBody?.categoryBitMask = PhysicsCategory.Monster
-//        //Categories of objects the object should notify the contact listener when they interesect
-//        monster.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
-//        //This line handles collisions (not just contact) so like bouncing off ect - dont need it
-//        monster.physicsBody?.collisionBitMask = PhysicsCategory.None
-//        
-//        
-//        
-//        
-//        
-//        //Determine speed of the monster
-//        let actualDuration = random(min:CGFloat(2.0), max:CGFloat(4.0))
-//        
-//        //Create the actions
-//        let actionMove = SKAction.moveTo(CGPoint(x:-monster.size.width/2, y:actualY), duration: NSTimeInterval(actualDuration))
-//        
-//        let actionMoveDone = SKAction.removeFromParent()
-//        
-//        monster.runAction(SKAction.sequence([actionMove,actionMoveDone]))
-//        
-//    }
-
     
     
     
