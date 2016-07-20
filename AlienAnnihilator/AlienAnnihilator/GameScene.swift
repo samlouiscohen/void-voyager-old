@@ -135,6 +135,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
     
     
@@ -166,7 +182,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
+    func normalizeVector(v:CGVector) -> CGVector{
+        let length: CGFloat = sqrt((v.dx*v.dx)+(v.dy*v.dy))
+        let ans:CGVector = CGVector(dx:v.dx/length,dy:v.dy/length)
+        return ans
+    }
     func shoot(){
         
         //Figure out how to delay ("reload")
@@ -424,11 +444,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 //Use velocity vector to apply a force on the ship
 //                ship.physicsBody?.applyForce(velocityVector)
                 
-                func normalizeVector(v:CGVector) -> CGVector{
-                    let length: CGFloat = sqrt((v.dx*v.dx)+(v.dy*v.dy))
-                    let ans:CGVector = CGVector(dx:v.dx/length,dy:v.dy/length)
-                    return ans
-                }
+//                func normalizeVector(v:CGVector) -> CGVector{
+//                    let length: CGFloat = sqrt((v.dx*v.dx)+(v.dy*v.dy))
+//                    let ans:CGVector = CGVector(dx:v.dx/length,dy:v.dy/length)
+//                    return ans
+//                }
                 
                 let unitVector:CGVector = normalizeVector(v)
                 let velocityVector:CGVector = CGVector(dx:unitVector.dx*200,dy:unitVector.dy*200)
@@ -436,6 +456,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 ship.physicsBody?.velocity = velocityVector
 //                ship.physicsBody?.applyForce(forceVector)
+                
+                if(ship.position.x>self.size.width){
+                    ship.position.x = 0
+                }
                 
             }
         }
@@ -470,94 +494,56 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//       /* Called when a touch begins */
-//        
-//        for touch in touches {
-//            
-//            let location = touch.locationInNode(self)
-//            let alien = SKSpriteNode(imageNamed: "Sprites/alien")
-//            alien.setScale(0.1)
-//            alien.position = location
-//            
-//            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//            
-//            alien.runAction(SKAction.repeatActionForever(action))
-//            
-//            self.addChild(alien)
-//        }
-//    }
-   
-//
-//
-//    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        for touch in (touches as! Set<UITouch>){
-//            let location = touch.locationInNode(self)
-//        }
-//    }
-//
-//
-//    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        for touch in (touches as! Set<UITouch>){
-//            let location = touch.locationInNode(self)
-//        }
-//    }
-
     
-//    
-//    ship.position = CGPoint(x:size.width * 0.1,y:size.height * 0.5)
-//    ship.setScale(0.3)
-//    
-//    //Physics of the ship
-//    ship.physicsBody?.dynamic = true
-//    ship.physicsBody?.allowsRotation = true
-//    ship.physicsBody?.affectedByGravity = true //??? OR nah
-//    ship.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed:"Sprites/fullShip.png"), size: ship.size)
-//    addChild(ship)
-    
-//    class Ship: SKSpriteNode{
-//        //name:String,pos:Array<CGFloat>
-//        
-//        init(position:CGPoint){
-//            let texture = SKTexture(imageNamed: "Sprites/fullShip.png")
-//            super.init(texture: texture, color: SKColor.clearColor(), size: texture.size())
-//            
-//            self.position = position
-//            
-//        }
-//        
-//        required init?(coder aDecoder: NSCoder) {
-//            fatalError("init(coder:) has not been implemented")
-//        }
-//    }
-    
+    //Generic alien type: a blue-print of sorts
+    class Alien:SKSpriteNode{
         
+        static func normalizeVector(vector:CGVector) -> CGVector{
+            let len = sqrt(vector.dx * vector.dx + vector.dy * vector.dy)
+            
+            return CGVector(dx:vector.dx / len, dy:vector.dy / len)
+        }
+        
+        let velocityVector:CGVector
+        let startPos:CGPoint
+        
+        //Maybe include collision types here as well
+        
+        
+        
+        init(texture:SKTexture, startPosition startPos:CGPoint,moveSpeed: CGFloat,velocityVector:CGVector){
+            
+            self.velocityVector = Alien.normalizeVector(velocityVector)
+            self.startPos = startPos
+            
+            //Makes sure the SKSpriteNode is initialized before modifying its properties
+            super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
+            
+            //self.velocityVector = normalizeVector(velocityVector)
+            self.position = position
+        }
+        
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+    }
+    
+
+    
+    
+    
+//    func boxedZigZag()->SKAction{
+//    
+//        let path = 'left',
+//    
+//        let path:CGPath = CGPath()
 //        
-//        init(name:String,position:Array<CGFloat>){
-//            let texture = SKTexture(imageNamed: "Sprites/fullShip.png")
-//            
-//            
-//            
-//            
-//            self.position = CGPoint(x:position[0],y:position[1])
-//            
-////            super.init(texture: texture, color: SKColor.clearColor(), size: texture.size())
-//            
-//        }
-
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
+//       let moveRight = SKAction
+//        
+//    
+//    }
 
 
 
