@@ -74,6 +74,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(addAlien), SKAction.waitForDuration(Double(random(1.0,max: 2.0)))])))
         
+//        let aAlien = normAlien(startPos:CGPoint(x:100,y:100), speed:5)
+//        print(aAlien.physicsBody)
+        
+//        let aAlien = normAlien(startPos:CGPoint(x:100,y:100), speed:5)
+////                let aPlayfulAlien = normAlien(startPos:CGPoint(x:0,y:size.height/2), speed:100)
+//        //        aAlien.physicsBody?.velocity = CGVector(dx:50,dy:0)
+////                aPlayfulAlien.physicsBody?.applyForce(CGVector(dx:5,dy:0))
+//        addChild(aAlien)
+        
+        
     }
     
     
@@ -85,42 +95,77 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func addAlien(){
         
-        //Create the alien sprite
-        let alien = SKSpriteNode(imageNamed:"Sprites/alien.png")
-        alien.setScale(0.1)
+//        //Create the alien sprite
+//        let alien = SKSpriteNode(imageNamed:"Sprites/alien.png")
+//        alien.setScale(0.1)
+//        
+//        //Determine where to spawn the alien on the Y-axis (NOTE: in swift 2.2 you need argument labels
+//        let yStart = random(alien.size.height/2, max: size.height-alien.size.height)
+//        
+//        //Places the alien start just off screen in the x-axis
+//        alien.position = CGPoint(x: size.width+alien.size.width/2,y: yStart)
+//        
+//        //Add the Alien to the scene
+//        addChild(alien)
+//        
+//        
+//        /*Alien physics*/
+//        //Create a physics body for the sprite (a circle)
+//        alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.height/2)
+//        //The sprite should be dynamic (i.e. the physics engine wont dictate movement- only actions will)
+//        alien.physicsBody?.dynamic = true
+//        //Defines what physics catagory the alien belongs to
+//        alien.physicsBody?.categoryBitMask = PhysicsCategory.Alien
+//        //Categories of objects the object should notify the contact listener when they interesect 
+//        alien.physicsBody?.contactTestBitMask = PhysicsCategory.Laser
+//        //This line handles collisions (not just contact) so like bouncing off ect - dont need it
+//        alien.physicsBody?.collisionBitMask = PhysicsCategory.None
+//        
+//
+//        //Create time to cross screen
+//        let travelTime:Double = Double(random(2, max: 4))
+//        
+//        //Create actions
+//        let alienMove = SKAction.moveTo(CGPoint(x: -alien.size.width/2,y: yStart), duration: travelTime)
+//        //Remove alien
+//        let alienOffScreen = SKAction.removeFromParent()
+//        
+//        alien.runAction(SKAction.sequence([alienMove,alienOffScreen]))
         
-        //Determine where to spawn the alien on the Y-axis (NOTE: in swift 2.2 you need argument labels
-        let yStart = random(alien.size.height/2, max: size.height-alien.size.height)
-        
-        //Places the alien start just off screen in the x-axis
-        alien.position = CGPoint(x: size.width+alien.size.width/2,y: yStart)
-        
-        //Add the Alien to the scene
-        addChild(alien)
         
         
-        /*Alien physics*/
-        //Create a physics body for the sprite (a circle)
-        alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.height/2)
-        //The sprite should be dynamic (i.e. the physics engine wont dictate movement- only actions will)
-        alien.physicsBody?.dynamic = true
-        //Defines what physics catagory the alien belongs to
-        alien.physicsBody?.categoryBitMask = PhysicsCategory.Alien
-        //Categories of objects the object should notify the contact listener when they interesect 
-        alien.physicsBody?.contactTestBitMask = PhysicsCategory.Laser
-        //This line handles collisions (not just contact) so like bouncing off ect - dont need it
-        alien.physicsBody?.collisionBitMask = PhysicsCategory.None
         
-
-        //Create time to cross screen
+//        let yStart = random(aAlien.size.height/2, max: size.height-aAlien.size.height)
         let travelTime:Double = Double(random(2, max: 4))
-        
-        //Create actions
-        let alienMove = SKAction.moveTo(CGPoint(x: -alien.size.width/2,y: yStart), duration: travelTime)
+        let travelSpeed:CGFloat = CGFloat(random(10, max: 14))
+//        let alienMove = SKAction.moveTo(CGPoint(x: -aAlien.size.width/2,y: yStart), duration: travelTime)
         //Remove alien
         let alienOffScreen = SKAction.removeFromParent()
         
-        alien.runAction(SKAction.sequence([alienMove,alienOffScreen]))
+        
+////        let aAlien = normAlien(startPos:CGPoint(x:-aAlien.size.width/2,y:yStart), speed:travelSpeed)
+//        let aPlayfulAlien = normAlien(startPos:CGPoint(x:0,y:size.height/2), speed:100)
+////        aAlien.physicsBody?.velocity = CGVector(dx:50,dy:0)
+////        aPlayfulAlien.physicsBody?.applyForce(CGVector(dx:5,dy:0))
+//        addChild(aPlayfulAlien)
+//        
+//        let act = SKAction.runBlock(aPlayfulAlien.motion(CGVector(dx:1,dy:0), multiplier:CGFloat(100)))
+//        
+//        aPlayfulAlien.runAction(SKAction.sequence([alienOffScreen]))
+
+       
+        
+//        let aAlien = normAlien(startPos:CGPoint(x:0,y:size.height/2), speed:100)
+//
+//        aAlien.physicsBody?.velocity = CGVector(dx:100,dy:0)
+//        addChild(aAlien)
+        
+//        
+//        let act = SKAction.runBlock(aAlien.motion(CGVector(dx:1,dy:0), multiplier:CGFloat(100)))
+//        
+//        aPlayfulAlien.runAction(SKAction.sequence([alienOffScreen]))
+//        
+        
         
     }
     
@@ -160,7 +205,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         laser.physicsBody?.collisionBitMask = 0;
         //Used for fast & small moving bodies
         laser.physicsBody?.usesPreciseCollisionDetection = true
-        print("load?")
+//        print("load?")
 //        addChild(laser)
         
         
@@ -203,8 +248,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             laser.physicsBody?.velocity.dx = 50
         }
         
-//        laser.physicsBody?.velocity = CGVector(dx: 10.0,dy: 0)
-        print(laser.physicsBody?.velocity)
+        laser.physicsBody?.velocity = CGVector(dx: 10.0,dy: 0)
+//        print(laser.physicsBody?.velocity)
         
 //        let moveLaser = SKAction.moveTo(CGPoint(x: size.width,y: currShipY), duration: 3)
         
@@ -282,16 +327,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             
             
+            if(!CGRectContainsPoint(joyBase.frame, location)){
+//                let alien3 = SKSpriteNode(imageNamed: "Sprites/alien")
+//
+//                alien3.setScale(0.1)
+//                alien3.position = location
+//                alien3.physicsBody = SKPhysicsBody(circleOfRadius: alien3.size.width/2)
+//                print("fake")
+//                print(alien3)
+//                print(alien3.physicsBody)
+//                print("---------------")
+//                print(alien.physicsBody)
+//                alien.physicsBody?.velocity = CGVector(dx:10,dy:0)
+//                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+//                alien.runAction(SKAction.repeatActionForever(action))
+//                self.addChild(alien)
+                
+                let alien = normAlien(startPos:location,speed: CGFloat(10))
+                print("real")
+                print(alien)
+//                alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.width/2)
+                print("PhysicsBody:->>>>")
+                print(alien.physicsBody)
+                
+                self.addChild(alien)
+                
+            }
+            
+//            if((CGRectContainsPoint(joyBase.frame, location)){
+//            
+////                let alien = normAlien(startPos:CGPoint(x:100,y:100),speed: CGFloat(10))
+            
+//            
+//            }
             
             
 //            if((CGRectContainsPoint(joyBase.frame, location)){
 //                let alien = SKSpriteNode(imageNamed: "Sprites/alien")
 //                alien.setScale(0.1)
 //                alien.position = location
+//                alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.width/2)
 //            
-//                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//            
-//                alien.runAction(SKAction.repeatActionForever(action))
+//                print(alien.physicsBody)
+//                alien.physicsBody?.velocity = CGVector(dx:10,dy:0)
+////                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
+////            
+////                alien.runAction(SKAction.repeatActionForever(action))
 //            
 //                self.addChild(alien)
 //            }
@@ -392,6 +473,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+
+        alien.physicsBody?.velocity = CGVector(dx:10,dy:0)
+        
     }
 
 
@@ -411,21 +495,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let velocityVector:CGVector
         let startPos:CGPoint
         
-        //Maybe include collision types here as well
-        
-        
         
         init(texture:SKTexture, startPosition startPos:CGPoint,moveSpeed: CGFloat,velocityVector:CGVector){
             
             self.velocityVector = Alien.normalizeVector(velocityVector)
             self.startPos = startPos
-            
+
             //Makes sure the SKSpriteNode is initialized before modifying its properties
             super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
             
-            //self.velocityVector = normalizeVector(velocityVector)
-            self.position = position
+            self.setScale(0.2)
+
+            //PhysicsBody is a property of super so super.init must be called first (init SKSpriteNode)
+            self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2) //Why THE FUCK IS THIS* NOT AN OPTIONAL?
+            
+            self.physicsBody?.dynamic = true
+            self.physicsBody?.categoryBitMask = PhysicsCategory.Alien //physicsBody?. is optional chaining?
+            self.physicsBody?.collisionBitMask = 0 //Do I need this? or jsut use in laser class
+            self.physicsBody?.contactTestBitMask = PhysicsCategory.Laser
+            self.physicsBody?.usesPreciseCollisionDetection = true
+            
+            //Motion
+            self.physicsBody?.velocity.dx = velocityVector.dx * moveSpeed
+            self.physicsBody?.velocity.dy = velocityVector.dy * moveSpeed
+            
+            self.position = startPos
         }
+
         
         
         required init?(coder aDecoder: NSCoder) {
@@ -435,7 +531,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
 
-    
+    class normAlien:Alien{
+        
+        static let alienImage = SKTexture(imageNamed:"Sprites/alien.png")
+
+        init(startPos:CGPoint,speed: CGFloat){
+            
+            super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed,velocityVector:CGVector(dx: 1,dy: 0))
+            self.setScale(0.1)
+            
+        }
+        
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+    }
     
     
 //    func boxedZigZag()->SKAction{
