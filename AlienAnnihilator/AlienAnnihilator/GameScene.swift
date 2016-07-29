@@ -7,298 +7,304 @@
 //
 
 /* NOTES & Ideas
- *
- *
+ * Lazy variables for init on undefined like spaceship start vat
+ *        //Adding a power up where the bullets slow down so they just keep killling things that go into them?? (no linear damping)
+
+ *In main menu allow for access of cheat codes to add peoples faces as the shooter ect. (in ship or as alein- they get to choose)
+ 
  */
+
+
+/*
+ 
+ Gun class: has timing function to determine when bullet is loaded
+ 
+ bullet is a class that is instantiated within Gun- this is now a sprite node that has physics, speed, images
+ 
+ maybe a new instance is created each time??? That would make it easier to change the features of the bullet as well
+ 
+ 
+ 
+ 
+ 
+ */
+
+
+
+
+//addLaser readys it for fire, but its not drawn/moving until user touches screen
+//Add laser should be what is restricted- by both time and the number of lasers in the array
+//A eventual upgrade could be that lasers are continually reloaded and you can use all at once
+//Maybe even use a "power bar of sorts where a pressure hold makes a ball laser blast"
+
+
+
+//Timer shouldnt even matter or change until the holder is empty, so countdown only when no bullets are in storage, and stop count when it says bullet is ready (Or counter is up and a bullet is loaded)
+
+//        let bulletReady = SKAction.runBlock{
+//            theShip.canShoot = true
+//        }
+
+/*
+ 
+ func addLaser: make laser obj, store in theShip holder
+ 
+ inGun: if(timer==0 && theShip.lasers<1) -> addLaser()
+ [timer should run on node?????]
+ 
+ 
+ func shoot: set laser speed, const y pos, startpos, and addChild
+ 
+ 
+ userTap: if(aShip.canShoot): shoot()
+ 
+ 
+ */
+//---------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
 
 
 
 
 import SpriteKit
 
-//Set up the physics catagories (each bit of the 32 is a catagory)
+//Set up the physics catagories for collisions (each bit of the 32 is a catagory)
 struct PhysicsCategory {
     static let None      :  UInt32 = 0;
     static let All       :  UInt32 = UInt32.max
-    static let Alien   :  UInt32 = 0b1
-    static let Laser:  UInt32 = 0b10
+    static let Alien     :  UInt32 = 0b1
+    static let Laser     :  UInt32 = 0b10
+    static let Ship      :  UInt32 = 0b11
 }
 
+var controlVector:CGVector = CGVector(dx: 0, dy: 0)
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    /**Name controller over this**?*/
-    //Ship
-    let ship = SKSpriteNode(imageNamed: "Sprites/fullShip.png")
-    let laser = SKSpriteNode(imageNamed: "Sprites/laser.jpg")
-    //joystick config
-    let joyStick = SKSpriteNode(imageNamed: "Sprites/joyStickHandle.jpg")
-    let joyBase = SKSpriteNode(imageNamed: "Sprites/joyStickBase.jpg")
+
+    //Build the Aliens killed Label
+    private var aliensKilled = 0 {
+        didSet{
+            self.aliensKilledLabel?.text = aliensKilled.description
+        }
+    }
+    private var aliensKilledLabel:SKLabelNode?
+    
+    
+    //Build the shipLives label
+    private var shipLives = 0 {
+        didSet{
+            self.shipLivesLabel?.text = (aShip.lives).description
+        }
+    }
+    private var shipLivesLabel:SKLabelNode?
+    
+    
+    //Instantiate the ship
+    var aShip = Ship(startPosition: CGPoint(x:50,y:200),controllerVector: controlVector)
+
+    //controller config
+    let controlStick = SKSpriteNode(imageNamed: "Sprites/controlStick2.png")
+    let controlBase = SKSpriteNode(imageNamed: "Sprites/controlBase.png")
     var controllerOn:Bool = false
     
     
     override func didMoveToView(view: SKView) {
         
+        let killedStartLabel = SKLabelNode(fontNamed: "Times New Roman")
+        killedStartLabel.fontSize = 24
+        killedStartLabel.text = "Aliens Killed: "
+        let aliensKilledLabel = SKLabelNode(fontNamed: "Times New Roman")
+        aliensKilledLabel.text = killedStartLabel.text! + aliensKilled.description
+        aliensKilledLabel.fontSize = 14
+        aliensKilledLabel.position = CGPoint(x:CGRectGetMidX(self.frame)*0.8,y:CGRectGetMidY(self.frame)*0.1)
+        self.addChild(aliensKilledLabel)
+        self.aliensKilledLabel = aliensKilledLabel
+        
+        let shipLivesLabel = SKLabelNode(fontNamed: "Times New Roman")
+        shipLivesLabel.text = (aShip.lives).description
+        shipLivesLabel.position = CGPoint(x:CGRectGetMidX(self.frame)*1.3,y:CGRectGetMidY(self.frame)*0.1)
+        self.addChild(shipLivesLabel)
+        self.shipLivesLabel = shipLivesLabel
+        
         //Set up the scene structure
         backgroundColor = SKColor.blackColor()
-        ship.position = CGPoint(x:size.width * 0.1,y:size.height * 0.5)
-        ship.setScale(0.2)
         
-        //Physics of the ship
-        ship.physicsBody?.dynamic = true
-        ship.physicsBody?.allowsRotation = true
-        ship.physicsBody?.affectedByGravity = true //??? OR nah
-        ship.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed:"Sprites/fullShip.png"), size: ship.size)
-        ship.physicsBody?.collisionBitMask = 0;
-        addChild(ship)
-        
-        //Does self reference the window or all sprites?
-//        self.anchorPoint = CGPoint(x:0.5, y:0.5)
-        
+        addChild(aShip)
+
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0.0, 0.0)
         
         /* Set up for the controller */
         //Establish the base
-        joyBase.position = CGPoint(x:size.width*0.1, y:size.height*0.1)
-        joyBase.size = CGSize(width: 100, height: 100)
-        addChild(joyBase)
+        controlBase.position = CGPoint(x:size.width*0.1, y:size.height*0.1)
+        controlBase.size = CGSize(width: 100, height: 100)
+        controlBase.zPosition = 1
+        addChild(controlBase)
+        
         //Establish the stick
-        joyStick.position = joyBase.position
-        joyStick.size = CGSize(width: 50, height: 50)
-        addChild(joyStick)
+        controlStick.position = controlBase.position
+        controlStick.size = CGSize(width: 50, height: 50)
+        controlStick.zPosition = 2
+        addChild(controlStick)
+
+
         
         //Make semi-transparent
-        joyBase.alpha = 0.5
-        joyStick.alpha = 0.5
+        controlBase.alpha = 0.5
+        controlStick.alpha = 0.5
         
         
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(addAlien), SKAction.waitForDuration(Double(random(1.0,max: 2.0)))])))
+        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(addAlien), SKAction.waitForDuration(Double(random(1,max: 2)))])))
         
-//        let aAlien = normAlien(startPos:CGPoint(x:100,y:100), speed:5)
-//        print(aAlien.physicsBody)
+    }
+    
+    
+    
+    func alien_laser_contact(contact:SKPhysicsContact){
+        var alien:SKNode? = nil
+        if contact.bodyA.categoryBitMask == PhysicsCategory.Alien && contact.bodyB.categoryBitMask == PhysicsCategory.Laser{
+            alien = contact.bodyA.node
+            //            alien?.removeFromParent()
+            //            aliensKilled = aliensKilled + 1
+            aShip.lives = aShip.lives - 1
+            
+        }
+        else if contact.bodyB.categoryBitMask == PhysicsCategory.Alien && contact.bodyA.categoryBitMask == PhysicsCategory.Laser{
+            alien = contact.bodyB.node
+            //            alien?.removeFromParent()
+            //            aliensKilled = aliensKilled + 1
+            aShip.lives = aShip.lives - 1
+            
+        }
+        else{
+            //            print("tits")
+            return
+        }
         
-//        let aAlien = normAlien(startPos:CGPoint(x:100,y:100), speed:5)
-////                let aPlayfulAlien = normAlien(startPos:CGPoint(x:0,y:size.height/2), speed:100)
-//        //        aAlien.physicsBody?.velocity = CGVector(dx:50,dy:0)
-////                aPlayfulAlien.physicsBody?.applyForce(CGVector(dx:5,dy:0))
-//        addChild(aAlien)
+        alien?.removeFromParent()
+        aliensKilled = aliensKilled + 1
+        aShip.lives = aShip.lives - 1
+    }
+    
+    
+    func alien_ship_contact(contact:SKPhysicsContact){
+        var alien:SKNode? = nil
+        
+        if contact.bodyA.categoryBitMask == PhysicsCategory.Alien && contact.bodyB.categoryBitMask == PhysicsCategory.Ship{
+            alien = contact.bodyA.node
+            aShip.lives = aShip.lives - 1
+            //            alien?.removeFromParent()
+            //            aliensKilled = aliensKilled + 1
+            
+        }
+        else if contact.bodyB.categoryBitMask == PhysicsCategory.Alien && contact.bodyA.categoryBitMask == PhysicsCategory.Ship{
+            alien = contact.bodyB.node
+            aShip.lives = aShip.lives - 1
+            
+            //            alien?.removeFromParent()
+            //            aliensKilled = aliensKilled + 1
+            
+        }
+        else{
+            //            print("tits")
+            aShip.lives = aShip.lives - 1
+
+            return
+        }
+        
+        alien?.removeFromParent()
+        aliensKilled = aliensKilled + 1
+        aShip.lives = aShip.lives - 1
         
         
     }
     
     
     
-    //Define random functions
-    func random(min:CGFloat, max:CGFloat) -> CGFloat{
-        return CGFloat(arc4random_uniform(2))*(max-min) + min
+    func didBeginContact(contact:SKPhysicsContact){
+        print(aShip.lives)
+        aShip.lives = aShip.lives - 1
+        alien_laser_contact(contact)
+        alien_ship_contact(contact)
     }
+    
+    
+    
+    //Define random function
+    func random(min:UInt32, max:UInt32) -> UInt32{
+        return UInt32(arc4random_uniform(max - min) + min)
+      //return CGFloat(arc4random_uniform(2))*(max-min) + min
+    }
+    
     
     func addAlien(){
-        
-//        //Create the alien sprite
-//        let alien = SKSpriteNode(imageNamed:"Sprites/alien.png")
-//        alien.setScale(0.1)
-//        
-//        //Determine where to spawn the alien on the Y-axis (NOTE: in swift 2.2 you need argument labels
-//        let yStart = random(alien.size.height/2, max: size.height-alien.size.height)
-//        
-//        //Places the alien start just off screen in the x-axis
-//        alien.position = CGPoint(x: size.width+alien.size.width/2,y: yStart)
-//        
-//        //Add the Alien to the scene
-//        addChild(alien)
-//        
-//        
-//        /*Alien physics*/
-//        //Create a physics body for the sprite (a circle)
-//        alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.height/2)
-//        //The sprite should be dynamic (i.e. the physics engine wont dictate movement- only actions will)
-//        alien.physicsBody?.dynamic = true
-//        //Defines what physics catagory the alien belongs to
-//        alien.physicsBody?.categoryBitMask = PhysicsCategory.Alien
-//        //Categories of objects the object should notify the contact listener when they interesect 
-//        alien.physicsBody?.contactTestBitMask = PhysicsCategory.Laser
-//        //This line handles collisions (not just contact) so like bouncing off ect - dont need it
-//        alien.physicsBody?.collisionBitMask = PhysicsCategory.None
-//        
-//
-//        //Create time to cross screen
-//        let travelTime:Double = Double(random(2, max: 4))
-//        
-//        //Create actions
-//        let alienMove = SKAction.moveTo(CGPoint(x: -alien.size.width/2,y: yStart), duration: travelTime)
-//        //Remove alien
-//        let alienOffScreen = SKAction.removeFromParent()
-//        
-//        alien.runAction(SKAction.sequence([alienMove,alienOffScreen]))
-        
-        
-        
-        
-//        let yStart = random(aAlien.size.height/2, max: size.height-aAlien.size.height)
-        let travelTime:Double = Double(random(2, max: 4))
-        let travelSpeed:CGFloat = CGFloat(random(10, max: 14))
-//        let alienMove = SKAction.moveTo(CGPoint(x: -aAlien.size.width/2,y: yStart), duration: travelTime)
-        //Remove alien
-        let alienOffScreen = SKAction.removeFromParent()
-        
-        
-////        let aAlien = normAlien(startPos:CGPoint(x:-aAlien.size.width/2,y:yStart), speed:travelSpeed)
-//        let aPlayfulAlien = normAlien(startPos:CGPoint(x:0,y:size.height/2), speed:100)
-////        aAlien.physicsBody?.velocity = CGVector(dx:50,dy:0)
-////        aPlayfulAlien.physicsBody?.applyForce(CGVector(dx:5,dy:0))
-//        addChild(aPlayfulAlien)
-//        
-//        let act = SKAction.runBlock(aPlayfulAlien.motion(CGVector(dx:1,dy:0), multiplier:CGFloat(100)))
-//        
-//        aPlayfulAlien.runAction(SKAction.sequence([alienOffScreen]))
-
-       
-        
-//        let aAlien = normAlien(startPos:CGPoint(x:0,y:size.height/2), speed:100)
-//
-//        aAlien.physicsBody?.velocity = CGVector(dx:100,dy:0)
-//        addChild(aAlien)
-        
-//        
-//        let act = SKAction.runBlock(aAlien.motion(CGVector(dx:1,dy:0), multiplier:CGFloat(100)))
-//        
-//        aPlayfulAlien.runAction(SKAction.sequence([alienOffScreen]))
-//        
-        
-        
+        let alienInst = normAlien(startPos:CGPoint(x: 10,y: 10),speed: CGFloat(100))
+        let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
+        alienInst.position = CGPoint(x:size.width+alienInst.size.width/2, y:CGFloat(yStart))
+        addChild(alienInst)
     }
     
-    
-    
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-    
-    
-    func loadLaser(){
-        
-//        let laser = SKSpriteNode(imageNamed: "Sprites/laser")
-        
-        let laser = SKSpriteNode(imageNamed: "Sprites/laser.jpg")
-        laser.position = ship.position
-        addChild(laser)
-        
-        //Laser physics
-        laser.physicsBody = SKPhysicsBody(circleOfRadius: laser.size.width/2)
-        laser.physicsBody?.dynamic = true
-        laser.physicsBody?.categoryBitMask = PhysicsCategory.Laser
-        laser.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
-        laser.physicsBody?.collisionBitMask = PhysicsCategory.None
-        laser.physicsBody?.collisionBitMask = 0;
-        //Used for fast & small moving bodies
-        laser.physicsBody?.usesPreciseCollisionDetection = true
-//        print("load?")
-//        addChild(laser)
-        
-        
-        
-        
-        
-        
-        
-    }
     
     func normalizeVector(v:CGVector) -> CGVector{
         let length: CGFloat = sqrt((v.dx*v.dx)+(v.dy*v.dy))
         let ans:CGVector = CGVector(dx:v.dx/length,dy:v.dy/length)
         return ans
     }
-    func shoot(){
-        
-        //Figure out how to delay ("reload")
-        //Figure out why moving away from the bullet speeds it up
-        
-        let laser = SKSpriteNode(imageNamed: "Sprites/laser.jpg")
-        laser.position = ship.position
-        laser.setScale(0.5)
-        addChild(laser)
-        
-        //Laser physics
-        laser.physicsBody = SKPhysicsBody(circleOfRadius: laser.size.width/2)
-        laser.physicsBody?.dynamic = true
-        laser.physicsBody?.categoryBitMask = PhysicsCategory.Laser
-        laser.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
-        laser.physicsBody?.collisionBitMask = PhysicsCategory.None
-        laser.physicsBody?.collisionBitMask = 0;
-        //Used for fast & small moving bodies
-        laser.physicsBody?.usesPreciseCollisionDetection = true
-        let currShipY = ship.position.y
-        
-        laser.physicsBody?.applyForce(CGVector(dx: 200.0,dy: 0))
-        
-        if(laser.physicsBody?.velocity.dx > 50){
-            laser.physicsBody?.velocity.dx = 50
-        }
-        
-        laser.physicsBody?.velocity = CGVector(dx: 10.0,dy: 0)
-//        print(laser.physicsBody?.velocity)
-        
-//        let moveLaser = SKAction.moveTo(CGPoint(x: size.width,y: currShipY), duration: 3)
-        
-        
-//        laser.runAction(moveLaser)
+    
+//    func shoot(){
+//        
+//        //Figure out how to delay ("reload")
+//        //Figure out why moving away from the bullet speeds it up
+//        
+//        let laser = SKSpriteNode(imageNamed: "Sprites/laser.jpg")
+//        laser.position.x = aShip.position.x + (aShip.size.width / 2)
+//        laser.position.y = aShip.position.y - (aShip.size.height * 0.04)
+//        laser.setScale(0.5)
+//        addChild(laser)
+//        
+//        //Laser physics
+//        laser.physicsBody = SKPhysicsBody(circleOfRadius: laser.size.width/2)
+//        laser.physicsBody?.dynamic = true
+//        laser.physicsBody?.categoryBitMask = PhysicsCategory.Laser
+//        laser.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
+//        laser.physicsBody?.collisionBitMask = PhysicsCategory.None
+//        laser.physicsBody?.collisionBitMask = 0;
+//        //Used for fast & small moving bodies
+//        laser.physicsBody?.usesPreciseCollisionDetection = true
+//        let currShipY = aShip.position.y
+//        
+//        //THE MISSING PIECE!!! HAZAHHH!!!
+//        laser.physicsBody?.linearDamping = 0.0;
+//        
+////        laser.physicsBody?.applyForce(CGVector(dx: 200.0,dy: 0))
+////        if(laser.physicsBody?.velocity.dx > 50){
+////            laser.physicsBody?.velocity.dx = 50
+////        }
+//        
+//        laser.physicsBody?.velocity = CGVector(dx: 400.0,dy: 0)
+//
+//    }
+    
+    
 
-    }
-    
-    
-    
-    func shootLaser(){
-        
-        let currShipY = ship.position.y
-        
-        let moveLaser = SKAction.moveTo(CGPoint(x: size.width,y: currShipY), duration: 5)
-        
-        
-       laser.runAction(moveLaser)
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
 
     
 //    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
 //        for touch : AnyObject in touches {
 //            let location = touch.locationInNode(self)
-//            
 //            let actionBouger = SKAction.moveTo(CGPoint(x: location.x, y: location.y), duration: 2.5)
 //            ship.runAction(actionBouger)
-//            
 //            let dx = location.x - ship.position.x
 //            let dy = location.y - ship.position.y
 //            var angleInRadians = atan2(dy, dx) - CGFloat(M_PI_2)
-//            
 //            if(angleInRadians < 0){
 //                angleInRadians = angleInRadians + 2 * CGFloat(M_PI)
 //            }
-//            
 //            ship.zRotation = angleInRadians
-//            
 //            let actionAngle = SKAction.rotateToAngle(angleInRadians, duration: 0)
 //            ship.runAction(actionAngle)
 //        }
@@ -306,16 +312,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 
     
+    //A dictionary to hold all touch start locations
+    var startingTouches = [UITouch : CGPoint]()
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
-        for touch in (touches as! Set<UITouch>){
+        
+        for touch : AnyObject in touches {
             let location = touch.locationInNode(self)
+            startingTouches[touch as! UITouch] = location
             
-            if(CGRectContainsPoint(joyBase.frame, location)){
+//            aShip.gun.shoot()
+            
+            if(CGRectContainsPoint(controlBase.frame, location)){
                 controllerOn = true
             }
             else{
                 controllerOn = false
+                
+                aShip.gun.shoot()
             }
         }
     }
@@ -325,109 +340,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
         for touch : AnyObject in touches {
             let location = touch.locationInNode(self)
-            
-            
-            if(!CGRectContainsPoint(joyBase.frame, location)){
-//                let alien3 = SKSpriteNode(imageNamed: "Sprites/alien")
-//
-//                alien3.setScale(0.1)
-//                alien3.position = location
-//                alien3.physicsBody = SKPhysicsBody(circleOfRadius: alien3.size.width/2)
-//                print("fake")
-//                print(alien3)
-//                print(alien3.physicsBody)
-//                print("---------------")
-//                print(alien.physicsBody)
-//                alien.physicsBody?.velocity = CGVector(dx:10,dy:0)
-//                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//                alien.runAction(SKAction.repeatActionForever(action))
-//                self.addChild(alien)
-                
-                let alien = normAlien(startPos:location,speed: CGFloat(10))
-                print("real")
-                print(alien)
-//                alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.width/2)
-                print("PhysicsBody:->>>>")
-                print(alien.physicsBody)
-                
-                self.addChild(alien)
-                
-            }
-            
-//            if((CGRectContainsPoint(joyBase.frame, location)){
-//            
-////                let alien = normAlien(startPos:CGPoint(x:100,y:100),speed: CGFloat(10))
-            
-//            
-//            }
-            
-            
-//            if((CGRectContainsPoint(joyBase.frame, location)){
-//                let alien = SKSpriteNode(imageNamed: "Sprites/alien")
-//                alien.setScale(0.1)
-//                alien.position = location
-//                alien.physicsBody = SKPhysicsBody(circleOfRadius: alien.size.width/2)
-//            
-//                print(alien.physicsBody)
-//                alien.physicsBody?.velocity = CGVector(dx:10,dy:0)
-////                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-////            
-////                alien.runAction(SKAction.repeatActionForever(action))
-//            
-//                self.addChild(alien)
-//            }
 
-            
-            
-            
-//            if(!CGRectContainsPoint(joyBase.frame, location)){
-//                let alien = SKSpriteNode(imageNamed: "Sprites/alien")
-//                alien.setScale(0.1)
-//                alien.position = location
-//                
-//                let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-//                
-//                alien.runAction(SKAction.repeatActionForever(action))
-//                
-//                self.addChild(alien)
+            //The starting location of the given touch we're working with
+            let touchStartPoint:CGPoint = startingTouches[touch as! UITouch]!
 
+            //If the touch started outside of the controlStick than it can spawn aliens and shoot
+//            if(!CGRectContainsPoint(controlBase.frame, touchStartPoint)){
+//                let alien = normAlien(startPos:location,speed: CGFloat(10))
+//                self.addChild(alien)
 //            }
             
-            if(controllerOn == true){
-                
-                let joyVector = CGVector(dx:location.x - joyBase.position.x, dy:location.y - joyBase.position.y)
+            
+            //Play with this - Is it better than using the controller on??? (Note: u can move into the frame of the controller and move it)
+            //if(controllerOn == true){
+            if(CGRectContainsPoint(controlBase.frame, location)){
+            
+                let joyVector = CGVector(dx:location.x - controlBase.position.x, dy:location.y - controlBase.position.y)
                 //ARCtan grabs the angle formed by opp/adj ratio in right triangle
                 let angle = atan2(joyVector.dy, joyVector.dx)
                 
                 let degree = angle * CGFloat(180/M_PI)
-                
-                //????
-                let length:CGFloat = joyBase.frame.size.height
-                
-                
+                let length:CGFloat = controlBase.frame.size.height
                 let xDist:CGFloat = sin(angle - 1.5879633) * length
                 let yDist:CGFloat = cos(angle - 1.57879633) * length
                 
                 //Keep the stick on its "base"
-                if(CGRectContainsPoint(joyBase.frame, location)){
-                    joyStick.position = location
+                if(CGRectContainsPoint(controlBase.frame, location)){
+                    controlStick.position = location
                 }
                 else{
-                    joyStick.position = CGPoint(x:joyBase.position.x - xDist, y:joyBase.position.y - yDist)
+                    controlStick.position = CGPoint(x:controlBase.position.x - xDist, y:controlBase.position.y - yDist)
                 }
                 //A rotation *about* the z-axis: what number is this
-                ship.zRotation = angle - 1.57879633
+//                ship.zRotation = angle - 1.57879633
                 
-                
-                var shipRotation:CGFloat = ship.zRotation
+//                var shipRotation:CGFloat = ship.zRotation
                 //Float bc cosf only takes floats not CGFloats -> what is the real difference?
                 var calcRotation:Float = Float(angle-1.57879633) + Float(M_PI_2)
                 let xVelocity = 50 * CGFloat(cosf(calcRotation))
                 let yVelocity = 50 * CGFloat(sinf(calcRotation))
-//                let velocityVector:CGVector = CGVector(dx: xVelocity, dy: yVelocity)
+                
                 let v:CGVector = CGVector(dx:joyVector.dx,dy:joyVector.dy)
-                //Use velocity vector to apply a force on the ship
-//                ship.physicsBody?.applyForce(velocityVector)
                 
 //                func normalizeVector(v:CGVector) -> CGVector{
 //                    let length: CGFloat = sqrt((v.dx*v.dx)+(v.dy*v.dy))
@@ -436,50 +389,847 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                }
                 
                 let unitVector:CGVector = normalizeVector(v)
-                let velocityVector:CGVector = CGVector(dx:unitVector.dx*200,dy:unitVector.dy*200)
-//                let forceVector:CGVector = CGVector(dx:unitVector.dx*200,dy:unitVector.dy*200)
+//                let velocityVector:CGVector = CGVector(dx:unitVector.dx*200,dy:unitVector.dy*200)
                 
-                ship.physicsBody?.velocity = velocityVector
-//                ship.physicsBody?.applyForce(forceVector)
+                controlVector = CGVector(dx:unitVector.dx,dy:unitVector.dy)
                 
-                if(ship.position.x>self.size.width){
-                    ship.position.x = 0
+                
+                //Ship motion derived from controller
+                
+                //Ship boundries
+                if(aShip.position.x > self.size.width){
+                    print("right")
+                    aShip.position.x = 0
                 }
-                
+                if(aShip.position.x<0){
+                    print("left")
+                    aShip.position.x = self.size.width
+                }
+                if(aShip.position.y > self.size.height + aShip.size.height/2){
+                    print("up")
+                    aShip.position.y = 0
+                }
+                if(aShip.position.y<0){
+                    aShip.position.y = self.size.height - aShip.size.height/2
+                    print("down")
+                }
+ 
             }
         }
+        
+
     }
 
     
+    func resetController(){
+        let move:SKAction = SKAction.moveTo(controlBase.position, duration: 0.2)
+        //Causes the animation to slow as it progresses
+        move.timingMode = .EaseOut
+        controlStick.runAction(move)
+        controlVector = CGVector(dx:0,dy:0)
+    }
+    
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        
         for touch : AnyObject in touches {
-            let location = touch.locationInNode(self)
-            if(!CGRectContainsPoint(joyBase.frame, location)){
-                shoot()
-            }
-        }
-        
-        
-        if(controllerOn){
-            let move:SKAction = SKAction.moveTo(joyBase.position, duration: 0.2)
-            //Causes the animation to slow as it progresses
-            move.timingMode = .EaseOut
             
-            joyStick.runAction(move)
-            ship.physicsBody?.velocity = CGVector(dx:0.0,dy:0.0)
+            let location = touch.locationInNode(self)
+            
+            
+            
+            
+            //????If your finger that was on the controller is lifted then move controlStick back to the center
+            
+            
+            
+            //Does this make any more sense than the commented code below it?
+            //difference is that this code if speaking strictly about touch's location at start time rather than location at end time!
+            if(CGRectContainsPoint(controlBase.frame, startingTouches[touch as! UITouch]!)){
+                resetController()
+            }
+            
+            //Nah wait this actually makes sense I think
+            //Leads to jerky response time as controller reset everytime a finger is lifted?
+//            if(CGRectContainsPoint(controlBase.frame, location)){
+//                resetController()
+//            }
+            
+            
+            
+            //REmove the touch
+            startingTouches.removeValueForKey(touch as! UITouch)
         }
+        
+
+        
+        //If the controller was on when the touch ended then reset?? Shouldnt this cover the code above it???
+//        if(controllerOn){
+//            resetController()
+//        }
     }
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
 
-        alien.physicsBody?.velocity = CGVector(dx:10,dy:0)
+        // list all values
+        print("Values of startingTouches: ")
+        for (key, value) in startingTouches {
+            print(value)
+        }
         
+        aShip.updateShipProperties(shipVelocity: controlVector, laserStartPos: CGPoint(x:0,y:0))
+
     }
 
 
+
     
+
+    
+    
+    
+//---------------------------------------------------------------------------------------------------------------------------------------------
+    
+    //Attempt using Add child
+    
+    
+    
+    class GenericGun:SKNode{
+
+        var laser: Laser = Laser()
+        
+        
+        //Questionable
+        override init(){
+            super.init()
+        }
+    
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        //Ready the laser for fire
+        func addLaser(){
+            laser = Laser()
+            laser.position = CGPointMake(30,-18) //to get to the barrel of the gun
+            self.addChild(laser)
+        }
+        
+        //Ready laser and apply a foward velocity to it
+        func shoot(){
+            addLaser()
+            self.laser.physicsBody!.velocity = CGVector(dx:500,dy:0)
+        }
+
+    }
+    
+    
+    class Laser:SKSpriteNode{
+        
+        //Adding a power up where the bullets slow down so they just keep killling things that go into them??
+        init(){
+            
+            let laser = SKTexture(imageNamed: "Sprites/laser.jpg")
+            
+            super.init(texture: laser, color: UIColor.clearColor(), size: laser.size())
+            self.setScale(2)
+            //Laser physics
+            self.physicsBody = SKPhysicsBody(circleOfRadius: laser.size().width/2)
+            self.physicsBody?.dynamic = true
+            self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
+            self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
+            self.physicsBody?.collisionBitMask = PhysicsCategory.None
+            self.physicsBody?.collisionBitMask = 0;
+            self.physicsBody?.usesPreciseCollisionDetection = true
+            self.physicsBody?.linearDamping = 0.0;
+            self.physicsBody?.velocity = CGVector(dx:100,dy:0)
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+    }
+    
+
+    //Ship class-------------------------
+    
+    class Ship:SKSpriteNode{
+        
+        static var shipState = "norm"
+        var laser: Laser = Laser()
+        
+        //A dictionary with String keys and AnyType array values
+        static var shipTypes: [String: [Any]] = [
+            
+            //Array structure: ship/laser textures, fireRate, health stats (maybe invincible on one?)
+            "norm":[SKTexture(imageNamed:"Sprites/fullShip.png"), SKTexture(imageNamed:"Sprites/laser.jpg"),7],
+            "rapid":[SKTexture(imageNamed:"Sprites/fullShip.png"),7],
+            "bazooka":[SKTexture(imageNamed:"Sprites/fullShip.png"),7]
+        ]
+        
+        //All variables as to allow for powerups?
+        var moveSpeed:CGFloat
+        var lives:Int
+        
+        var lasers = [SKSpriteNode]()
+        var canShoot = false
+
+    
+        
+        let gun = GenericGun()
+        
+        
+        
+        
+        static var shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")//: Int = Int(shipTypes[shipState]![0])
+        
+        
+        init(startPosition startPos:CGPoint, controllerVector:CGVector){
+            
+            self.lives = 3
+            self.moveSpeed = 200
+
+            
+            //Call super initilizer
+            super.init(texture: Ship.shipImage, color: UIColor.clearColor(), size: Ship.shipImage.size())
+            
+            gun.position = self.position
+            self.addChild(gun)
+
+            
+            self.setScale(0.2)
+            //Position is an property of SKSpriteNode so super must be called first
+            self.position = startPos
+            
+            //Physics of the ship
+            self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
+            self.physicsBody?.dynamic = true
+            self.physicsBody?.collisionBitMask = 0//PhysicsCategory.Ship
+            self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship
+            self.physicsBody?.allowsRotation = false
+            self.physicsBody?.angularVelocity = CGFloat(0)
+            self.physicsBody?.affectedByGravity = false //TBD
+            
+            self.physicsBody?.velocity.dx = controllerVector.dx * moveSpeed
+            self.physicsBody?.velocity.dy = controllerVector.dy * moveSpeed
+            
+        }
+        
+        func updateVelocity(v:CGVector){
+            
+//            if(v == CGVector(dx:0,dy:0)){
+//                self.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+//            }
+            self.physicsBody?.velocity.dx = v.dx * moveSpeed
+            self.physicsBody?.velocity.dy = v.dy * moveSpeed
+        }
+        
+        func updateLaserPos(){
+            //            laser.position = self.position
+        }
+        
+        func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
+            updateVelocity(v)
+            updateLaserPos()
+        }
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+    }
+    
+    
+    
+    
+    
+//---------------------------------------------------------------------------------------------------------------------------------------------
+//    //Laser and Gun classes
+//    
+//    
+//    
+//    class genericGun:SKNode{
+//        
+//        var theShip:Ship
+//        var theGameScene:GameScene
+//        
+//        init(gameScene:GameScene, shipInstance:Ship){
+//            theShip = shipInstance
+//            theGameScene = gameScene
+//            super.init()
+//        }
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//        
+//        //Good
+//        func addLaser(){
+//            let aLaser = Laser(laserPosition: theShip.position)
+//            theShip.lasers.append(aLaser)
+//        }
+//        
+//        //If statement on user touch to call this
+//        func shoot(){
+//            //Pull out the laser from the ship
+//            let availableLaser = theShip.lasers.removeLast()
+//            
+//            let constY:CGFloat = theShip.position.y
+//            availableLaser.position = CGPoint(x: theShip.position.x, y:constY)
+//            //Set its speed
+//            availableLaser.physicsBody?.velocity = CGVector(dx: 400.0,dy: 0)
+//            //Add it to the scene
+//            theGameScene.addChild(availableLaser)
+//            
+//            theShip.canShoot = false
+//            
+//            func printHey(){print("Hey!!!!!!!!!!!!!!!!!!!!!!")}
+//            let sayHey = SKAction.runBlock{printHey()}
+//            let reloadTime = SKAction.waitForDuration(1)
+//            let loadGun = SKAction.sequence([reloadTime, sayHey])
+//            
+//            theShip.runAction(SKAction.repeatActionForever(loadGun))
+//            
+//        }
+//    }
+//    
+//    
+//    
+//    class Laser:SKSpriteNode{
+//        
+//        
+//        //Adding a power up where the bullets slow down so they just keep killling things that go into them??
+//        init(laserPosition:CGPoint){
+//            
+//            let laser = SKTexture(imageNamed: "Sprites/laser.jpg")
+//            
+//            super.init(texture: laser, color: UIColor.clearColor(), size: laser.size())
+//            
+//            //Laser physics
+//            self.physicsBody = SKPhysicsBody(circleOfRadius: laser.size().width/2)
+//            self.physicsBody?.dynamic = true
+//            self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
+//            self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
+//            self.physicsBody?.collisionBitMask = PhysicsCategory.None
+//            self.physicsBody?.collisionBitMask = 0;
+//            self.physicsBody?.usesPreciseCollisionDetection = true
+//            self.physicsBody?.linearDamping = 0.0;
+//        }
+//        
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//        
+//        
+//        
+//    }
+//
+//    
+//    
+//    
+//    
+//    //Ship class-------------------------
+//    
+//    class Ship:SKSpriteNode{
+//        
+//        static var shipState = "norm"
+//        
+//        //A dictionary with String keys and AnyType array values
+//        static var shipTypes: [String: [Any]] = [
+//            
+//            //Array structure: ship/laser textures, fireRate, health stats (maybe invincible on one?)
+//            "norm":[SKTexture(imageNamed:"Sprites/fullShip.png"), SKTexture(imageNamed:"Sprites/laser.jpg"),7],
+//            "rapid":[SKTexture(imageNamed:"Sprites/fullShip.png"),7],
+//            "bazooka":[SKTexture(imageNamed:"Sprites/fullShip.png"),7]
+//        ]
+//        
+//        //All variables as to allow for powerups?
+//        var moveSpeed:CGFloat
+//        var lives:Int
+//        
+//        var lasers = [SKSpriteNode]()
+//        var canShoot = false
+//        var aGun: genericGun? = nil
+//        var theGameScene:GameScene
+//        
+//        
+//        
+//        static var shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")//: Int = Int(shipTypes[shipState]![0])
+//        
+//        
+//        init(gameScene:GameScene, startPosition startPos:CGPoint, controllerVector:CGVector){
+//            
+//            self.lives = 3
+//            self.moveSpeed = 200
+//            theGameScene = gameScene
+//            
+//            //Call super initilizer
+//            super.init(texture: Ship.shipImage, color: UIColor.clearColor(), size: Ship.shipImage.size())
+//            
+//            
+//            self.aGun = genericGun(gameScene: theGameScene, shipInstance: self)
+//            
+//            
+//            self.setScale(0.2)
+//            //Position is an property of SKSpriteNode so super must be called first
+//            self.position = startPos
+//            
+//            //Physics of the ship
+//            self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
+//            self.physicsBody?.dynamic = true
+//            self.physicsBody?.collisionBitMask = 0//PhysicsCategory.Ship
+//            self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship
+//            self.physicsBody?.allowsRotation = false
+//            self.physicsBody?.angularVelocity = CGFloat(0)
+//            self.physicsBody?.affectedByGravity = false //TBD
+//            
+//            self.physicsBody?.velocity.dx = controllerVector.dx * moveSpeed
+//            self.physicsBody?.velocity.dy = controllerVector.dy * moveSpeed
+//            
+//        }
+//        
+//        
+//        func updateVelocity(v:CGVector){
+//            
+//            if(v == CGVector(dx:0,dy:0)){
+//                self.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+//            }
+//            self.physicsBody?.velocity.dx = v.dx * moveSpeed
+//            self.physicsBody?.velocity.dy = v.dy * moveSpeed
+//        }
+//        
+//        func updateLaserPos(){
+//            //            laser.position = self.position
+//        }
+//        
+//        func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
+//            updateVelocity(v)
+//            updateLaserPos()
+//        }
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//        
+//    }
+//
+    
+    
+    
+    
+    
+    
+//---------------------------------------------------------------------------------------------------------------------------------------------
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//   Abstract classes & offshoots
+    
+//    class LaserGun{
+//        
+//        init(laserStartPos: CGPoint){
+//            
+//        }
+//        
+//        static var canShoot = true
+//        
+//        //Should be inherited through ship and var with powerups
+//        static var reloadTime = SKAction.waitForDuration(1)
+//        
+//        static let bulletReady = SKAction.runBlock{
+//            canShoot = true
+//            var laser = Laser(startPos: CGPoint(x: 200,y: 200))
+//        }
+//        
+//        let loadGun = SKAction.sequence([reloadTime, bulletReady])
+//        
+//        self.runAction(loadGun)
+//        
+////        if(bulletIsShot){
+////            canShoot = false
+////            self.runAction(loadGun)
+////        }
+//    
+//    }
+//    
+//    
+//    
+//    class Laser:SKSpriteNode{
+//        init(startPos pos: CGPoint){
+//            
+//            let laser = SKTexture(imageNamed: "Sprites/laser.jpg")
+//            
+//            super.init(texture: laser, color: UIColor.clearColor(), size: laser.size())
+//            
+//            //self.position = Ship.getPos()//CGPoint(x: 200,y: 200)
+//            //                self.position.x = aShip.position.x + (aShip.size.width / 2)
+//            //                self.position.y = aShip.position.y - (aShip.size.height * 0.04)
+//            
+//            self.position = pos
+//            self.setScale(0.5)
+//            print("FUCK YEAH")
+//            print(self.position)
+//        }
+//        
+//        
+//        
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//    }
+    
+    
+    
+
+    
+//    //Laser and Gun classes
+//    
+//    
+//    class genericGun{
+//
+//        var theShip:Ship
+//        var theGameScene:GameScene
+//        
+//        init(gameScene:GameScene, shipInstance:Ship){
+//            theShip = shipInstance
+//            theGameScene = gameScene
+//        }
+//        
+//        //Good
+//        func addLaser(){
+//            let aLaser = Laser(laserPosition: theShip.position)
+//            theShip.lasers.append(aLaser)
+//        }
+//        
+//        //If statement on user touch to call this
+//        func shoot(){
+//            //Pull out the laser from the ship
+//            let availableLaser = theShip.lasers.removeLast()
+//            
+//            let constY:CGFloat = theShip.position.y
+//            availableLaser.position = CGPoint(x: theShip.position.x, y:constY)
+//            //Set its speed
+//            availableLaser.physicsBody?.velocity = CGVector(dx: 400.0,dy: 0)
+//            //Add it to the scene
+//            theGameScene.addChild(availableLaser)
+//            
+//            theShip.canShoot = false
+//            
+//            
+//            
+//            
+//            func printHey(){print("Hey!!!!!!!!!!!!!!!!!!!!!!")}
+//            let sayHey = SKAction.runBlock{printHey()}
+//            let reloadTime = SKAction.waitForDuration(1)
+//            let loadGun = SKAction.sequence([reloadTime, sayHey])
+//            
+//            theShip.runAction(SKAction.repeatActionForever(loadGun))
+//            
+//        }
+//    }
+//    
+//    
+//    
+//    class Laser:SKSpriteNode{
+//    
+//        
+//        //Adding a power up where the bullets slow down so they just keep killling things that go into them??
+//        init(laserPosition:CGPoint){
+//            
+//            let laser = SKTexture(imageNamed: "Sprites/laser.jpg")
+//            
+//            super.init(texture: laser, color: UIColor.clearColor(), size: laser.size())
+//            
+//            //Laser physics
+//            self.physicsBody = SKPhysicsBody(circleOfRadius: laser.size().width/2)
+//            self.physicsBody?.dynamic = true
+//            self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
+//            self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
+//            self.physicsBody?.collisionBitMask = PhysicsCategory.None
+//            self.physicsBody?.collisionBitMask = 0;
+//            //Used for fast & small moving bodies
+//            self.physicsBody?.usesPreciseCollisionDetection = true
+////            let currShipY = aShip.position.y
+//            
+//            //THE MISSING PIECE!!! HAZAHHH!!!
+//            self.physicsBody?.linearDamping = 0.0;
+//            
+//            
+//        }
+//
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//        
+//        
+//        
+//    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+//    class Ship:SKSpriteNode{
+//        
+//        static var shipState = "norm"
+//        
+//        //A dictionary with String keys and AnyType array values
+//        static var shipTypes: [String: [Any]] = [
+//            
+//            //Array structure: ship/laser textures, fireRate, health stats (maybe invincible on one?)
+//            "norm":[SKTexture(imageNamed:"Sprites/fullShip.png"), SKTexture(imageNamed:"Sprites/laser.jpg"),7],
+//            "rapid":[SKTexture(imageNamed:"Sprites/fullShip.png"),7],
+//            "bazooka":[SKTexture(imageNamed:"Sprites/fullShip.png"),7]
+//        ]
+//        
+//        //All variables as to allow for powerups?
+//        var moveSpeed:CGFloat
+//        var lives:Int
+//        
+//        var lasers = [SKSpriteNode]()
+//        var canShoot = false
+//        var aGun: genericGun?
+//        
+//        
+//        //Force unwrap
+//        static var shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")//: Int = Int(shipTypes[shipState]![0])
+//
+//        
+//        init(gameScene:GameScene, startPosition startPos:CGPoint, controllerVector:CGVector){
+//
+//            self.lives = 3
+//            self.moveSpeed = 200
+//            
+//            
+//            //Call super initilizer
+//            super.init(texture: Ship.shipImage, color: UIColor.clearColor(), size: Ship.shipImage.size())
+//            
+//            
+////            self.aGun = genericGun(gameScene, shipInstance: self)
+//            
+//
+//            self.setScale(0.2)
+//            //Position is an property of SKSpriteNode so super must be called first
+//            self.position = startPos
+//            
+//            //Physics of the ship
+//            self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
+//            self.physicsBody?.dynamic = true
+//            self.physicsBody?.collisionBitMask = 0//PhysicsCategory.Ship
+//            self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship
+//            self.physicsBody?.allowsRotation = false
+//            self.physicsBody?.angularVelocity = CGFloat(0)
+//            self.physicsBody?.affectedByGravity = false //TBD
+//            
+//            self.physicsBody?.velocity.dx = controllerVector.dx * moveSpeed
+//            self.physicsBody?.velocity.dy = controllerVector.dy * moveSpeed
+//            
+//            
+//            
+//            
+////            var gun = LaserGun(laserStartPos: self.position)
+//            
+//            
+//            
+//            
+//            
+//        }
+//
+//    
+//        //Updating methods
+//        
+////        func shootGun(){
+////            gun.shoo
+////            
+////            
+////        }
+//        
+//        
+//        
+//        func updateVelocity(v:CGVector){
+//            
+//            if(v == CGVector(dx:0,dy:0)){
+//                self.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+//            }
+//            self.physicsBody?.velocity.dx = v.dx * moveSpeed
+//            self.physicsBody?.velocity.dy = v.dy * moveSpeed
+//        }
+//        func updateLaserPos(){
+////            laser.position = self.position
+//        }
+//        
+//        
+//
+//        
+//        func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
+//            updateVelocity(v)
+//            updateLaserPos()
+//        }
+//        
+////        static func getPos() -> CGPoint{
+////            return self.position
+////        }
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+// 
+//    }
+//    
+    
+    
+    
+    
+    //ALL GOOD STUFF IN THIS SHIP CLASS FYI
+    
+//    class Ship:SKSpriteNode{
+//        
+//        static var shipState = "norm"
+//        
+//        //A dictionary with String keys and AnyType array values
+//        static var shipTypes: [String: [Any]] = [
+//            
+//            //Array structure: ship/laser textures, fireRate, health stats (maybe invincible on one?)
+//            "norm":[SKTexture(imageNamed:"Sprites/fullShip.png"), SKTexture(imageNamed:"Sprites/laser.jpg"),7],
+//            "rapid":[SKTexture(imageNamed:"Sprites/fullShip.png"),7],
+//            "bazooka":[SKTexture(imageNamed:"Sprites/fullShip.png"),7]
+//        ]
+//        
+//        //All variables as to allow for powerups?
+//        var moveSpeed:CGFloat
+//        var lives:Int
+//        
+//        var lasers = [SKSpriteNode]()
+//        var canShoot = false
+////        var aGun: genericGun?
+//        
+//        
+//        //Force unwrap
+//        static var shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")//: Int = Int(shipTypes[shipState]![0])
+//        
+//        
+//        init(startPosition startPos:CGPoint, controllerVector:CGVector){
+//            
+//            self.lives = 3
+//            self.moveSpeed = 200
+//            
+//            
+//            //Call super initilizer
+//            super.init(texture: Ship.shipImage, color: UIColor.clearColor(), size: Ship.shipImage.size())
+//            
+//            
+//            //            self.aGun = genericGun(gameScene, shipInstance: self)
+//            
+//            
+//            self.setScale(0.2)
+//            //Position is an property of SKSpriteNode so super must be called first
+//            self.position = startPos
+//            
+//            //Physics of the ship
+//            self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
+//            self.physicsBody?.dynamic = true
+//            self.physicsBody?.collisionBitMask = 0//PhysicsCategory.Ship
+//            self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship
+//            self.physicsBody?.allowsRotation = false
+//            self.physicsBody?.angularVelocity = CGFloat(0)
+//            self.physicsBody?.affectedByGravity = false //TBD
+//            
+//            self.physicsBody?.velocity.dx = controllerVector.dx * moveSpeed
+//            self.physicsBody?.velocity.dy = controllerVector.dy * moveSpeed
+//            
+//            
+//            
+//            
+//            //            var gun = LaserGun(laserStartPos: self.position)
+//            
+//            
+//            
+//            
+//            
+//        }
+//        
+//
+//        func updateVelocity(v:CGVector){
+//            
+//            if(v == CGVector(dx:0,dy:0)){
+//                self.physicsBody?.velocity = CGVector(dx: 0,dy: 0)
+//            }
+//            self.physicsBody?.velocity.dx = v.dx * moveSpeed
+//            self.physicsBody?.velocity.dy = v.dy * moveSpeed
+//        }
+//        
+//        func updateLaserPos(){
+////            laser.position = self.position
+//        }
+//        
+//        func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
+//            updateVelocity(v)
+//            updateLaserPos()
+//        }
+//        
+//        required init?(coder aDecoder: NSCoder) {
+//            fatalError("init(coder:) has not been implemented")
+//        }
+//        
+//    }
     
     
     
@@ -511,7 +1261,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             self.physicsBody?.dynamic = true
             self.physicsBody?.categoryBitMask = PhysicsCategory.Alien //physicsBody?. is optional chaining?
-            self.physicsBody?.collisionBitMask = 0 //Do I need this? or jsut use in laser class
+            self.physicsBody?.collisionBitMask = PhysicsCategory.Laser //Do I need this? or jsut use in laser class
             self.physicsBody?.contactTestBitMask = PhysicsCategory.Laser
             self.physicsBody?.usesPreciseCollisionDetection = true
             
@@ -521,8 +1271,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             self.position = startPos
         }
-
-        
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -533,11 +1281,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     class normAlien:Alien{
         
-        static let alienImage = SKTexture(imageNamed:"Sprites/alien.png")
+        static let alienImage = SKTexture(imageNamed:"Sprites/mikeFace.png")
 
         init(startPos:CGPoint,speed: CGFloat){
             
-            super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed,velocityVector:CGVector(dx: 1,dy: 0))
+            super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed,velocityVector:CGVector(dx: -1,dy: 0))
             self.setScale(0.1)
             
         }
@@ -559,8 +1307,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        
 //    
 //    }
-
-
 
 
 
