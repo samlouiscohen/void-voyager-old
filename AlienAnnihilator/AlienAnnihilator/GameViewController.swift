@@ -29,6 +29,20 @@ class GameViewController: UIViewController {
         //Comment out bc this hurt performance - instead I'll be explicit on specifics
 //        skView.ignoresSiblingOrder = false;
         
+        
+//        @objc @objc func doubleTapped(){
+//            
+//        }
+//        
+//        //Switch between mike trump and aliens
+//        let tap = UITapGestureRecognizer(target: self, action: #selector(doubleTapped))
+//        tap.numberOfTapsRequired = 2
+//        view.addGestureRecognizer(tap)
+        
+        
+        
+        
+
     }
     
     override func prefersStatusBarHidden() -> Bool {
