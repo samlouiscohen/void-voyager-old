@@ -6,6 +6,12 @@
 //  Copyright (c) 2016 GuacGetters. All rights reserved.
 
 //Adding a power up where the bullets slow down so they just keep killling things that go into them??
+//Get global timer for everything- alien spwans, when to add new alein types, ect.
+//Kills should be a currency of sorts
+//
+
+
+
 
 
 import SpriteKit
@@ -23,12 +29,26 @@ var controlVector:CGVector = CGVector(dx: 0, dy: 0)
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
+    
+    var alienSprites:[Alien] = []
+    
+    
+    //Multiplers ordered as: speed, spawn time, lives?
+    var normAlienMultiplers:[CGFloat] = [1.0, 0.01, 1.0]
+    var downAlienMultiplers:[CGFloat] = [1.0, 0.01, 1.0]
+    var behindAlienMultiplers:[CGFloat] = [1.0, 0.01, 1.0]
+    
+    
+    var downNotCalledYet = true
+    var behindNotCalledYet = true
+    
+
+    
+    
     //Build the Aliens killed Label
     private var aliensKilled = 0 {
         didSet{
-//            self.aliensKilledLabel?.text = "Aliens slayed:"  aliensKilled.description
-            self.aliensKilledLabel?.text = "Trumps 'Fired': "+String(aliensKilled)
-            print("DICK")
+            self.aliensKilledLabel?.text = "Dead Foes: "+String(aliensKilled)
         }
     }
     private var aliensKilledLabel:SKLabelNode?
@@ -37,13 +57,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var aShip = Ship(startPosition: CGPoint(x:50,y:200), controllerVector: controlVector)
     
     //Build the shipLives label
-    private var shipLives = 0 {
-        
+    private var shipLives = 3 {
         didSet{
-            self.shipLivesLabel?.text = "Lives: " + String(aShip.lives)
-            print("FUVC?KKK")
-            
-
+            self.shipLivesLabel?.text = "Lives: " + String(shipLives)
         }
     }
     private var shipLivesLabel:SKLabelNode?
@@ -53,10 +69,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var gameOver = 0 {
         
         didSet{
-            self.gameOverLabel?.text = "YOU'RE FIRED FAGGOT!"
-            print("SAMSMMASMAMMS")
-            
-            
+            self.gameOverLabel?.text = " "
         }
     }
     private var gameOverLabel:SKLabelNode?
@@ -70,15 +83,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMoveToView(view: SKView) {
         
-//        let killedStartLabel = SKLabelNode(fontNamed: "Times New Roman")
-//        killedStartLabel.fontSize = 24
-//        killedStartLabel.text = "Aliens Killed: "
-//        aliensKilledLabel.text = killedStartLabel.text! + aliensKilled.description
+        //So when we go back to scene the ship isnt moving from the last played game
+        controlVector = CGVector(dx: 0,dy: 0)
 
+        
+        
+        
+        
         
         let aliensKilledLabel = SKLabelNode(fontNamed: "Times New Roman")
         //aliensKilledLabel.text = aliensKilled.description
-        aliensKilledLabel.text = "Trumps 'Fired': " + String(aliensKilled)
+        aliensKilledLabel.text = "Foes Killed': " + String(aliensKilled)
         aliensKilledLabel.fontSize = 14
         aliensKilledLabel.position = CGPoint(x:CGRectGetMidX(self.frame)*0.8,y:CGRectGetMidY(self.frame)*0.1)
         self.addChild(aliensKilledLabel)
@@ -94,20 +109,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         let gameOverLabel = SKLabelNode(fontNamed: "Times New Roman")
-//        gameOverLabel.text = "FAGGOT JEW"
         gameOverLabel.fontSize = 50
         gameOverLabel.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame)*0.8)
         gameOverLabel.zPosition = 3
         gameOverLabel.fontColor = SKColor.redColor()
-//        self.addChild(gameOverLabel)
         self.gameOverLabel = gameOverLabel
-//        if(aShip.lives<1){
-//            self.addChild(gameOverLabel)
-//        }
-        
-//        self.shipLivesLabel = shipLivesLabel
-        
-        
         
         
         //Set up the scene structure
@@ -132,16 +138,67 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         controlStick.zPosition = 2
         addChild(controlStick)
 
-
-        
         //Make semi-transparent
         controlBase.alpha = 0.5
         controlStick.alpha = 0.5
         
         
-        runAction(SKAction.repeatActionForever(SKAction.sequence([SKAction.runBlock(addAlien), SKAction.waitForDuration(Double(random(1,max: 2)))])))
         
+        //Building the aliens
+
+        runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.runBlock(addNormAlien),
+            SKAction.waitForDuration(Double(random(1,max: 4))-Double(normAlienMultiplers[1])),
+            SKAction.runBlock(updateNormMultipliers)
+            ])))
+
     }
+    
+    func startSpawningDown(){
+        runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.runBlock(addDownAlien),
+            SKAction.waitForDuration(Double(random(6,max: 8))-Double(downAlienMultiplers[1])),
+            SKAction.runBlock(updateDownMultipliers)
+            ])))
+    }
+    
+    func startSpawningBehind(){
+        runAction(SKAction.repeatActionForever(SKAction.sequence([
+            SKAction.runBlock(addBehindAlien),
+            SKAction.waitForDuration(Double(random(8,max: 12))-Double(behindAlienMultiplers[1])),
+            SKAction.runBlock(updateBehindMultipliers)
+            ])))
+    }
+    
+    
+    
+    
+    func killOffAlien(alien:SKNode){
+        
+        func stopMotion(){
+            alien.physicsBody?.categoryBitMask = 0
+            alien.physicsBody?.collisionBitMask = 0
+            alien.physicsBody?.contactTestBitMask = 0
+            
+            alien.physicsBody?.dynamic = false
+            alien.physicsBody?.velocity = CGVector(dx:0, dy:0)
+        }
+
+        
+        func removeAlien(){
+            alien.removeFromParent()
+        }
+        
+        let stopMoving = SKAction.runBlock(stopMotion)
+        let fadeOut = SKAction.fadeOutWithDuration(1)
+        let removeFromParent = SKAction.runBlock(removeAlien)
+        let color = SKAction.colorizeWithColor(SKColor.redColor(), colorBlendFactor: 0.7, duration: 0)
+        
+        let die = SKAction.sequence([stopMoving, color, fadeOut, removeFromParent])
+
+        alien.runAction(die)
+    }
+    
     
     
     
@@ -157,9 +214,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //            print("tits")
             return
         }
-        
-        
-        
+
         
 //        SKAction *pulseRed = [SKAction sequence:@[
 //        [SKAction colorizeWithColor:[SKColor redColor] colorBlendFactor:1.0 duration:0.15],
@@ -168,29 +223,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 //        let red = [SKAction colorizeWithColor:[SKColor redColor] colorBlendFactor:1.0 duration:0.15]
 
-        func stopMotion(){
-            alien?.physicsBody?.dynamic = false
-            alien?.physicsBody?.velocity = CGVector(dx:0, dy:0)
-            
-        }
+//        func stopMotion(){
+//            alien?.physicsBody?.categoryBitMask = 0
+//            alien?.physicsBody?.collisionBitMask = 0
+//            alien?.physicsBody?.contactTestBitMask = 0
+//            
+//            alien?.physicsBody?.dynamic = false
+//            alien?.physicsBody?.velocity = CGVector(dx:0, dy:0)
+//            
+//        }
+//        
+//        func removeAlien(){
+//            alien?.removeFromParent()
+//            print("hellllllllllllllooooooooo")
+//        }
+//        
+//        let stopMoving = SKAction.runBlock(stopMotion)
+//        let fadeOut = SKAction.fadeOutWithDuration(1)
+//        let removeFromParent = SKAction.runBlock(removeAlien)
+//        
+//        let die = SKAction.sequence([stopMoving, fadeOut, removeFromParent])
+//        
+
+//        alien?.runAction(die)
         
-        func removeAlien(){
-            alien?.removeFromParent()
-            print("hellllllllllllllooooooooo")
-        }
-        
-        let stopMoving = SKAction.runBlock(stopMotion)
-        let fadeOut = SKAction.fadeOutWithDuration(1)
-        let removeFromParent = SKAction.runBlock(removeAlien)
-        let die = SKAction.sequence([stopMoving, fadeOut, removeFromParent])
         
 
-        alien?.runAction(die)
         
 //        alien?.removeFromParent()
         aliensKilled = aliensKilled + 1
         aShip.lives = aShip.lives - 1
+        
+        killOffAlien((alien)!)
+        
+        if(aliensKilled > 1 && downNotCalledYet){
+            startSpawningDown()
+            downNotCalledYet = false
+        }
+        if(aliensKilled > 3 && behindNotCalledYet){
+            startSpawningBehind()
+            behindNotCalledYet = false
+        }
     }
+    
+    
+    
     
     
     func alien_ship_contact(contact:SKPhysicsContact){
@@ -207,13 +284,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else{
             return
         }
-        
-//        alien?.removeFromParent()
+
         aliensKilled = aliensKilled + 1
         shipLives = shipLives-1
         aShip.lives = aShip.lives - 1
         
-        if(true){
+        killOffAlien((alien)!)
+        
+        if(shipLives<1){
             print("asda")
             gameOver = 1
         }
@@ -227,6 +305,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print(aShip.lives)
         alien_laser_contact(contact)
         alien_ship_contact(contact)
+        
+//        let loseAction = SKAction.runBlock() {
+        func gameOver(){
+            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
+            let gameOverScene = GameOverScene(size: self.size, aliensKilled: self.aliensKilled)
+            //self.view?.presentScene(gameOverScene, transition: reveal)
+            self.view?.presentScene(gameOverScene, transition: SKTransition.fadeWithColor(SKColor.redColor(), duration: 3))
+        }
+        
+        if(shipLives<1){
+            gameOver()
+        }
+        
+        
     }
     
     
@@ -242,12 +334,73 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func addAlien(){
-        let alienInst = normAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(80),max: UInt32(300)))
+
+    
+    //Make all this code way more compact later
+    func updateNormMultipliers(){
+        normAlienMultiplers[0] = normAlienMultiplers[0]*1.01
+        normAlienMultiplers[1] = normAlienMultiplers[1]*1.01
+    }
+    func updateDownMultipliers(){
+        downAlienMultiplers[0] = downAlienMultiplers[0]*1.01
+        downAlienMultiplers[1] = downAlienMultiplers[1]*1.01
+    }
+    func updateBehindMultipliers(){
+        behindAlienMultiplers[0] = behindAlienMultiplers[0]*1.01
+        behindAlienMultiplers[1] = behindAlienMultiplers[1]*1.01
+    }
+    
+    func addNormAlien(){
+
+        let mult = normAlienMultiplers
+        
+        let alienInst = normAlien(startPos:CGPoint(x: 10,y: 10), speed: random(UInt32(10),max: UInt32(50))*mult[0])
         let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
         alienInst.position = CGPoint(x:size.width+alienInst.size.width/2, y:CGFloat(yStart))
+        
+//        if(shipLives < 1){
+//            print("Hello")
+//            alienInst.physicsBody?.categoryBitMask = 0
+//        }
+//
+//        let animate = SKAction.animateWithTextures(trumpTextures, timePerFrame: 1)//SKAction animateWithTextures:monsterWalkTextures timePerFrame:0.1]
+        
+        
+        alienSprites.append(alienInst)
         addChild(alienInst)
     }
+    
+    func addDownAlien(){
+        
+        let mult = downAlienMultiplers
+        
+        let alienInst = downAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(5),max: UInt32(25))*mult[0])
+        //this line makes no sense, maybe use lasy variables or something
+        let xStart = random(UInt32(alienInst.size.width/2), max: UInt32(size.width-alienInst.size.width))
+        alienInst.position = CGPoint(x: xStart, y:CGFloat(size.height + alienInst.size.width/2))
+//        if(shipLives < 1){
+//            print("Hello")
+//            alienInst.physicsBody?.categoryBitMask = 0
+//        }
+        addChild(alienInst)
+    }
+    
+    func addBehindAlien(){
+        
+        let mult = behindAlienMultiplers
+        
+        let alienInst = behindAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(5),max: UInt32(10))*mult[0])
+        let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
+        alienInst.position = CGPoint(x: -alienInst.size.width/2, y:CGFloat(yStart))
+//        if(shipLives < 1){
+//            print("Hello")
+//            alienInst.physicsBody?.categoryBitMask = 0
+//        }
+        addChild(alienInst)
+    }
+    
+    
+    
     
 
     
@@ -283,6 +436,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //A dictionary to hold all touch start locations
     var startingTouches = [UITouch : CGPoint]()
     
+    func goToGameScene(){
+        let gameScene:GameScene = GameScene(size: self.view!.bounds.size) // create your new scene
+        let transition = SKTransition.fadeWithDuration(1.0) // create type of transition (you can check in documentation for more transtions)
+        gameScene.scaleMode = SKSceneScaleMode.Fill
+        self.view!.presentScene(gameScene, transition: transition)
+    }
+    
+
+    
     
     override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
         
@@ -298,6 +460,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 
                 aShip.gun.shoot()
             }
+            
+//            if(CGRectContainsPoint(aShip.frame, location)){
+//                goToGameScene()
+//            }
+            
         }
     }
 
@@ -344,19 +511,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let unitVector:CGVector = normalizeVector(v)
                 controlVector = CGVector(dx:unitVector.dx,dy:unitVector.dy)
                 
-                //Screen boundries (Loop ship position)
-                if(aShip.position.x > self.size.width){
-                    aShip.position.x = 0
-                }
-                if(aShip.position.x < 0){
-                    aShip.position.x = self.size.width
-                }
-                if(aShip.position.y > self.size.height + aShip.size.height/2){
-                    aShip.position.y = 0
-                }
-                if(aShip.position.y < 0){
-                    aShip.position.y = self.size.height - aShip.size.height/2
-                }
+//                //Screen boundries (Loop ship position)
+//                if(aShip.position.x > self.size.width){
+//                    aShip.position.x = 0
+//                }
+//                if(aShip.position.x < 0){
+//                    aShip.position.x = self.size.width
+//                }
+//                if(aShip.position.y > self.size.height + aShip.size.height/2){
+//                    aShip.position.y = 0
+//                }
+//                if(aShip.position.y < 0){
+//                    aShip.position.y = self.size.height - aShip.size.height/2
+//                }
  
             }
         }
@@ -399,12 +566,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            print(value)
 //        }
         
+        print(aShip.position)
         aShip.updateShipProperties(shipVelocity: controlVector, laserStartPos: CGPoint(x:0,y:0))
+        
+        if(shipLives<1){
+            enumerateChildNodesWithName("normAlien", usingBlock: gameOverBounceMode)
+            enumerateChildNodesWithName("downAlien", usingBlock: gameOverBounceMode)
+            enumerateChildNodesWithName("behindAlien", usingBlock: gameOverBounceMode)
 
+        }
+        
+        //Screen boundries (Loop ship position)
+        if(aShip.position.x > self.size.width){
+            aShip.position.x = 0
+        }
+        if(aShip.position.x < 0){
+            aShip.position.x = self.size.width
+        }
+        if(aShip.position.y > self.size.height + aShip.size.height/2){
+            aShip.position.y = 0
+        }
+        if(aShip.position.y < 0){
+            aShip.position.y = self.size.height - aShip.size.height/2
+        }
+        
+        
     }
 
 
-
+    func gameOverBounceMode(node:SKNode, abool:UnsafeMutablePointer<ObjCBool>){
+//        node.physicsBody?.velocity = CGVector(dx:0,dy:0)
+        node.physicsBody?.categoryBitMask = 0
+    }
     
 
     
@@ -516,13 +709,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         var lives:Int
         
-//        var lives:Int = 0{
-//            didSet{
-//                shipLivesLabel?.text = self.lives.description
-//                print("FUVC?KKK")
-//            }
-//        }
-        
         var lasers = [SKSpriteNode]()
         var canShoot = false
 
@@ -539,9 +725,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         init(startPosition startPos:CGPoint, controllerVector:CGVector){
             
             self.lives = 3
-            
-            //Build the shipLives label
-
             
             self.moveSpeed = 200
 
@@ -609,7 +792,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let velocityVector:CGVector
         let startPos:CGPoint
         
-        
         init(texture:SKTexture, startPosition startPos:CGPoint,moveSpeed: CGFloat,velocityVector:CGVector){
             
             self.velocityVector = Alien.normalizeVector(velocityVector)
@@ -622,12 +804,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
             //PhysicsBody is a property of super so super.init must be called first (init SKSpriteNode)
             self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2) //Why THE FUCK IS THIS* NOT AN OPTIONAL?
-            
             self.physicsBody?.dynamic = true
             self.physicsBody?.categoryBitMask = PhysicsCategory.Alien //physicsBody?. is optional chaining?
             self.physicsBody?.collisionBitMask = PhysicsCategory.Laser //Do I need this? or jsut use in laser class
             self.physicsBody?.contactTestBitMask = PhysicsCategory.Laser
             self.physicsBody?.usesPreciseCollisionDetection = true
+            self.physicsBody?.linearDamping = 0.0;
             
             //Motion
             self.physicsBody?.velocity.dx = velocityVector.dx * moveSpeed
@@ -647,12 +829,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         static let alienImage = SKTexture(imageNamed:"Sprites/trumpFace.png")
         
+        
         init(startPos:CGPoint,speed: CGFloat){
             
             super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: -1,dy: 0))
-            //Mike set scale size
-            //self.setScale(0.1)
+            //Trump set scale size
             self.setScale(0.24)
+            self.name = "normAlien"
             
         }
         
@@ -665,13 +848,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Downward alien with Mikes face
     class downAlien:Alien{
         
-        static let alienImage = SKTexture(imageNamed:"Sprites/mikeFace.png")
+        static let alienImage = SKTexture(imageNamed:"Sprites/mikeFace2.png")
         
         init(startPos:CGPoint,speed: CGFloat){
             
-            super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 0,dy: 1))
+            super.init(texture:downAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 0,dy: -1))
             //Mike set scale size
-            self.setScale(0.1)
+            self.setScale(0.5)
+            self.name = "downAlien"
+            
         }
         
         required init?(coder aDecoder: NSCoder) {
@@ -687,9 +872,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         init(startPos:CGPoint,speed: CGFloat){
             
-            super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 1,dy: 0))
+            super.init(texture:behindAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 1,dy: 0))
             //Alien set scale size
             self.setScale(0.1)
+            self.name = "behindAlien"
         }
         
         required init?(coder aDecoder: NSCoder) {

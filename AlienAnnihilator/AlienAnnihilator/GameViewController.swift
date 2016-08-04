@@ -18,7 +18,7 @@ class GameViewController: UIViewController {
         
         self.view.multipleTouchEnabled = true;
     
-        let scene = GameScene(size: view.bounds.size)
+        let scene = StartScene(size: view.bounds.size)
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
