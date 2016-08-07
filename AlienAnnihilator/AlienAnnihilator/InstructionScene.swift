@@ -31,20 +31,45 @@ class InstructionScene: SKScene{
         self.view?.addSubview(gobackButton)
         
         
+        let titleLabel = instructText("GAME INSTRUCTIONS", fontSize: 30, color: SKColor.redColor(), posMultiplier: CGPoint(x:0.5,y:0.8))
         
-        let instructLabel = SKLabelNode(fontNamed: "Chalkduster")
-        instructLabel.text = "Here are some wild complicated instructions"
-        instructLabel.fontSize = 20
-        instructLabel.fontColor = SKColor.whiteColor()
-        instructLabel.position = CGPoint(x: size.width/2, y: size.height/2)
-        //instructLabel.userInteractionEnabled = true
-        addChild(instructLabel)
+        addChild(titleLabel)
+        
+        let label1 = instructText("Kill Aliens for as long as you can.",
+                     fontSize: 15, color: SKColor.redColor(), posMultiplier: CGPoint(x: 0.5,y: 0.7))
+        
+        addChild(label1)
+        
+        let label2 = instructText("You got three lives, make em' count.",
+                                  fontSize: 15, color: SKColor.redColor(), posMultiplier: CGPoint(x: 0.5,y: 0.6))
+        
+        addChild(label2)
+        
+        let tipsLabel = instructText("Tips:", fontSize: 20, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.3))
+        addChild(tipsLabel)
+        
+        let tip1Label = instructText("- Continuously move: try to never lift your finger from the virtual joystick.", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.23))
+        let tip2Label = instructText("- Be cautious of the sceen edges as aliens spawn from them (Except the bottom edge!)", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.18))
+        
+        addChild(tip1Label)
+        addChild(tip2Label)
+        
         
         
     }
     
     
     
+    func instructText(text:String,fontSize:CGFloat,color:SKColor, posMultiplier:CGPoint) -> SKLabelNode{
+        
+        let label = SKLabelNode(fontNamed: "Chalkduster")
+        label.text = text
+        label.fontSize = fontSize
+        label.fontColor = color
+        label.position = CGPoint(x: size.width * posMultiplier.x, y: size.height * posMultiplier.y)
+        
+        return label
+    }
     
     
 

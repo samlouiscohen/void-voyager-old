@@ -25,12 +25,21 @@ struct PhysicsCategory {
     static let Ship      :  UInt32 = 0b11
 }
 
+
+
 var controlVector:CGVector = CGVector(dx: 0, dy: 0)
+
+
+var shipAnimationFrames : [SKTexture]!
+
+
+//preload textures
+let laserImage = SKTexture(imageNamed: "Sprites/laser.jpg")
+
+
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
-    
-    var alienSprites:[Alien] = []
     
     
     //Multiplers ordered as: speed, spawn time, lives?
@@ -64,33 +73,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     private var shipLivesLabel:SKLabelNode?
     
-    
-    
-    private var gameOver = 0 {
-        
-        didSet{
-            self.gameOverLabel?.text = " "
-        }
-    }
-    private var gameOverLabel:SKLabelNode?
-    
 
     //controller configthis is the way to d
-    let controlStick = SKSpriteNode(imageNamed: "Sprites/controlStick2.png")
-    let controlBase = SKSpriteNode(imageNamed: "Sprites/controlBase.png")
+    let controlStick = SKSpriteNode(imageNamed: "Sprites/controllerHandle_2.png")
+    let controlBase = SKSpriteNode(imageNamed: "Sprites/controllerBase3.png")
     var controllerOn:Bool = false
+    
+    
     
     
     override func didMoveToView(view: SKView) {
         
+        
         //So when we go back to scene the ship isnt moving from the last played game
         controlVector = CGVector(dx: 0,dy: 0)
 
-        
-        
-        
-        
-        
         let aliensKilledLabel = SKLabelNode(fontNamed: "Times New Roman")
         //aliensKilledLabel.text = aliensKilled.description
         aliensKilledLabel.text = "Foes Killed': " + String(aliensKilled)
@@ -108,27 +105,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.shipLivesLabel = shipLivesLabel
         
         
-        let gameOverLabel = SKLabelNode(fontNamed: "Times New Roman")
-        gameOverLabel.fontSize = 50
-        gameOverLabel.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame)*0.8)
-        gameOverLabel.zPosition = 3
-        gameOverLabel.fontColor = SKColor.redColor()
-        self.gameOverLabel = gameOverLabel
-        
-        
         //Set up the scene structure
         backgroundColor = SKColor.blackColor()
         
         addChild(aShip)
-        self.addChild(gameOverLabel)
 
         self.physicsWorld.contactDelegate = self
         self.physicsWorld.gravity = CGVectorMake(0.0, 0.0)
         
         /* Set up for the controller */
         //Establish the base
-        controlBase.position = CGPoint(x:size.width*0.1, y:size.height*0.1)
-        controlBase.size = CGSize(width: 100, height: 100)
+        controlBase.position = CGPoint(x:size.width*0.075, y:size.height*0.1)
+        controlBase.size = CGSize(width: 90, height: 90)
         controlBase.zPosition = 1
         addChild(controlBase)
         
@@ -139,25 +127,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(controlStick)
 
         //Make semi-transparent
-        controlBase.alpha = 0.5
-        controlStick.alpha = 0.5
+        controlBase.alpha = 0.25
+        controlStick.alpha = 0.25
         
         
         
-        //Building the aliens
+        //Start spawning normal aliens immediately
+        startSpawningNorm()
+        
 
+    }
+    
+    
+    
+    //Building the aliens (Why is this seperate
+    func startSpawningNorm(){
         runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.runBlock(addNormAlien),
             SKAction.waitForDuration(Double(random(1,max: 4))-Double(normAlienMultiplers[1])),
             SKAction.runBlock(updateNormMultipliers)
             ])))
-
     }
     
     func startSpawningDown(){
         runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.runBlock(addDownAlien),
-            SKAction.waitForDuration(Double(random(6,max: 8))-Double(downAlienMultiplers[1])),
+            SKAction.waitForDuration(Double(random(10,max: 15))-Double(downAlienMultiplers[1])),
             SKAction.runBlock(updateDownMultipliers)
             ])))
     }
@@ -165,7 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startSpawningBehind(){
         runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.runBlock(addBehindAlien),
-            SKAction.waitForDuration(Double(random(8,max: 12))-Double(behindAlienMultiplers[1])),
+            SKAction.waitForDuration(Double(random(10,max: 20))-Double(behindAlienMultiplers[1])),
             SKAction.runBlock(updateBehindMultipliers)
             ])))
     }
@@ -182,6 +177,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             alien.physicsBody?.dynamic = false
             alien.physicsBody?.velocity = CGVector(dx:0, dy:0)
+            alien.removeActionForKey("facialMotion")
+            
         }
 
         
@@ -190,9 +187,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         let stopMoving = SKAction.runBlock(stopMotion)
+        let color = SKAction.colorizeWithColor(SKColor.redColor(), colorBlendFactor: 0.7, duration: 0)
+
         let fadeOut = SKAction.fadeOutWithDuration(1)
         let removeFromParent = SKAction.runBlock(removeAlien)
-        let color = SKAction.colorizeWithColor(SKColor.redColor(), colorBlendFactor: 0.7, duration: 0)
         
         let die = SKAction.sequence([stopMoving, color, fadeOut, removeFromParent])
 
@@ -211,59 +209,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             alien = contact.bodyB.node
         }
         else{
-            //            print("tits")
             return
         }
-
         
-//        SKAction *pulseRed = [SKAction sequence:@[
-//        [SKAction colorizeWithColor:[SKColor redColor] colorBlendFactor:1.0 duration:0.15],
-//        [SKAction waitForDuration:0.1],
-//        [SKAction colorizeWithColorBlendFactor:0.0 duration:0.15]]];     [monsterSprite runAction: pulseRed];
-
-//        let red = [SKAction colorizeWithColor:[SKColor redColor] colorBlendFactor:1.0 duration:0.15]
-
-//        func stopMotion(){
-//            alien?.physicsBody?.categoryBitMask = 0
-//            alien?.physicsBody?.collisionBitMask = 0
-//            alien?.physicsBody?.contactTestBitMask = 0
-//            
-//            alien?.physicsBody?.dynamic = false
-//            alien?.physicsBody?.velocity = CGVector(dx:0, dy:0)
-//            
-//        }
-//        
-//        func removeAlien(){
-//            alien?.removeFromParent()
-//            print("hellllllllllllllooooooooo")
-//        }
-//        
-//        let stopMoving = SKAction.runBlock(stopMotion)
-//        let fadeOut = SKAction.fadeOutWithDuration(1)
-//        let removeFromParent = SKAction.runBlock(removeAlien)
-//        
-//        let die = SKAction.sequence([stopMoving, fadeOut, removeFromParent])
-//        
-
-//        alien?.runAction(die)
-        
-        
-
-        
-//        alien?.removeFromParent()
         aliensKilled = aliensKilled + 1
         aShip.lives = aShip.lives - 1
         
         killOffAlien((alien)!)
         
-        if(aliensKilled > 1 && downNotCalledYet){
-            startSpawningDown()
-            downNotCalledYet = false
-        }
-        if(aliensKilled > 3 && behindNotCalledYet){
-            startSpawningBehind()
-            behindNotCalledYet = false
-        }
+
     }
     
     
@@ -291,43 +245,38 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         killOffAlien((alien)!)
         
-        if(shipLives<1){
-            print("asda")
-            gameOver = 1
-        }
-        
-        
     }
     
     
     
     func didBeginContact(contact:SKPhysicsContact){
-        print(aShip.lives)
         alien_laser_contact(contact)
         alien_ship_contact(contact)
         
-//        let loseAction = SKAction.runBlock() {
-        func gameOver(){
-            let reveal = SKTransition.flipHorizontalWithDuration(0.5)
-            let gameOverScene = GameOverScene(size: self.size, aliensKilled: self.aliensKilled)
-            //self.view?.presentScene(gameOverScene, transition: reveal)
-            self.view?.presentScene(gameOverScene, transition: SKTransition.fadeWithColor(SKColor.redColor(), duration: 3))
+        
+        if(aliensKilled > 10 && downNotCalledYet){
+            startSpawningDown()
+            downNotCalledYet = false
+        }
+        if(aliensKilled > 20 && behindNotCalledYet){
+            startSpawningBehind()
+            behindNotCalledYet = false
         }
         
+        //Create and go to the game over scene if the ship has 0 lives
         if(shipLives<1){
             gameOver()
         }
         
         
     }
+    func gameOver(){
+        let gameOverScene = GameOverScene(size: self.size, aliensKilled: self.aliensKilled)
+        //self.view?.presentScene(gameOverScene, transition: reveal)
+        self.view?.presentScene(gameOverScene, transition: SKTransition.fadeWithColor(SKColor.redColor(), duration: 3))
+    }
     
-    
-    
-    //Define random function
-//    func random(min:UInt32, max:UInt32) -> UInt32{
-//        return UInt32(arc4random_uniform(max - min) + min)
-//      //return CGFloat(arc4random_uniform(2))*(max-min) + min
-//    }
+
     func random(min:UInt32, max:UInt32) -> CGFloat{
         return CGFloat(arc4random_uniform(max - min) + min)
         //return CGFloat(arc4random_uniform(2))*(max-min) + min
@@ -350,6 +299,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         behindAlienMultiplers[1] = behindAlienMultiplers[1]*1.01
     }
     
+    
+    
+    
+    
+    //Functions to create new alien instances with progressive difficulty
     func addNormAlien(){
 
         let mult = normAlienMultiplers
@@ -358,15 +312,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
         alienInst.position = CGPoint(x:size.width+alienInst.size.width/2, y:CGFloat(yStart))
         
-//        if(shipLives < 1){
-//            print("Hello")
-//            alienInst.physicsBody?.categoryBitMask = 0
-//        }
-//
-//        let animate = SKAction.animateWithTextures(trumpTextures, timePerFrame: 1)//SKAction animateWithTextures:monsterWalkTextures timePerFrame:0.1]
-        
-        
-        alienSprites.append(alienInst)
         addChild(alienInst)
     }
     
@@ -374,14 +319,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let mult = downAlienMultiplers
         
-        let alienInst = downAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(5),max: UInt32(25))*mult[0])
+        let alienInst = downAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(10),max: UInt32(30))*mult[0])
         //this line makes no sense, maybe use lasy variables or something
         let xStart = random(UInt32(alienInst.size.width/2), max: UInt32(size.width-alienInst.size.width))
         alienInst.position = CGPoint(x: xStart, y:CGFloat(size.height + alienInst.size.width/2))
-//        if(shipLives < 1){
-//            print("Hello")
-//            alienInst.physicsBody?.categoryBitMask = 0
-//        }
         addChild(alienInst)
     }
     
@@ -389,13 +330,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let mult = behindAlienMultiplers
         
-        let alienInst = behindAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(5),max: UInt32(10))*mult[0])
+        let alienInst = behindAlien(startPos:CGPoint(x: 10,y: 10),speed: random(UInt32(5),max: UInt32(40))*mult[0])
         let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
         alienInst.position = CGPoint(x: -alienInst.size.width/2, y:CGFloat(yStart))
-//        if(shipLives < 1){
-//            print("Hello")
-//            alienInst.physicsBody?.categoryBitMask = 0
-//        }
         addChild(alienInst)
     }
     
@@ -511,19 +448,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let unitVector:CGVector = normalizeVector(v)
                 controlVector = CGVector(dx:unitVector.dx,dy:unitVector.dy)
                 
-//                //Screen boundries (Loop ship position)
-//                if(aShip.position.x > self.size.width){
-//                    aShip.position.x = 0
-//                }
-//                if(aShip.position.x < 0){
-//                    aShip.position.x = self.size.width
-//                }
-//                if(aShip.position.y > self.size.height + aShip.size.height/2){
-//                    aShip.position.y = 0
-//                }
-//                if(aShip.position.y < 0){
-//                    aShip.position.y = self.size.height - aShip.size.height/2
-//                }
+
  
             }
         }
@@ -547,15 +472,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Does this make any more sense than the commented code below it?
             //difference is that this code if speaking strictly about touch's location at start time rather than location at end time!
+            
+            //Reset if touch that is on controller is lifted or if no fingers are on the screen
             if(CGRectContainsPoint(controlBase.frame, startingTouches[touch as! UITouch]!)){
                 resetController()
             }
-
+//            if(startingTouches.count < 1){
+//                resetController()
+//            }
+        
             //REmove the touch
             startingTouches.removeValueForKey(touch as! UITouch)
         }
 
     }
+    
+//    
+//    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
+//        for touch:AnyObject in touches!{
+//            
+//            startingTouches.removeAll()
+//            
+//        }
+//    }
+//    
+    
+    
+    
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
@@ -566,7 +509,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            print(value)
 //        }
         
-        print(aShip.position)
+
+//        print(startingTouches.count)
+//        if(startingTouches.count < 1){
+//            resetController()
+//        }
+//        print(aShip.position)
+
+//        boss.moveBody()
+        
+        
         aShip.updateShipProperties(shipVelocity: controlVector, laserStartPos: CGPoint(x:0,y:0))
         
         if(shipLives<1){
@@ -661,17 +613,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     }
     
+//    let lasere = SKTexture(imageNamed: "Sprites/laser.jpg")
     
     class Laser:SKSpriteNode{
         
         init(){
             
-            let laser = SKTexture(imageNamed: "Sprites/laser.jpg")
+//            let laser = SKTexture(imageNamed: "Sprites/laser.jpg")
             
-            super.init(texture: laser, color: UIColor.clearColor(), size: laser.size())
-            self.setScale(2)
+            super.init(texture: laserImage, color: UIColor.clearColor(), size: laserImage.size())
+            self.setScale(3)
             //Laser physics
-            self.physicsBody = SKPhysicsBody(circleOfRadius: laser.size().width/2)
+            self.physicsBody = SKPhysicsBody(circleOfRadius: laserImage.size().width/2)
             self.physicsBody?.dynamic = true
             self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
             self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
@@ -719,24 +672,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
-        static var shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")//: Int = Int(shipTypes[shipState]![0])
+//        static var shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")//: Int = Int(shipTypes[shipState]![0])
+//        let shipImage = SKTexture(imageNamed:"shipBlink/samShip1")
+//        
         
+        let shipImage = SKTexture(imageNamed:"Sprites/shipSam1.png")
+
         
         init(startPosition startPos:CGPoint, controllerVector:CGVector){
             
+            
             self.lives = 3
             
-            self.moveSpeed = 200
+            self.moveSpeed = 160
 
+//            let shipImage = SKTexture(imageNamed:"Sprites/fullShip.png")
             
             //Call super initilizer
-            super.init(texture: Ship.shipImage, color: UIColor.clearColor(), size: Ship.shipImage.size())
+            //super.init(texture: Ship.shipImage, color: UIColor.clearColor(), size: Ship.shipImage.size())
+            super.init(texture: shipImage, color: UIColor.clearColor(), size: shipImage.size())
+
             
-            gun.position = CGPointMake(95,-10)
+            gun.position = CGPointMake(165,-10)
             self.addChild(gun)
 
             
-            self.setScale(0.2)
+            self.setScale(0.08)
             //Position is an property of SKSpriteNode so super must be called first
             self.position = startPos
             
@@ -752,7 +713,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             self.physicsBody?.velocity.dx = controllerVector.dx * moveSpeed
             self.physicsBody?.velocity.dy = controllerVector.dy * moveSpeed
-            
+            self.animateShip1()
         }
         
         
@@ -763,9 +724,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.physicsBody?.velocity.dy = v.dy * moveSpeed
         }
         
+
+        
+        
+        
+        
+        func animateShip1() {
+            
+            let textureAtlas = SKTextureAtlas(named:"shipBlink")
+            
+            let frames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
+                "shipSam10","shipSam10","shipSam10","shipSam10","shipSam10",
+                "shipSam9","shipSam8","shipSam7","shipSam6","shipSam5","shipSam4","shipSam3","shipSam2","shipSam1",].map{textureAtlas.textureNamed($0)}// look up map
+
+            let animate = SKAction.animateWithTextures(frames, timePerFrame: 0.1)
+            
+            let forever = SKAction.repeatActionForever(animate)
+            self.runAction(forever)
+            
+        }
+        
+        
         func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
             updateVelocity(v)
+            //animateShip()
         }
+        
+        
+        
+        
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -827,17 +814,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     class normAlien:Alien{
         
+        //static let alienImage = SKTexture(imageNamed:"Sprites/trumpFace.png")
         static let alienImage = SKTexture(imageNamed:"Sprites/trumpFace.png")
-        
+
         
         init(startPos:CGPoint,speed: CGFloat){
             
             super.init(texture:normAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: -1,dy: 0))
+            
             //Trump set scale size
             self.setScale(0.24)
+            
             self.name = "normAlien"
+            self.animateTrump()
+            self.zPosition = 1
+            
             
         }
+        
+        func animateTrump() {
+            
+            let textureAtlas = SKTextureAtlas(named:"trumpMoveMouth")
+            
+            let frames = ["trumpFaceOpen1","trumpFaceOpen2","trumpFaceOpen3","trumpFaceOpen4"].map{textureAtlas.textureNamed($0)}// look up map
+            
+            let animate = SKAction.animateWithTextures(frames, timePerFrame: 0.1)
+            
+            let forever = SKAction.repeatActionForever(animate)
+            self.runAction(forever, withKey: "facialMotion")
+
+        }
+
+
+        
+        
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -874,9 +884,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             super.init(texture:behindAlien.alienImage, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 1,dy: 0))
             //Alien set scale size
-            self.setScale(0.1)
+            self.setScale(0.15)
+            self.xScale = -self.xScale
             self.name = "behindAlien"
+            self.animateAlien1()
         }
+        
+        
+        func animateAlien1() {
+            
+            let textureAtlas = SKTextureAtlas(named:"Alien1Atlas")
+            let frames = ["alienType1_3","alienType1_4 copy","alienType1_5 copy","alienType1_6 copy","alienType1_7","alienType1_8 copy","alienType1_9 copy","alienType1_10 copy",
+                
+                "alienType1_9","alienType1_8 copy","alienType1_7 copy","alienType1_6 copy","alienType1_5","alienType1_4 copy","alienType1_3"
+                
+                ].map{textureAtlas.textureNamed($0)}// look up map
+            //10->50 /10 =>  1->5
+            let animateSpeedFactor = Double(self.speed/100)
+            let animate = SKAction.animateWithTextures(frames, timePerFrame: 0.08 - animateSpeedFactor)
+            let forever = SKAction.repeatActionForever(animate)
+            self.runAction(forever, withKey: "facialMotion")
+
+        }
+        
         
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
@@ -888,6 +918,151 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 
 
+    
+    
+    
+    
+    class bossAlien1:Alien{
+        
+        //Variable eye movement
+        var velocityMagnitude:CGFloat = 15
+        
+        var shipPos:CGPoint
+
+        var eye1:SKSpriteNode = SKSpriteNode(imageNamed:"eye1")
+        var eye2:SKSpriteNode = SKSpriteNode(imageNamed:"eye2")
+        var eye1Vector:CGVector
+        
+        
+        
+        
+        init(startPos:CGPoint, shipPosition:CGPoint){
+            let boss1Img = SKTexture(imageNamed:"Sprites/boss1Img_1")
+//            eye1 = SKTexture(imageNamed:"Sprites/boss1_eyeImg")
+//            eye2 = SKTexture(imageNamed:"Sprites/boss1_eyeImg")//Or have different eyes
+            
+            shipPos = shipPosition
+            
+            eye1Vector = CGVector(dx: shipPos.x - eye1.position.x, dy: shipPos.y - eye1.position.y )
+            
+
+            var velocity = CGVector(dx: 0, dy:0)
+            
+            super.init(texture:boss1Img, startPosition: startPos,
+                       moveSpeed:velocityMagnitude, velocityVector:velocity)
+            
+            //Overwrite general aliens physics
+            self.physicsBody?.categoryBitMask = 0
+            self.physicsBody?.collisionBitMask = 0
+            self.physicsBody?.contactTestBitMask = 0
+            
+            var eye1Coord = self.position
+            var eye2Coord = self.position
+            
+            
+            
+        }
+        
+        
+        
+        
+        func moveBody(){
+            self.physicsBody?.velocity = CGVector(dx: shipPos.x - self.position.x, dy: shipPos.y - self.position.y )
+
+            
+            
+        }
+        
+        
+        
+        
+        
+        func drawEyes(){
+            
+            self.eye1.position = self.position
+            
+            self.addChild(eye1)
+            
+            self.animateEyes()
+        }
+        
+        func animateEyes(){
+            
+            //Has to be called in update
+            
+            let socketRadius = CGFloat(100) //socketSprite.size.width/2
+            let socket = CGPoint(x: self.position.x-100, y: self.position.y-100)
+            var xDist = self.eye1.position.x - socket.x
+            var yDist = self.eye1.position.y - socket.y
+            
+            
+            var dist = sqrt((xDist * xDist) + (yDist * yDist))
+            
+            if(dist > socketRadius){
+                
+                
+                
+            }
+
+            
+        }
+        
+        
+        
+        //Eye vector is from socket to ship and similarly, speed=0 if it would go out of bounds (Or rather, speed is 0 but only not in the area if statement: 
+        
+        //USe circle so radius (dist from center of socket<something)
+        
+        //Alein direction vector is from alien location to ship location, speed TBD
+        
+        
+        
+        
+        
+        
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+        
+        
+    }
+    
+    
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    //Timer structure
+//    
+//    var timer = Timer(interval: 5.0, delegate: self)
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
 
 }
 
