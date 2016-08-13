@@ -13,9 +13,10 @@ import SpriteKit
 class GameOverScene: SKScene {
     
     var deadAliens:Int
+    var deadBosses:Int
     
-    
-    init(size: CGSize, aliensKilled:Int) {
+    init(size: CGSize, aliensKilled:Int, numberBossesKilled:Int) {
+        deadBosses = numberBossesKilled
         deadAliens = aliensKilled
         super.init(size: size)
     }
@@ -42,13 +43,16 @@ class GameOverScene: SKScene {
         
         let killedLabel = SKLabelNode(fontNamed: "Chalkduster")
 
-        killedLabel.text = "However, you managed to kill " + String(deadAliens) + " Aliens."
+        //killedLabel.text = "However, you managed to kill " + String(deadAliens) + " Aliens and " + String(deadBosses) + " Bosses."
+        killedLabel.text = "However, you managed to kill " + String(deadAliens) + " Aliens and " + String(deadBosses) + " Bosses."
+
         killedLabel.fontSize = 20
         killedLabel.fontColor = SKColor.redColor()
         killedLabel.position = CGPoint(x: size.width/2, y: size.height/2.8)
         killedLabel.userInteractionEnabled = false
         addChild(killedLabel)
         
+
         
         
         

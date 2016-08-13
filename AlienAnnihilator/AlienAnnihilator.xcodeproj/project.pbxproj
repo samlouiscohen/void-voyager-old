@@ -14,13 +14,12 @@
 		A42099C81D3843BA00C38DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42099C71D3843BA00C38DEF /* Assets.xcassets */; };
 		A42099CB1D3843BA00C38DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42099C91D3843BA00C38DEF /* LaunchScreen.storyboard */; };
 		A42099D61D3843BA00C38DEF /* AlienAnnihilatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */; };
-		A42099E31D38568400C38DEF /* Sprites in Resources */ = {isa = PBXBuildFile; fileRef = A42099E21D38568400C38DEF /* Sprites */; };
 		A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709461D526D2200E1B50F /* GameOverScene.swift */; };
 		A4E709491D52848900E1B50F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709481D52848900E1B50F /* StartScene.swift */; };
 		A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */; };
-		A4E7094D1D53BF3A00E1B50F /* ShipImages.atlas in Resources */ = {isa = PBXBuildFile; fileRef = A4E7094C1D53BF3A00E1B50F /* ShipImages.atlas */; };
 		A4E7094F1D53DC2C00E1B50F /* Timer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7094E1D53DC2C00E1B50F /* Timer.swift */; };
 		A4FCA7A91D540C55003BF287 /* donaldMove1.png in Resources */ = {isa = PBXBuildFile; fileRef = A4FCA7A81D540C55003BF287 /* donaldMove1.png */; };
+		A4FCA7AD1D57DB69003BF287 /* allClasses.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FCA7AC1D57DB69003BF287 /* allClasses.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,13 +44,12 @@
 		A42099D11D3843BA00C38DEF /* AlienAnnihilatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlienAnnihilatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlienAnnihilatorTests.swift; sourceTree = "<group>"; };
 		A42099D71D3843BA00C38DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		A42099E21D38568400C38DEF /* Sprites */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Sprites; sourceTree = "<group>"; };
 		A4E709461D526D2200E1B50F /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A4E709481D52848900E1B50F /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
-		A4E7094C1D53BF3A00E1B50F /* ShipImages.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; name = ShipImages.atlas; path = Sprites/ShipImages.atlas; sourceTree = "<group>"; };
 		A4E7094E1D53DC2C00E1B50F /* Timer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Timer.swift; sourceTree = "<group>"; };
 		A4FCA7A81D540C55003BF287 /* donaldMove1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = donaldMove1.png; sourceTree = "<group>"; };
+		A4FCA7AC1D57DB69003BF287 /* allClasses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = allClasses.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,10 +91,9 @@
 		A42099BB1D3843BA00C38DEF /* AlienAnnihilator */ = {
 			isa = PBXGroup;
 			children = (
-				A4E7094C1D53BF3A00E1B50F /* ShipImages.atlas */,
-				A42099E21D38568400C38DEF /* Sprites */,
 				A42099BC1D3843BA00C38DEF /* AppDelegate.swift */,
 				A42099C01D3843BA00C38DEF /* GameScene.swift */,
+				A4FCA7AC1D57DB69003BF287 /* allClasses.swift */,
 				A4FCA7A81D540C55003BF287 /* donaldMove1.png */,
 				A4E7094E1D53DC2C00E1B50F /* Timer.swift */,
 				A4E709461D526D2200E1B50F /* GameOverScene.swift */,
@@ -203,11 +200,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				A42099CB1D3843BA00C38DEF /* LaunchScreen.storyboard in Resources */,
-				A42099E31D38568400C38DEF /* Sprites in Resources */,
 				A4FCA7A91D540C55003BF287 /* donaldMove1.png in Resources */,
 				A42099C81D3843BA00C38DEF /* Assets.xcassets in Resources */,
 				A42099C61D3843BA00C38DEF /* Main.storyboard in Resources */,
-				A4E7094D1D53BF3A00E1B50F /* ShipImages.atlas in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -230,6 +225,7 @@
 				A4E7094F1D53DC2C00E1B50F /* Timer.swift in Sources */,
 				A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */,
 				A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */,
+				A4FCA7AD1D57DB69003BF287 /* allClasses.swift in Sources */,
 				A4E709491D52848900E1B50F /* StartScene.swift in Sources */,
 				A42099BD1D3843BA00C38DEF /* AppDelegate.swift in Sources */,
 			);
