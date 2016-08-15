@@ -23,8 +23,18 @@ class GameViewController: UIViewController {
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = false
+        //skView.showsPhysics = true
+        
+        
+        //scene.size = skView.bounds.size //???Added becuase screen dimensions didnt make sense?
+
         scene.scaleMode = .ResizeFill
         skView.presentScene(scene)
+        
+        
+        
+        
+        
         
         //Comment out bc this hurt performance - instead I'll be explicit on specifics
 //        skView.ignoresSiblingOrder = false;

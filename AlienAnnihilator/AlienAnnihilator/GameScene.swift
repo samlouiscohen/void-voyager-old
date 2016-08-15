@@ -12,6 +12,21 @@
 
 
 
+//To Do:
+
+/*
+ 
+ Delete off screen nodes, I should waste resources doing a check 60 times a sec so maybe once every 5-10 seconds and wipe everything that is off screen
+ Adjust gun shoot rate and alien spawn rates
+ 
+ */
+
+
+
+
+
+
+
 
 
 import SpriteKit
@@ -30,7 +45,8 @@ struct PhysicsCategory {
 
 var controlVector:CGVector = CGVector(dx: 0, dy: 0)
 
-var currentAliensKilled = 0
+
+
 
 
 var shipAnimationFrames : [SKTexture]!
@@ -43,6 +59,8 @@ let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("samShip1")
 let trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("trumpFaceOpen1")
 let mikeFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("mikeAlien")
 let behindAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("alien1_1")
+
+let boss1StartTexture = SKTextureAtlas(named:"Sprites").textureNamed("bossAlienReal0")
 let boss1BigEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1Eye")
 let boss1BigEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1BigEyeSocket")
 let boss1SmallEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEye")
@@ -60,12 +78,16 @@ let bossFrames = ["bossAlienReal10","bossAlienReal10","bossAlienReal10","bossAli
 let controllerBaseTexture = SKTextureAtlas(named:"Sprites").textureNamed("controllerBase")
 let controllerHandleTexture = SKTextureAtlas(named:"Sprites").textureNamed("controllerHandle")
 
+let pauseButtonTexture = SKTextureAtlas(named:"Sprites").textureNamed("pauseButton")
+
+
 
 //Build the Game Scene
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     var bossOn = false
+    var currentAliensKilled = 0
     
     //Multiplers ordered as: speed, spawn time, lives?
     var normAlienMultiplers:[CGFloat] = [1.0, 0.01, 1.0]
@@ -75,14 +97,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var downNotCalledYet = true
     var behindNotCalledYet = true
-    
 
     
     
     //Build the Aliens killed Label
     private var aliensKilled = 0 {
         didSet{
-            self.aliensKilledLabel?.text = "Dead Foes: "+String(aliensKilled)
+            self.aliensKilledLabel?.text = "Dead Foes: " + String(aliensKilled)
         }
     }
     private var aliensKilledLabel:SKLabelNode?
@@ -107,8 +128,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
     
     
+    
+    
+//    let pauseButton = SKSpriteNode(imageNamed: "pauseButton")
+    let pauseButton = PauseButton(theTexture: pauseButtonTexture)//SKSpriteNode(imageNamed: "pauseButton")
+
     //Main scene did move to view drawing
     override func didMoveToView(view: SKView) {
+        
+        //super.didMoveToView(view)
+        //self.size = view.frame.size
+        
+        let screenSize:CGSize = (view.scene?.size)!
+        
+        
+        
+        //let pauseButton = PauseButton(texture: pauseButtonTexture, viewSceneSize: (view.scene?.size)!)//SKSpriteNode(imageNamed: "pauseButton")
+        
+//        pauseButton.setScale(0.7)
+        pauseButton.position = CGPoint(x: (view.scene?.size.width)! - pauseButton.size.width*0.6, y:(view.scene?.size.height)! - pauseButton.size.height*0.6)
+        addChild(pauseButton)
+        
+//
+//        
+//        pauseButton.alpha = 0.5
+//        addChild(pauseButton)
+        //spawnBoss()
+        
         
         //Preload all textures for preformance improvements
 //        SKTextureAtlas(named: "Sprites").preloadWithCompletionHandler {
@@ -178,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startSpawningNorm(){
         runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.runBlock(addNormAlien),
-            SKAction.waitForDuration(Double(random(1,max: 4))-Double(normAlienMultiplers[1])),
+            SKAction.waitForDuration(Double(random(1,max: 2))-Double(normAlienMultiplers[1])),
             SKAction.runBlock(updateNormMultipliers)
             ])))
     }
@@ -186,7 +232,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startSpawningDown(){
         runAction(SKAction.repeatActionForever(SKAction.sequence([
             SKAction.runBlock(addDownAlien),
-            SKAction.waitForDuration(Double(random(10,max: 15))-Double(downAlienMultiplers[1])),
+            SKAction.waitForDuration(Double(random(8,max: 15))-Double(downAlienMultiplers[1])),
             SKAction.runBlock(updateDownMultipliers)
             ])))
     }
@@ -212,7 +258,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             alien.physicsBody?.dynamic = false
             alien.physicsBody?.velocity = CGVector(dx:0, dy:0)
             alien.removeActionForKey("facialMotion")
-            
         }
 
         
@@ -350,25 +395,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         boss_ship_contact(contact)
         
         
-        
-//        boss_laser_contact(contact)
-        
-        
-        if(aliensKilled > 1 && downNotCalledYet){
+        if(aliensKilled > 20 && downNotCalledYet){
             startSpawningDown()
             downNotCalledYet = false
         }
-        if(aliensKilled > 2 && behindNotCalledYet){
+        if(aliensKilled > 40 && behindNotCalledYet){
             startSpawningBehind()
             behindNotCalledYet = false
         }
 //
-        if(aliensKilled % 5 == 0 && aliensKilled != 0 && aliensKilled != currentAliensKilled){
+        if(aliensKilled % 60 == 0 && aliensKilled != 0 && aliensKilled != currentAliensKilled){
             
             spawnBoss()
             currentAliensKilled = aliensKilled
             
-            print("boss")
+            //print("boss")
 
         }
         
@@ -455,7 +496,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnBoss(){
         bossOn = true
-        print("Bosssssssssssss")
+        //print("Bosssssssssssss")
         
         
         let bossSpawnLabel = SKLabelNode(fontNamed: "Times New Roman")
@@ -469,16 +510,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         func addTheLabelChild(){
             
             addChild(bossSpawnLabel)
-            print("YEAH WE GOT THISSSSS")
+            //print("YEAH WE GOT THISSSSS")
             
         }
         func removeSpawnLabel(){
             bossSpawnLabel.removeFromParent()
         }
         
-        let labelWaitTime = SKAction.waitForDuration(3)
+        let labelWaitTime = SKAction.waitForDuration(1)
         
-        let fadeIn = SKAction.fadeInWithDuration(2)
+        let fadeIn = SKAction.fadeInWithDuration(1)
         let fadeOut = SKAction.fadeOutWithDuration(4)
         
         func animateLabel(){
@@ -493,14 +534,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             //bossSpawnLabel.runAction(SKAction.sequence([fadeIn,labelWaitTime,fadeOut]))
-            print("hello99999")
+            //print("hello99999")
             
             let waitTillRemove = SKAction.waitForDuration(labelAnimation.duration)
             let labelRemove = SKAction.removeFromParent()
             
             
             bossSpawnLabel.runAction(SKAction.sequence([labelAnimation, waitTillRemove, labelRemove]))
-            //bossSpawnLabel.removeFromParent()
             
         }
         
@@ -574,14 +614,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let location = touch.locationInNode(self)
             startingTouches[touch as! UITouch] = location
             
-            if(CGRectContainsPoint(controlBase.frame, location)){
+            if(CGRectContainsPoint(controlBase.frame, location) && !scene!.paused){
                 controllerOn = true
             }
             else{
                 controllerOn = false
-                
+            }
+            
+            
+            
+            if(pauseButton.containsPoint(location)){
+                pauseButton.switchState()
+            }
+            
+            
+            if(!CGRectContainsPoint(controlBase.frame, location) && !pauseButton.containsPoint(location) && !scene!.paused){
                 aShip.gun.shoot()
             }
+            
+            
+            
+
 
         }
     }
@@ -598,7 +651,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Play with this - Is it better than using the controller on??? (Note: u can move into the frame of the controller and move it)
             //if(controllerOn == true){
-            if(CGRectContainsPoint(controlBase.frame, location)){
+            if(CGRectContainsPoint(controlBase.frame, location) && !scene!.paused){
             
                 let joyVector = CGVector(dx:location.x - controlBase.position.x, dy:location.y - controlBase.position.y)
                 
@@ -755,6 +808,84 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        )
         
         
+        
+        
+        
+        //Remove Code run every time interval
+        
+        print(self.children.count)
+        
+        
+        self.aShip.gun.enumerateChildNodesWithName("laser",
+                                         usingBlock: { node, _ in
+                                            if let aLaser = node as? Laser {
+                                                //print(self.size.width/2)
+                                                //print(self.aShip.position.x)
+                                                //print(aLaser.position.x)
+                                                //print("hi")
+                                                if(aLaser.position.x > self.size.width*2){
+                                                    aLaser.removeFromParent()
+                                                }
+                                            }
+            }
+        )
+        
+        
+//        self.enumerateChildNodesWithName("laser",
+//                                         usingBlock: { node, _ in
+//                                            if let aNormAlien = node as? Ship {
+//                                                print(self.size.width/2)
+//                                                print(self.aShip.position.x)
+//                                                //print(aLaser.position.x)
+//                                                //print("hi")
+//                                                if(aNormAlien.position.x < -aNormAlien.size.width){
+//                                                    aNormAlien.removeFromParent()
+//                                                }
+//                                            }
+//            }
+//        )
+        
+        self.enumerateChildNodesWithName("normAlien",
+             usingBlock: { node, _ in
+                if let aNormAlien = node as? normAlien {
+                    //print(self.size.width/2)
+                    //print(self.aShip.position.x)
+
+                    if(aNormAlien.position.x < -aNormAlien.size.width){
+                        aNormAlien.removeFromParent()
+                    }
+                }
+            }
+        )
+        
+        
+        self.enumerateChildNodesWithName("behindAlien",
+                                         usingBlock: { node, _ in
+                                            if let aBehindAlien = node as? behindAlien {
+                                                //print(self.size.width/2)
+                                                //print(self.aShip.position.x)
+                                                
+                                                if(aBehindAlien.position.x > self.size.width*1.2){
+                                                    aBehindAlien.removeFromParent()
+                                                }
+                                            }
+            }
+        )
+        
+        
+        self.enumerateChildNodesWithName("downAlien",
+                                         usingBlock: { node, _ in
+                                            if let aDownAlien = node as? downAlien {
+
+                                                
+                                                if(aDownAlien.position.y < -aDownAlien.size.height){
+                                                    aDownAlien.removeFromParent()
+                                                }
+                                            }
+            }
+        )
+        
+        
    
         
     }
@@ -766,6 +897,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
 
 
+    
+    
+
+    
+    
+    
+    
     
     
     
