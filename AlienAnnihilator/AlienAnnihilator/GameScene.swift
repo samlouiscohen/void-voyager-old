@@ -31,6 +31,9 @@
 
 import SpriteKit
 
+
+var partyMode = false
+
 //Set up the physics catagories for collisions (each bit of the 32 is a catagory)
 struct PhysicsCategory {
     static let None      :  UInt32 = 0;
@@ -40,6 +43,7 @@ struct PhysicsCategory {
     static let Ship      :  UInt32 = 0b11
     
     static let AlienBoss :  UInt32 = 0b100
+    static let PowerUp   :  UInt32 = 0b101
 }
 
 
@@ -56,7 +60,23 @@ var shipAnimationFrames : [SKTexture]!
 let laserTexture = SKTextureAtlas(named:"Sprites").textureNamed("laser")
 let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("samShip1")
 
-let trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("trumpFaceOpen1")
+let powerupBallTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBall")
+//let fireRateBallTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBall")
+
+let powerupBallHugeTexture = SKTextureAtlas(named:"Sprites").textureNamed("Hugepowerupball")
+let powerupBallSprayTexture = SKTextureAtlas(named:"Sprites").textureNamed("spraypowerupBall")
+let powerupBallRapidTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallRapid")
+
+let hugeLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("hugeLaser")
+let sprayLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("sprayBallLaser")
+
+let allisonFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("allisonFace")
+let sydFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("sydParty")
+
+
+
+
+var trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("trumpFaceOpen1")
 let mikeFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("mikeAlien")
 let behindAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("alien1_1")
 
@@ -65,7 +85,15 @@ let boss1BigEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1Eye"
 let boss1BigEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1BigEyeSocket")
 let boss1SmallEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEye")
 let boss1SmallEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEyeSocket2")
+
+
+
 let textureAtlas = SKTextureAtlas(named:"Sprites")
+
+let shipFrames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
+    "shipSam10","shipSam10","shipSam10","shipSam10","shipSam10",
+    "shipSam9","shipSam8","shipSam7","shipSam6","shipSam5","shipSam4","shipSam3","shipSam2","shipSam1"].map{textureAtlas.textureNamed($0)}// look up map
+
 let trumpFrames = ["trumpFaceOpen1","trumpFaceOpen2","trumpFaceOpen3","trumpFaceOpen4"].map{textureAtlas.textureNamed($0)}// look up map
 let behindFrames = ["alien1_1","alien1_2","alien1_3","alien1_4","alien1_5","alien1_6","alien1_7","alien1_8",
     
@@ -97,8 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var downNotCalledYet = true
     var behindNotCalledYet = true
-
-    
     
     //Build the Aliens killed Label
     private var aliensKilled = 0 {
@@ -108,6 +134,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     private var aliensKilledLabel:SKLabelNode?
     var numberBossesKilled = 0
+    
     //Instantiate the ship
     var aShip = Ship(startPosition: CGPoint(x:50,y:200), controllerVector: controlVector)
     
@@ -127,29 +154,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var controllerOn:Bool = false
 
     
-    
-    
-    
-//    let pauseButton = SKSpriteNode(imageNamed: "pauseButton")
-    let pauseButton = PauseButton(theTexture: pauseButtonTexture)//SKSpriteNode(imageNamed: "pauseButton")
+    //Pause button...
+    var pauseButton = PauseButton?()
 
+    
     //Main scene did move to view drawing
     override func didMoveToView(view: SKView) {
+        
+        //let powerup = PowerUpBall(startPos: CGPoint(x:200,y:200), ballSpeed: 8)
+//        let powerup = increaseFireRateBall()
+        
+        
+        //print("hi")
+        self.runAction(SKAction.fadeInWithDuration(0))
         
         //super.didMoveToView(view)
         //self.size = view.frame.size
         
         let screenSize:CGSize = (view.scene?.size)!
         
-        
-        
+        //var pauseButton = PauseButton?()//(theTexture: pauseButtonTexture)//, gameScene: self)//SKSpriteNode(imageNamed: "pauseButton")
         //let pauseButton = PauseButton(texture: pauseButtonTexture, viewSceneSize: (view.scene?.size)!)//SKSpriteNode(imageNamed: "pauseButton")
         
-//        pauseButton.setScale(0.7)
-        pauseButton.position = CGPoint(x: (view.scene?.size.width)! - pauseButton.size.width*0.6, y:(view.scene?.size.height)! - pauseButton.size.height*0.6)
-        addChild(pauseButton)
+        
+        
+        //Pause button...
+        pauseButton = PauseButton(theTexture: pauseButtonTexture, gameScene: self)
+        pauseButton!.position = CGPoint(x: (view.scene?.size.width)! - pauseButton!.size.width*0.7, y:(view.scene?.size.height)! - pauseButton!.size.height*0.7)
+        addChild(pauseButton!)
         
 //
+        
 //        
 //        pauseButton.alpha = 0.5
 //        addChild(pauseButton)
@@ -184,6 +219,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
 
         
+        var powerupTimerLabel = SKLabelNode(fontNamed:"Times New Roman")
+        powerupTimerLabel.text = "PU Time: " //this should be modified within the ship class
+        powerupTimerLabel.fontSize = 14
+        powerupTimerLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame))
+        //Where should this be added from?
+        //self.addChild(powerupTimerLabel)
+        
+        
+        
+        
         //Set up the scene structure
         backgroundColor = SKColor.blackColor()
         
@@ -197,12 +242,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         controlBase.position = CGPoint(x:size.width*0.075, y:size.height*0.1)
         controlBase.size = CGSize(width: 90, height: 90)
         controlBase.zPosition = 1
+        controlBase.name = "controlBase"
         addChild(controlBase)
         
         //Establish the stick
         controlStick.position = controlBase.position
         controlStick.size = CGSize(width: 50, height: 50)
         controlStick.zPosition = 2
+        controlStick.name = "controlStick"
         addChild(controlStick)
 
         //Make semi-transparent
@@ -216,9 +263,44 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
 
+
+        startSpawningPowerUps()
+
+
     }
     
     
+    
+    
+    //This could be incremental- so u can shoot powerups, maybe they have 3 lives and if u kill it u kill it- but otherwise most will help u and they will stay the whole game
+    func startSpawningPowerUps(){
+        self.runAction(SKAction.repeatActionForever(SKAction.sequence([
+            
+            SKAction.waitForDuration(30),
+            SKAction.runBlock(spawnPowerUps)
+            
+            
+            ])))
+    }
+    
+    func spawnPowerUps(){
+        
+        let numAvailablePowerups:UInt32 = 3
+        let powerup:PowerUpBall
+        
+        let laserType = random(0, max: numAvailablePowerups)
+        
+        if(laserType == 0){powerup = PowerUpBall(theBallSettings: HugeGunBall())}
+        else if(laserType == 1){powerup = PowerUpBall(theBallSettings: SprayGunBall())}
+        else{powerup = PowerUpBall(theBallSettings: MachineGunBall())}
+
+        //powerup = PowerUpBall(theBallSettings: MachineGunBall())
+        
+        //let powerup = PowerUpBall(theBallSettings: SprayGunBall())//increaseFireRateBall()
+        //powerup.ballSettings = HugeGunBall()
+        self.addChild(powerup)
+        //self.addChild(enlargeLaserBall())
+    }
     
     //Building the aliens (Why is this seperate
     func startSpawningNorm(){
@@ -295,6 +377,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         aShip.lives = aShip.lives - 1
         
         killOffAlien((alien)!)
+        
+        
         
     }
     
@@ -388,11 +472,66 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
+    
+    
+    
+    
+    
+    func ship_powerup_contact(contact:SKPhysicsContact){
+        var powerup:SKNode? = nil
+        
+        if contact.bodyA.categoryBitMask == PhysicsCategory.PowerUp && contact.bodyB.categoryBitMask == PhysicsCategory.Ship{
+            powerup = contact.bodyA.node
+            
+        }
+        else if contact.bodyB.categoryBitMask == PhysicsCategory.PowerUp && contact.bodyA.categoryBitMask == PhysicsCategory.Ship{
+            powerup = contact.bodyB.node
+            
+        }
+        else{
+            return
+        }
+        
+        
+        print("YAYAYYAYSDYAYSFYASYDFYASYDGYSYDGYSYDGY POWER UPPPPPPPPPPPP")
+        print("YAYAYYAYSDYAYSFYASYDFYASYDGYSYDGYSYDGY POWER UPPPPPPPPPPPP")
+        print("YAYAYYAYSDYAYSFYASYDFYASYDGYSYDGYSYDGY POWER UPPPPPPPPPPPP")
+
+        if let thePowerup = contact.bodyA.node as? PowerUpBall {
+            
+//            //aShip.applyPowerup(thePowerup)
+//            //thePowerup.apply(aShip)
+//            thePowerup.animateRemove()
+            
+            thePowerup.apply(aShip)
+            thePowerup.animateRemove()
+            let runTime = thePowerup.ballSettings.runTime
+            aShip.startPowerupTimer(runTime)
+
+            
+        } else if let thePowerup = contact.bodyB.node as? PowerUpBall {
+            
+            thePowerup.apply(aShip)
+            thePowerup.animateRemove()
+            
+            let runTime = thePowerup.ballSettings.runTime
+            aShip.startPowerupTimer(runTime)
+        }
+        
+        
+        
+        
+    }
+    
+    
+    
     func didBeginContact(contact:SKPhysicsContact){
         alien_laser_contact(contact)
         alien_ship_contact(contact)
         boss_laser_contact(contact)
         boss_ship_contact(contact)
+        
+        ship_powerup_contact(contact)
         
         
         if(aliensKilled > 20 && downNotCalledYet){
@@ -438,6 +577,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     
+    
+    
+    
+    
+    
+    
+    
 
     
     //Make all this code way more compact later
@@ -452,6 +598,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updateBehindMultipliers(){
         behindAlienMultiplers[0] = behindAlienMultiplers[0]*1.01
         behindAlienMultiplers[1] = behindAlienMultiplers[1]*1.01
+    }
+    
+    
+    
+    func incrementDifficulty(){
+        
     }
     
     
@@ -621,15 +773,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 controllerOn = false
             }
             
-            
-            
-            if(pauseButton.containsPoint(location)){
-                pauseButton.switchState()
+            if(pauseButton!.containsPoint(location)){
+                pauseButton!.switchState()
             }
             
             
-            if(!CGRectContainsPoint(controlBase.frame, location) && !pauseButton.containsPoint(location) && !scene!.paused){
-                aShip.gun.shoot()
+            if(!CGRectContainsPoint(controlBase.frame, location) && !pauseButton!.containsPoint(location) && !scene!.paused){
+                
+                
+                //print("Has actions: ", aShip.gun.hasActions())
+                aShip.gun.shootingFingerDown = true
+
+                aShip.gun.fire()
+                
+                
+            }
+            
+            if(CGRectContainsPoint(aShip.frame, location)){
+                
+                if(partyMode){
+                    partyMode = false
+                }
+                else{
+                    partyMode = true
+                }
+                
+                
+                
             }
             
             
@@ -711,11 +881,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if(CGRectContainsPoint(controlBase.frame, startingTouches[touch as! UITouch]!)){
                 resetController()
             }
+                
+            //If it wasn't in the move box then the potential continual shot ended
+            else{
+                
+                
+                //If user lifts finger while automatic enabled then stop firing
+                //aShip.gun.shootingFingerDown = false
+                if(!aShip.gun.gunSettings.semiAutomatic){
+                    
+                    aShip.gun.removeActionForKey("shootMachineGunLaser")
+                }
+                
+               
+                
+                
+                //Force a call to this method to update it (****************THIS ISNT EVEN NEEDED? WHERE IS IT NEEDED?)
+                //aShip.gun.updatefingerState()
+            }
+            
+            
 //            if(startingTouches.count < 1){
 //                resetController()
 //            }
+            
+            
         
-            //REmove the touch
+            //Remove the touch
             startingTouches.removeValueForKey(touch as! UITouch)
         }
 
@@ -813,7 +1005,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Remove Code run every time interval
         
-        print(self.children.count)
+        //print(self.children.count)
         
         
         self.aShip.gun.enumerateChildNodesWithName("laser",
