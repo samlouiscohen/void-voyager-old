@@ -45,14 +45,19 @@ class InstructionScene: SKScene{
         
         addChild(label2)
         
-        let tipsLabel = instructText("Tips:", fontSize: 20, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.3))
+        let tipsLabel = instructText("Tips:", fontSize: 20, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.32))
         addChild(tipsLabel)
         
-        let tip1Label = instructText("- Continuously move: try to never lift your finger from the virtual joystick.", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.23))
-        let tip2Label = instructText("- Be cautious of the sceen edges as aliens spawn from them (Except the bottom edge!)", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.18))
+        let tip1Label = instructText("- Continuously move: try to never lift your finger from the virtual joystick.", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.25))
+        let tip2Label = instructText("- Be cautious of the sceen edges as aliens spawn from them (Except the bottom edge!)", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.2))
+        let tip3Label = instructText("- Every thirty seconds a powerup spawns, try and time it up with a boss level.", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.15))
+        
+        
         
         addChild(tip1Label)
         addChild(tip2Label)
+        addChild(tip3Label)
+
         
         
         
