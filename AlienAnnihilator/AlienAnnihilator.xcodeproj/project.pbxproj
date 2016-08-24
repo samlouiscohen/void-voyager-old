@@ -14,6 +14,10 @@
 		A42099C81D3843BA00C38DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42099C71D3843BA00C38DEF /* Assets.xcassets */; };
 		A42099CB1D3843BA00C38DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42099C91D3843BA00C38DEF /* LaunchScreen.storyboard */; };
 		A42099D61D3843BA00C38DEF /* AlienAnnihilatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */; };
+		A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */; };
+		A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */; };
+		A4A124E21D6DFC1600A1F22C /* Guns.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E11D6DFC1600A1F22C /* Guns.swift */; };
+		A4A124E41D6E0D7700A1F22C /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E31D6E0D7700A1F22C /* ViewController2.swift */; };
 		A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709461D526D2200E1B50F /* GameOverScene.swift */; };
 		A4E709491D52848900E1B50F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709481D52848900E1B50F /* StartScene.swift */; };
 		A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */; };
@@ -22,6 +26,7 @@
 		A4FCA7B31D610C16003BF287 /* SpaceShip.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FCA7B21D610C16003BF287 /* SpaceShip.swift */; };
 		A4FCA7B51D610C7D003BF287 /* Bosses.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FCA7B41D610C7D003BF287 /* Bosses.swift */; };
 		A4FCA7B71D621733003BF287 /* PauseButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FCA7B61D621733003BF287 /* PauseButton.swift */; };
+		A4FCA7BF1D627190003BF287 /* PowerUps.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4FCA7BE1D627190003BF287 /* PowerUps.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +51,10 @@
 		A42099D11D3843BA00C38DEF /* AlienAnnihilatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlienAnnihilatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlienAnnihilatorTests.swift; sourceTree = "<group>"; };
 		A42099D71D3843BA00C38DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseButton2.swift; sourceTree = "<group>"; };
+		A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
+		A4A124E11D6DFC1600A1F22C /* Guns.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Guns.swift; path = AlienAnnihilator/Guns.swift; sourceTree = "<group>"; };
+		A4A124E31D6E0D7700A1F22C /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		A4E709461D526D2200E1B50F /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A4E709481D52848900E1B50F /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
@@ -54,6 +63,7 @@
 		A4FCA7B21D610C16003BF287 /* SpaceShip.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpaceShip.swift; sourceTree = "<group>"; };
 		A4FCA7B41D610C7D003BF287 /* Bosses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bosses.swift; sourceTree = "<group>"; };
 		A4FCA7B61D621733003BF287 /* PauseButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseButton.swift; sourceTree = "<group>"; };
+		A4FCA7BE1D627190003BF287 /* PowerUps.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PowerUps.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +87,7 @@
 		A42099B01D3843BA00C38DEF = {
 			isa = PBXGroup;
 			children = (
+				A4A124E11D6DFC1600A1F22C /* Guns.swift */,
 				A42099BB1D3843BA00C38DEF /* AlienAnnihilator */,
 				A42099D41D3843BA00C38DEF /* AlienAnnihilatorTests */,
 				A42099BA1D3843BA00C38DEF /* Products */,
@@ -97,8 +108,11 @@
 			children = (
 				A42099BC1D3843BA00C38DEF /* AppDelegate.swift */,
 				A42099C01D3843BA00C38DEF /* GameScene.swift */,
+				A4FCA7BE1D627190003BF287 /* PowerUps.swift */,
 				A4FCA7B61D621733003BF287 /* PauseButton.swift */,
+				A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */,
 				A4FCA7B01D610C0A003BF287 /* Aliens.swift */,
+				A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */,
 				A4FCA7B21D610C16003BF287 /* SpaceShip.swift */,
 				A4FCA7B41D610C7D003BF287 /* Bosses.swift */,
 				A4E7094E1D53DC2C00E1B50F /* Timer.swift */,
@@ -106,6 +120,7 @@
 				A4E709481D52848900E1B50F /* StartScene.swift */,
 				A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */,
 				A42099C21D3843BA00C38DEF /* GameViewController.swift */,
+				A4A124E31D6E0D7700A1F22C /* ViewController2.swift */,
 				A42099C41D3843BA00C38DEF /* Main.storyboard */,
 				A42099C71D3843BA00C38DEF /* Assets.xcassets */,
 				A42099C91D3843BA00C38DEF /* LaunchScreen.storyboard */,
@@ -225,14 +240,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4FCA7BF1D627190003BF287 /* PowerUps.swift in Sources */,
 				A4FCA7B71D621733003BF287 /* PauseButton.swift in Sources */,
 				A42099C11D3843BA00C38DEF /* GameScene.swift in Sources */,
 				A42099C31D3843BA00C38DEF /* GameViewController.swift in Sources */,
+				A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */,
+				A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */,
 				A4FCA7B31D610C16003BF287 /* SpaceShip.swift in Sources */,
 				A4E7094F1D53DC2C00E1B50F /* Timer.swift in Sources */,
 				A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */,
 				A4FCA7B51D610C7D003BF287 /* Bosses.swift in Sources */,
 				A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */,
+				A4A124E41D6E0D7700A1F22C /* ViewController2.swift in Sources */,
+				A4A124E21D6DFC1600A1F22C /* Guns.swift in Sources */,
 				A4FCA7B11D610C0A003BF287 /* Aliens.swift in Sources */,
 				A4E709491D52848900E1B50F /* StartScene.swift in Sources */,
 				A42099BD1D3843BA00C38DEF /* AppDelegate.swift in Sources */,

@@ -169,7 +169,7 @@ class StartScene: SKScene{
                 let gameScene:GameScene = GameScene(size: self.view!.bounds.size)
                 gameScene.scaleMode = SKSceneScaleMode.Fill
                 //Present it with a transition
-                self.view!.presentScene(gameScene, transition: SKTransition.crossFadeWithDuration(1))//fadeWithColor(UIColor.blackColor(), duration: 2))
+                self.view!.presentScene(gameScene, transition: SKTransition.crossFadeWithDuration(2))//fadeWithColor(UIColor.blackColor(), duration: 2))
             }
         )
     }

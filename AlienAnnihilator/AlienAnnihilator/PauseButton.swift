@@ -27,8 +27,7 @@ class PauseButton:SKSpriteNode{
     
     
     
-    
-    
+
     
     //var sceneSize:CGSize
     
@@ -38,78 +37,76 @@ class PauseButton:SKSpriteNode{
     
     let pausedLabel:SKLabelNode = SKLabelNode(fontNamed: "Chalkduster")
     
+    let theGameScene:GameScene
     
-    
-    init(theTexture:SKTexture){
-        
-        //sceneSize = viewSceneSize
-        
-        //paused.
+    init(theTexture:SKTexture, gameScene:GameScene){
+                
+        theGameScene = gameScene
         
         super.init(texture: theTexture, color: UIColor.clearColor(), size: theTexture.size())
-        pausedLabel.text = "Paused"
-        pausedLabel.fontSize = 14
-        pausedLabel.position = CGPoint(x:200, y:200)
+        pausedLabel.text = "PAUSED"
+        pausedLabel.color = SKColor.redColor()
+        pausedLabel.fontSize = 50
+        pausedLabel.position = CGPoint(x:(theGameScene.view?.scene?.size.width)!/2, y:(theGameScene.view?.scene?.size.height)!/2)
+        
 
         self.setScale(0.7)
         self.alpha = 0.4
-        //self.position = CGPoint(x: viewSceneSize.width - self.size.width*0.6, y: viewSceneSize.height - self.size.height*0.6)
-
 
     }
     
     
-//    func makePausedLabel() -> SKLabelNode{
-//        
-//        let pausedLabel:SKLabelNode = SKLabelNode(fontNamed: "Chalkduster")
-//        pausedLabel.text = "PAUSED"
-//        pausedLabel.fontSize = 14
-//        pausedLabel.position = CGPoint(x:CGRectGetMidX(self.frame),y:CGRectGetMidY(self.frame))
-//        
-//        return pausedLabel
-//        
-//    }
     
+
     
     
     func switchState(){
         
-        //If button already not down then set it as down
+        //Grab all of the GameScene children
+        let children = theGameScene.children
         
-        
+        //Button logic
         if(!down){
             self.setScale(0.9)
-            self.alpha = 1
+            
             down = true
             scene!.paused = true
-            //GameScene.addChild(pausedLabel)
+            
+            
+            for child in children{
+                print(child.name)
+                child.alpha = 0.5
+                if(child.name == "controlStick"||child.name == "controlBase"){
+                    child.alpha = 0.125
+                }
+                
+                self.alpha = 1
+            }
+            
+            //Apparently labels should be added from within gamescene not from this class
+            theGameScene.addChild(pausedLabel)
         }
         else{
             self.setScale(0.7)
-            self.alpha = 0.5
+            
             down = false
             scene!.paused = false
+            for child in children{
+                child.alpha = 1
+                
+                if(child.name == "controlStick"||child.name == "controlBase"){
+                    child.alpha = 0.25
+                }
+            }
+            self.alpha = 0.5
+
+            
+            pausedLabel.removeFromParent()
         }
         
     }
 
-    
-    func inAndDown(){
-        //self.texture = downTexture
-        self.setScale(0.9)
-        self.alpha = 1
-        down = true
-    }
-    func up(){
-        self.setScale(0.7)
-        self.alpha = 0.5
-        down = false
-    }
-    func slideoff_up(){
-        self.texture = upTexture
-    }
-    
-    
+
     
     
     required init?(coder aDecoder: NSCoder) {

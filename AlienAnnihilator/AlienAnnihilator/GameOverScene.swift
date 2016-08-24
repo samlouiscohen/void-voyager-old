@@ -43,7 +43,6 @@ class GameOverScene: SKScene {
         
         let killedLabel = SKLabelNode(fontNamed: "Chalkduster")
 
-        //killedLabel.text = "However, you managed to kill " + String(deadAliens) + " Aliens and " + String(deadBosses) + " Bosses."
         killedLabel.text = "However, you managed to kill " + String(deadAliens) + " Aliens and " + String(deadBosses) + " Bosses."
 
         killedLabel.fontSize = 20
