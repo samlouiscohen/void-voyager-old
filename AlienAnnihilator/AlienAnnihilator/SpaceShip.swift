@@ -366,6 +366,8 @@ class Laser:SKSpriteNode{
 
 class Ship:SKSpriteNode{
     
+    var progressBar = ProgressBar?()
+    
     static var shipState = "norm"
     //var laser: Laser = Laser()
     
@@ -379,7 +381,7 @@ class Ship:SKSpriteNode{
     ]
     
     
-    
+    var powerupOn = false
     
     //All variables as to allow for powerups?
     var moveSpeed:CGFloat
@@ -454,35 +456,51 @@ class Ship:SKSpriteNode{
     
     func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
         updateVelocity(v)
+        
+        progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
+        
         //ect. ect.
     }
     
     
-    
-    
-    
-    
+ 
     
     //Timer to deactivate a given powerup
     
-    func startPowerupTimer(powerupTime:Int){
+    func startPowerupTimer(powerupTime:CGFloat){
+        
+        
+        
+        
+        progressBar = ProgressBar(progressBarTime: powerupTime, shipSize:self.size)
+        
+        self.parent?.addChild(progressBar!)
+        print("PARENT!!", self.parent)
+        //self.addChild(progressBar)
         
         print("END THE GUN NOW!!!")
-        var timeLeft:Int = powerupTime
+        var timeLeft:CGFloat = powerupTime
         
-        let oneSecondWait = SKAction.waitForDuration(1)
+        let oneSecondWait = SKAction.waitForDuration(0.1)
         
         //Function to add the timer label HERE
         
         func modifyTimer(){
             
             if(timeLeft > 0){
-                timeLeft -= 1
+                timeLeft -= 0.1
+                
+                progressBar!.size.height = (progressBar!.startHeight * (timeLeft/powerupTime))
+//                progressBar.position = CGPoint(x: self.position.x - self.size.width, y: self.position.y)
+//                
+//                progressBar.update()
+                
                 print(timeLeft)
                 
             }
             else{
                 //remove label here
+                self.progressBar?.removeFromParent()
                 
                 if(self.gun.gunSettings.name == "machineGun"){ removeMachineGun() }
                 resetGun()

@@ -266,6 +266,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         startSpawningPowerUps()
 
+//        let prog = ProgressBar()
+//        prog.position = CGPoint(x:200,y:200)
+//        
+//        addChild(prog)
+        
 
     }
     
@@ -276,7 +281,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startSpawningPowerUps(){
         self.runAction(SKAction.repeatActionForever(SKAction.sequence([
             
-            SKAction.waitForDuration(30),
+            SKAction.waitForDuration(3),
             SKAction.runBlock(spawnPowerUps)
             
             
@@ -976,6 +981,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         
         
+//        self.enumerateChildNodesWithName("progressBar",
+//                                         usingBlock: { node, _ in
+//                                            if let progressBar = node as? ProgressBar {
+//                                                progressBar.update()
+//                                                
+//                                            }
+//            }
+//        )
+
         
         self.enumerateChildNodesWithName("bossAlien",
             usingBlock: { node, _ in
