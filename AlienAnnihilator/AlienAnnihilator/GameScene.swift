@@ -58,14 +58,19 @@ var shipAnimationFrames : [SKTexture]!
 
 //Preload textures of GameScene before running it
 let laserTexture = SKTextureAtlas(named:"Sprites").textureNamed("laser")
-let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("samShip1")
+//let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("samShip1")
+let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("goodship1")
+
 
 let powerupBallTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBall")
 //let fireRateBallTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBall")
 
-let powerupBallHugeTexture = SKTextureAtlas(named:"Sprites").textureNamed("Hugepowerupball")
-let powerupBallSprayTexture = SKTextureAtlas(named:"Sprites").textureNamed("spraypowerupBall")
-let powerupBallRapidTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallRapid")
+let powerupBallHugeTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallHuge")
+let powerupBallSprayTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallSpray")
+let powerupBallRapidTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallRapid2")
+//let powerupBallRapid2Texture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallRapid")
+
+
 
 let hugeLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("hugeLaser")
 let sprayLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("sprayBallLaser")
@@ -76,7 +81,7 @@ let sydFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("sydParty")
 
 
 
-var trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("trumpFaceOpen1")
+var trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("mainAlien1")
 let mikeFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("mikeAlien")
 let behindAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("alien1_1")
 
@@ -97,10 +102,15 @@ let textureAtlas = SKTextureAtlas(named:"Sprites")
 let backgroundFrames = ["bg1","bg2","bg3","bg4","bg5","bg6","bg7","bg8"]
 
 
+let shipFrames = ["goodship1","goodship1","goodship1","goodship2","goodship2","goodship3","goodship4","goodship3","goodship2","goodship2"].map{textureAtlas.textureNamed($0)}// look up map
 
-let shipFrames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
+let samShipFrames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
     "shipSam10","shipSam10","shipSam10","shipSam10","shipSam10",
     "shipSam9","shipSam8","shipSam7","shipSam6","shipSam5","shipSam4","shipSam3","shipSam2","shipSam1"].map{textureAtlas.textureNamed($0)}// look up map
+
+
+let mainAlienFrames = ["mainAlien","mainAlien1","mainAlien2","mainAlien3","mainAlien4","mainAlien5","mainAlien6","mainAlien7","mainAlien8","mainAlien9","mainAlien10","mainAlien9","mainAlien8","mainAlien7","mainAlien6","mainAlien5","mainAlien4","mainAlien3","mainAlien2","mainAlien1","mainAlien",].map{textureAtlas.textureNamed($0)}
+
 
 let trumpFrames = ["trumpFaceOpen1","trumpFaceOpen2","trumpFaceOpen3","trumpFaceOpen4"].map{textureAtlas.textureNamed($0)}// look up map
 let behindFrames = ["alien1_1","alien1_2","alien1_3","alien1_4","alien1_5","alien1_6","alien1_7","alien1_8",
@@ -305,7 +315,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startSpawningPowerUps(){
         self.runAction(SKAction.repeatActionForever(SKAction.sequence([
             
-            SKAction.waitForDuration(30),
+            SKAction.waitForDuration(3),
             SKAction.runBlock(spawnPowerUps)
             
             

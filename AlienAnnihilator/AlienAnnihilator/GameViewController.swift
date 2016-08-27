@@ -33,7 +33,7 @@ class GameViewController: UIViewController{//, GKGameCenterControllerDelegate {
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = false
-        //skView.showsPhysics = true
+        skView.showsPhysics = true
         
         
         //scene.size = skView.bounds.size //???Added becuase screen dimensions didnt make sense?

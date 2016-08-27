@@ -396,7 +396,10 @@ class Ship:SKSpriteNode{
     var gun:GenericGun = GenericGun()
     
     
-    let scaleFactor:CGFloat = 0.5
+    //let scaleFactor:CGFloat = 0.5
+    
+    let scaleFactor:CGFloat = 0.07
+
     
     init(startPosition startPos:CGPoint, controllerVector:CGVector){
         
@@ -448,7 +451,9 @@ class Ship:SKSpriteNode{
     
     
     func animateShip1() {
-        let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.1)
+        //let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.1) //Sam ship
+        let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.3)
+
         let forever = SKAction.repeatActionForever(animate)
         self.runAction(forever)
     }

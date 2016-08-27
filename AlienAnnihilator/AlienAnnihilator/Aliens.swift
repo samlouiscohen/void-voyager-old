@@ -25,10 +25,11 @@ class Alien:SKSpriteNode{
         //Makes sure the SKSpriteNode is initialized before modifying its properties
         super.init(texture: texture, color: UIColor.clearColor(), size: texture.size())
         
-        self.setScale(0.2)
-        
+        //self.setScale(0.2)
+        self.setScale(0.05)
         //PhysicsBody is a property of super so super.init must be called first (init SKSpriteNode)
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/1.5)
+        
         self.physicsBody?.dynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Alien //physicsBody?. is optional chaining? //IS this asking if the physics body exists?
         self.physicsBody?.collisionBitMask = PhysicsCategory.Laser //Do I need this? or jsut use in laser class
@@ -71,7 +72,7 @@ class normAlien:Alien{
         
         super.init(texture:faceTexture, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: -1,dy: 0))
         
-        if(!partyMode){self.animateTrump()}
+        if(!partyMode){self.animateAlien()}//self.animateTrump()}
         else{self.setScale(0.4)}
         
         self.name = "normAlien"
@@ -85,6 +86,19 @@ class normAlien:Alien{
         self.runAction(forever, withKey: "facialMotion")
         
     }
+    
+    
+    func animateAlien(){
+        
+        
+        let animate = SKAction.animateWithTextures(mainAlienFrames, timePerFrame: 0.1)
+        
+        let forever = SKAction.repeatActionForever(animate)
+        self.runAction(forever, withKey: "facialMotion")
+        
+        
+    }
+    
     
 
     

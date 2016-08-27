@@ -68,6 +68,8 @@ struct MachineGunBall:PowerupBallVariables{
 class PowerUpBall:SKSpriteNode{
     //The 'container' for powerups
     
+    let imageScale:CGFloat = 0.06
+    let originalTextureSize:CGSize
     
     var ballSettings:PowerupBallVariables //What does this really do?
     
@@ -79,10 +81,20 @@ class PowerUpBall:SKSpriteNode{
         
         ballSettings = theBallSettings
         
-        super.init(texture: ballSettings.texture, color: UIColor.clearColor(), size: ballSettings.texture.size())
+        originalTextureSize = ballSettings.texture.size()
         
         
-        self.physicsBody = SKPhysicsBody(circleOfRadius: ballSettings.texture.size().width/2)
+        super.init(texture: ballSettings.texture, color: UIColor.clearColor(), size: CGSize(width:originalTextureSize.width * imageScale, height:originalTextureSize.height * imageScale))
+        
+        
+        //self.setScale(imageScale)
+        
+        //print(self.)
+        
+        
+        //self.physicsBody = SKPhysicsBody(circleOfRadius: ballSettings.texture.size().width/2)
+        self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
+
         self.physicsBody?.dynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.PowerUp
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship
