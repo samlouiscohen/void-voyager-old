@@ -86,9 +86,17 @@ let boss1BigEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("bos
 let boss1SmallEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEye")
 let boss1SmallEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEyeSocket2")
 
+//let starTexture = SKTextureAtlas(named:"Sprites").textureNamed("star")
+
+let spaceBackgroundTexture = SKTextureAtlas(named:"Sprites").textureNamed("spaceBackground")
+
 
 
 let textureAtlas = SKTextureAtlas(named:"Sprites")
+
+let backgroundFrames = ["bg1","bg2","bg3","bg4","bg5","bg6","bg7","bg8"]
+
+
 
 let shipFrames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
     "shipSam10","shipSam10","shipSam10","shipSam10","shipSam10",
@@ -153,7 +161,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let controlBase = SKSpriteNode(texture: controllerBaseTexture, color: UIColor.clearColor(), size: controllerBaseTexture.size())
     var controllerOn:Bool = false
 
-    
+    //var background:BackGroundAnimation
     //Pause button...
     var pauseButton = PauseButton?()
 
@@ -161,12 +169,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //Main scene did move to view drawing
     override func didMoveToView(view: SKView) {
         
+//        let background = SKSpriteNode(texture: spaceBackgroundTexture)
+////        background.size = CGSize(width: frame.size.width, height: frame.size.height)
+//        background.size = CGSize(width: self.size.width, height: self.size.height)
+//
+//        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
+//        addChild(background)
+//        print(background.size.width, "HELELEOEOEOEOOOOOOOOOOOOOOOOOOOOO")
+
+        
+        
+//        background = BackGroundAnimation(aView:view)
+//        background.animate()
+//        
+//        self.addChild(background)
+        
+        
         //let powerup = PowerUpBall(startPos: CGPoint(x:200,y:200), ballSpeed: 8)
 //        let powerup = increaseFireRateBall()
         
         
         //print("hi")
-        self.runAction(SKAction.fadeInWithDuration(0))
+        //self.runAction(SKAction.fadeInWithDuration(0))
         
         //super.didMoveToView(view)
         //self.size = view.frame.size
@@ -281,7 +305,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func startSpawningPowerUps(){
         self.runAction(SKAction.repeatActionForever(SKAction.sequence([
             
-            SKAction.waitForDuration(3),
+            SKAction.waitForDuration(30),
             SKAction.runBlock(spawnPowerUps)
             
             
@@ -999,6 +1023,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 }
             }
         )
+        
+        
+        
+//        self.background.enumerateChildNodesWithName("star",
+//                                         usingBlock: { node, _ in
+//                                            
+//                                            
+//                                            if(node.position.x > self.scene?.size.width){
+//                                                print("PAST!!!!")
+//                                                node.position.x = 10
+//                                            }
+//                                            
+////                                            if let aStar = node as? bossAlien1 {
+////                                                bossSprite.update(self.aShip)
+////                                                
+////                                            }
+//            }
+//        )
+        
 //
 //        
 //        self.enumerateChildNodesWithName("normAlien",

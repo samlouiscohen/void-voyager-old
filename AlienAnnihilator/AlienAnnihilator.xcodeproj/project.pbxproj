@@ -16,9 +16,9 @@
 		A42099D61D3843BA00C38DEF /* AlienAnnihilatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */; };
 		A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */; };
 		A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */; };
-		A4A124E21D6DFC1600A1F22C /* Guns.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E11D6DFC1600A1F22C /* Guns.swift */; };
-		A4A124E41D6E0D7700A1F22C /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E31D6E0D7700A1F22C /* ViewController2.swift */; };
 		A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E51D6E625400A1F22C /* ProgressBar.swift */; };
+		A4A124E81D6F3DBB00A1F22C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4A124E71D6F3DBB00A1F22C /* GameKit.framework */; };
+		A4A124EA1D6F4CC600A1F22C /* BackGroundAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */; };
 		A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709461D526D2200E1B50F /* GameOverScene.swift */; };
 		A4E709491D52848900E1B50F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709481D52848900E1B50F /* StartScene.swift */; };
 		A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */; };
@@ -54,9 +54,9 @@
 		A42099D71D3843BA00C38DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseButton2.swift; sourceTree = "<group>"; };
 		A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
-		A4A124E11D6DFC1600A1F22C /* Guns.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Guns.swift; path = AlienAnnihilator/Guns.swift; sourceTree = "<group>"; };
-		A4A124E31D6E0D7700A1F22C /* ViewController2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 		A4A124E51D6E625400A1F22C /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
+		A4A124E71D6F3DBB00A1F22C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
+		A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackGroundAnimation.swift; sourceTree = "<group>"; };
 		A4E709461D526D2200E1B50F /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A4E709481D52848900E1B50F /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
@@ -73,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4A124E81D6F3DBB00A1F22C /* GameKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +90,7 @@
 		A42099B01D3843BA00C38DEF = {
 			isa = PBXGroup;
 			children = (
-				A4A124E11D6DFC1600A1F22C /* Guns.swift */,
+				A4A124E71D6F3DBB00A1F22C /* GameKit.framework */,
 				A42099BB1D3843BA00C38DEF /* AlienAnnihilator */,
 				A42099D41D3843BA00C38DEF /* AlienAnnihilatorTests */,
 				A42099BA1D3843BA00C38DEF /* Products */,
@@ -123,7 +124,7 @@
 				A4E709481D52848900E1B50F /* StartScene.swift */,
 				A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */,
 				A42099C21D3843BA00C38DEF /* GameViewController.swift */,
-				A4A124E31D6E0D7700A1F22C /* ViewController2.swift */,
+				A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */,
 				A42099C41D3843BA00C38DEF /* Main.storyboard */,
 				A42099C71D3843BA00C38DEF /* Assets.xcassets */,
 				A42099C91D3843BA00C38DEF /* LaunchScreen.storyboard */,
@@ -192,6 +193,11 @@
 					A42099B81D3843BA00C38DEF = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = ULK9NT2PC9;
+						SystemCapabilities = {
+							com.apple.GameCenter = {
+								enabled = 1;
+							};
+						};
 					};
 					A42099D01D3843BA00C38DEF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -244,6 +250,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4FCA7BF1D627190003BF287 /* PowerUps.swift in Sources */,
+				A4A124EA1D6F4CC600A1F22C /* BackGroundAnimation.swift in Sources */,
 				A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */,
 				A4FCA7B71D621733003BF287 /* PauseButton.swift in Sources */,
 				A42099C11D3843BA00C38DEF /* GameScene.swift in Sources */,
@@ -255,8 +262,6 @@
 				A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */,
 				A4FCA7B51D610C7D003BF287 /* Bosses.swift in Sources */,
 				A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */,
-				A4A124E41D6E0D7700A1F22C /* ViewController2.swift in Sources */,
-				A4A124E21D6DFC1600A1F22C /* Guns.swift in Sources */,
 				A4FCA7B11D610C0A003BF287 /* Aliens.swift in Sources */,
 				A4E709491D52848900E1B50F /* StartScene.swift in Sources */,
 				A42099BD1D3843BA00C38DEF /* AppDelegate.swift in Sources */,

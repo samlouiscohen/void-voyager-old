@@ -102,7 +102,7 @@ class PowerUpBall:SKSpriteNode{
         //These are all staying the same for now
         self.physicsBody?.velocity = CGVector(dx:-20,dy:0)
         //self.position = CGPoint(x:(scene?.size.width)!/2,y: (scene?.size.height)!/2)    =
-        self.position = CGPoint(x:400,y:200)
+        self.position = CGPoint(x:800,y:200)
         
     }
     

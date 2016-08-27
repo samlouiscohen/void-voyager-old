@@ -9,11 +9,22 @@
 
 import Foundation
 import SpriteKit
+import GameKit
 
-class GameOverScene: SKScene {
+
+
+class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
+    
+    
+    // we need to make sure to set this when we create our GameScene
+    var viewController: GameViewController!
+    
     
     var deadAliens:Int
     var deadBosses:Int
+    
+    let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
+    let leaderboardLabel = SKLabelNode(fontNamed: "Chalkduster")
     
     init(size: CGSize, aliensKilled:Int, numberBossesKilled:Int) {
         deadBosses = numberBossesKilled
@@ -24,6 +35,15 @@ class GameOverScene: SKScene {
     
     
     override func didMoveToView(view: SKView) {
+        
+        //Leaderboard
+        //authPlayer()
+//        saveHighscore(deadAliens)
+        //saveHighscore(15)
+        saveHighscore(deadAliens + deadBosses*50)
+
+        
+        
         // 1
         backgroundColor = SKColor.blackColor()
         
@@ -64,20 +84,25 @@ class GameOverScene: SKScene {
         samLabel.userInteractionEnabled = false
         addChild(samLabel)
         
-        let resartLabel = SKLabelNode(fontNamed: "Chalkduster")
+//        let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
         
-        resartLabel.text = "Tap anywhere to restart!"
-        resartLabel.fontSize = 12
-        resartLabel.fontColor = SKColor.redColor()
-        resartLabel.position = CGPoint(x: size.width*0.85, y: size.height*0.1)
-        resartLabel.userInteractionEnabled = false
-        addChild(resartLabel)
-        
-        
+        restartLabel.text = "Tap here to restart!"
+        restartLabel.fontSize = 12
+        restartLabel.fontColor = SKColor.redColor()
+        restartLabel.position = CGPoint(x: size.width*0.85, y: size.height*0.1)
+        restartLabel.userInteractionEnabled = false
+        addChild(restartLabel)
         
         
         
-    
+        
+        
+        leaderboardLabel.text = "Tap for Leaderboard"
+        leaderboardLabel.fontSize = 12
+        leaderboardLabel.fontColor = SKColor.redColor()
+        leaderboardLabel.position = CGPoint(x: size.width*0.5, y: size.height*0.2)
+//        leaderboardLabel.userInteractionEnabled = false
+        addChild(leaderboardLabel)
 
     }
     
@@ -106,10 +131,25 @@ class GameOverScene: SKScene {
             
             for touch : AnyObject in touches {
                 let location = touch.locationInNode(self)
-                print("Helllllo")
-
                 
-                restartGame()
+                
+                if(CGRectContainsPoint(restartLabel.frame, location)){
+                    restartGame()
+                }
+                
+                
+                if(CGRectContainsPoint(leaderboardLabel.frame, location)){
+                    
+                    //showLeader()
+                    //saveHighscore(12)
+                    //saveHighscore(deadAliens)
+                    //saveHighscore(deadAliens+50*deadBosses)
+                    showLeader()
+
+                    
+//                    saveHighScore(deadAliens)
+//                    showLeaderBoard()
+                }
 
                 
             }
@@ -123,10 +163,167 @@ class GameOverScene: SKScene {
         
         
         
+    
+    
+    //LeaderBoard stuff
+    
+    //All leaderboard stuff
+    
+    
+    
+    func showLeader() {
+        print("show that shit")
+        let viewControllerVar = self.view?.window?.rootViewController
+        let gKGCViewController = GKGameCenterViewController()
+        gKGCViewController.gameCenterDelegate = self
+        viewControllerVar?.presentViewController(gKGCViewController, animated: true, completion: nil)
+    }
+    
+    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    }
+    
+    
+    
+    func saveHighscore(gameScore: Int) {
+        print("Player has been authenticated.")
+        print("Save that shit")
+        print(GKLocalPlayer.localPlayer().authenticated)
         
-        
-        
-        
+        if GKLocalPlayer.localPlayer().authenticated {
+            
+            print("OFFICIALLY IN")
+            let scoreReporter = GKScore(leaderboardIdentifier: "scoreBoard")
+            scoreReporter.value = Int64(gameScore)
+            let scoreArray: [GKScore] = [scoreReporter]
+            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
+
+            
+//            GKScore.reportScores(scoreArray, withCompletionHandler: {error -> Void in
+//                if error != nil {
+//                    print("An error has occured: \(error)")
+//                }
+//            })
+        }
+    }
+    //    func saveHighScore(number:Int){
+    //
+    //
+    //        if(GKLocalPlayer.localPlayer().authenticated){
+    //
+    //            let scoreReporter = GKScore(leaderboardIdentifier: "scoreBoard")
+    //
+    //            scoreReporter.value = Int64(number)
+    //
+    //
+    //            //Takes every score reporter and put in an array and upload to leaderboard to check which is hiher ect.
+    //            let scoreArray: [GKScore] = [scoreReporter]
+    //
+    //            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
+    //            
+    //        }
+    //        
+    //    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+//    func authPlayer(){
+//        
+//        //Create a play
+//        let localPlayer = GKLocalPlayer.localPlayer()
+//        
+//        //See if signed in or not
+//        localPlayer.authenticateHandler = {
+//            //A view controller and an error handler
+//            (view,error) in
+//            
+//            //If there is a view to work with
+//            if view != nil {
+//                self.presentViewController(view!, animated:true, completion: nil) //we dont want a completion handler
+//            }
+//                
+//            else{
+//                print(GKLocalPlayer.localPlayer().authenticated)
+//            }
+//        }
+//        
+//        
+//    }
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    //Call this when ur highscore should be saved
+//    func saveHighScore(number:Int){
+//        
+//        
+//        if(GKLocalPlayer.localPlayer().authenticated){
+//            
+//            let scoreReporter = GKScore(leaderboardIdentifier: "scoreBoard")
+//            
+//            scoreReporter.value = Int64(number)
+//            
+//            
+//            //Takes every score reporter and put in an array and upload to leaderboard to check which is hiher ect.
+//            let scoreArray: [GKScore] = [scoreReporter]
+//            
+//            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
+//            
+//        }
+//        
+//    }
+//    
+//    
+//    func showLeaderBoard(){
+//        
+//        let viewController = self.view.window?.rootViewController
+//        let gcvc = GKGameCenterViewController()
+//        
+//        gcvc.gameCenterDelegate = self
+//        
+//        viewController?.presentViewController(gcvc, animated: true, completion: nil)
+//        
+//        
+//    }
+//    
+//    
+//    
+//    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
+//        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+//    }
+//    
+//    
+//    /*
+//     I need:
+//     - a add score -- right when the game is over
+//     - a call to GameCenter -- right when the game is over
+//     
+//     
+//     
+//     */
+//
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    
+//    
     
     
     // 6
