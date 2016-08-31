@@ -57,9 +57,11 @@ var shipAnimationFrames : [SKTexture]!
 
 
 //Preload textures of GameScene before running it
-let laserTexture = SKTextureAtlas(named:"Sprites").textureNamed("laser")
+//let laserTexture = SKTextureAtlas(named:"Sprites").textureNamed("laser")
+let laserTexture = SKTextureAtlas(named:"Sprites").textureNamed("laserTexture")
+
 //let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("samShip1")
-let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("goodship1")
+let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("ship0")
 
 
 let powerupBallTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBall")
@@ -72,8 +74,8 @@ let powerupBallRapidTexture = SKTextureAtlas(named:"Sprites").textureNamed("powe
 
 
 
-let hugeLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("hugeLaser")
-let sprayLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("sprayBallLaser")
+let hugeLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("HugeLaserTexture")//("hugeLaser")
+let sprayLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("SprayLaserTexture")//("sprayBallLaser")
 
 let allisonFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("allisonFace")
 let sydFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("sydParty")
@@ -81,8 +83,8 @@ let sydFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("sydParty")
 
 
 
-var trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("mainAlien1")
-let mikeFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("mikeAlien")
+var trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("behindAlien0")//("mainAlien1")
+let mikeFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("down0")//("mikeAlien")
 let behindAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("alien1_1")
 
 let boss1StartTexture = SKTextureAtlas(named:"Sprites").textureNamed("bossAlienReal0")
@@ -102,14 +104,29 @@ let textureAtlas = SKTextureAtlas(named:"Sprites")
 let backgroundFrames = ["bg1","bg2","bg3","bg4","bg5","bg6","bg7","bg8"]
 
 
-let shipFrames = ["goodship1","goodship1","goodship1","goodship2","goodship2","goodship3","goodship4","goodship3","goodship2","goodship2"].map{textureAtlas.textureNamed($0)}// look up map
+
 
 let samShipFrames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
     "shipSam10","shipSam10","shipSam10","shipSam10","shipSam10",
     "shipSam9","shipSam8","shipSam7","shipSam6","shipSam5","shipSam4","shipSam3","shipSam2","shipSam1"].map{textureAtlas.textureNamed($0)}// look up map
 
 
+let shipFrames = ["ship0","ship1","ship2","ship3","ship4","ship5","ship6","ship7","ship8","ship9","ship9","ship9","ship8","ship7","ship6","ship5","ship4","ship3","ship2","ship1","ship0"].map{textureAtlas.textureNamed($0)}// look up map
+
+
 let mainAlienFrames = ["mainAlien","mainAlien1","mainAlien2","mainAlien3","mainAlien4","mainAlien5","mainAlien6","mainAlien7","mainAlien8","mainAlien9","mainAlien10","mainAlien9","mainAlien8","mainAlien7","mainAlien6","mainAlien5","mainAlien4","mainAlien3","mainAlien2","mainAlien1","mainAlien",].map{textureAtlas.textureNamed($0)}
+
+let downAlienFrames = ["down0","down1","down2","down3","down4","down5","down6","down5","down4","down3","down2","down1"].map{textureAtlas.textureNamed($0)}
+
+let down2AlienFrames = ["down0","down1","down2","down3","down4","down5","down6","down7","down8","down9","down10","down11","down12","down13","down14","down15","down16","down17","down18","down19","down20","down21","down22","down23","down24",
+    
+    
+    
+    "down23","down22","down21","down20","down19","down18","down17","down16","down15","down14","down13","down12", "down11","down10","down9","down8","down7","down6","down5","down4","down3","down2","down1"].map{textureAtlas.textureNamed($0)}
+
+
+
+let behindAlienFrames = ["behindAlien7","behindAlien6","behindAlien5","behindAlien4","behindAlien3","behindAlien2","behindAlien1","behindAlien0","behindAlien1","behindAlien2","behindAlien3","behindAlien4","behindAlien5","behindAlien6"].map{textureAtlas.textureNamed($0)}
 
 
 let trumpFrames = ["trumpFaceOpen1","trumpFaceOpen2","trumpFaceOpen3","trumpFaceOpen4"].map{textureAtlas.textureNamed($0)}// look up map
@@ -118,6 +135,8 @@ let behindFrames = ["alien1_1","alien1_2","alien1_3","alien1_4","alien1_5","alie
     "alien1_8","alien1_7","alien1_6","alien1_5","alien1_4","alien1_3","alien1_2","alien1_1",
     
     ].map{textureAtlas.textureNamed($0)}// look up map
+
+
 let bossFrames = ["bossAlienReal10","bossAlienReal10","bossAlienReal10","bossAlienReal9","bossAlienReal9","bossAlienReal9","bossAlienReal8","bossAlienReal8","bossAlienReal7","bossAlienReal7","bossAlienReal6","bossAlienReal6","bossAlienReal5","bossAlienReal4","bossAlienReal3","bossAlienReal2","bossAlienReal1","bossAlienReal0","bossAlienReal1","bossAlienReal2","bossAlienReal3","bossAlienReal4","bossAlienReal5","bossAlienReal6","bossAlienReal6","bossAlienReal7","bossAlienReal7","bossAlienReal8","bossAlienReal8","bossAlienReal9","bossAlienReal9","bossAlienReal9","bossAlienReal10","bossAlienReal10","bossAlienReal10"].map{textureAtlas.textureNamed($0)}// look up map
 
 
@@ -295,16 +314,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Start spawning normal aliens immediately
         startSpawningNorm()
         
+        //Begin count down for bosses
+        startSpawningBosses()
+
         
+        //startSpawningPowerUps()
 
-
-        startSpawningPowerUps()
-
-//        let prog = ProgressBar()
-//        prog.position = CGPoint(x:200,y:200)
-//        
-//        addChild(prog)
-        
 
     }
     
@@ -312,17 +327,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     //This could be incremental- so u can shoot powerups, maybe they have 3 lives and if u kill it u kill it- but otherwise most will help u and they will stay the whole game
-    func startSpawningPowerUps(){
-        self.runAction(SKAction.repeatActionForever(SKAction.sequence([
-            
-            SKAction.waitForDuration(3),
-            SKAction.runBlock(spawnPowerUps)
-            
-            
-            ])))
-    }
+//    func startSpawningPowerUps(){
+//        self.runAction(SKAction.repeatActionForever(SKAction.sequence([
+//            
+//            SKAction.waitForDuration(30),
+//            SKAction.runBlock(spawnPowerUp)
+//            
+//            
+//            ])))
+//    }
     
-    func spawnPowerUps(){
+    func spawnPowerup(){
         
         let numAvailablePowerups:UInt32 = 3
         let powerup:PowerUpBall
@@ -366,15 +381,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             ])))
     }
     
-
+    
+    
+    func startSpawningBosses(){
+        
+        runAction(SKAction.repeatActionForever(SKAction.sequence([
+            
+            SKAction.waitForDuration(Double(random(40, max: 60))),
+            SKAction.runBlock(spawnBoss)
+        ])))
+        
+    }
+    
+    
     
     
     func killOffAlien(alien:SKNode){
         
+        print("Kill off")
+
+        //Disable multiple contacts
+        alien.physicsBody?.categoryBitMask = 0
+        
         func stopMotion(){
-            alien.physicsBody?.categoryBitMask = 0
-            alien.physicsBody?.collisionBitMask = 0
-            alien.physicsBody?.contactTestBitMask = 0
+            
+//            alien.physicsBody?.collisionBitMask = 0
+//            alien.physicsBody?.contactTestBitMask = 0
             
             alien.physicsBody?.dynamic = false
             alien.physicsBody?.velocity = CGVector(dx:0, dy:0)
@@ -501,12 +533,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             return
         }
 
+        killOffAlien((alien)!)
         aliensKilled = aliensKilled + 1
         shipLives = shipLives-1
         aShip.lives = aShip.lives - 1
-        
-        killOffAlien((alien)!)
-        
+
+        print("ship/alien contact")
     }
     
     
@@ -537,11 +569,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("YAYAYYAYSDYAYSFYASYDFYASYDGYSYDGYSYDGY POWER UPPPPPPPPPPPP")
 
         if let thePowerup = contact.bodyA.node as? PowerUpBall {
-            
-//            //aShip.applyPowerup(thePowerup)
-//            //thePowerup.apply(aShip)
-//            thePowerup.animateRemove()
-            
+
             thePowerup.apply(aShip)
             thePowerup.animateRemove()
             let runTime = thePowerup.ballSettings.runTime
@@ -581,16 +609,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             startSpawningBehind()
             behindNotCalledYet = false
         }
-//
-        if(aliensKilled % 60 == 0 && aliensKilled != 0 && aliensKilled != currentAliensKilled){
-            
-            spawnBoss()
-            currentAliensKilled = aliensKilled
-            
-            //print("boss")
 
+        if(aliensKilled % 50 == 0 && aliensKilled != 0 && aliensKilled != currentAliensKilled){
+            spawnPowerup()
+            currentAliensKilled = aliensKilled
         }
-        
 
         
         //Create and go to the game over scene if the ship has 0 lives
@@ -610,23 +633,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
 
-    func random(min:UInt32, max:UInt32) -> CGFloat{
-        return CGFloat(arc4random_uniform(max - min) + min)
-        //return CGFloat(arc4random_uniform(2))*(max-min) + min
-    }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
     
     //Make all this code way more compact later
     func updateNormMultipliers(){
+        //if(normAlienMultiplers[0]<)
+        
         normAlienMultiplers[0] = normAlienMultiplers[0]*1.01
         normAlienMultiplers[1] = normAlienMultiplers[1]*1.01
     }
@@ -638,14 +649,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         behindAlienMultiplers[0] = behindAlienMultiplers[0]*1.01
         behindAlienMultiplers[1] = behindAlienMultiplers[1]*1.01
     }
-    
-    
-    
-    func incrementDifficulty(){
-        
-    }
-    
-    
     
     
     
@@ -687,8 +690,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func spawnBoss(){
         bossOn = true
-        //print("Bosssssssssssss")
-        
         
         let bossSpawnLabel = SKLabelNode(fontNamed: "Times New Roman")
         //aliensKilledLabel.text = aliensKilled.description
@@ -701,9 +702,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         func addTheLabelChild(){
             
             addChild(bossSpawnLabel)
-            //print("YEAH WE GOT THISSSSS")
-            
         }
+        
         func removeSpawnLabel(){
             bossSpawnLabel.removeFromParent()
         }
@@ -722,11 +722,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             
             let labelAnimation = SKAction.sequence([fadeIn,labelWaitTime,fadeOut])
-            
-            
-            //bossSpawnLabel.runAction(SKAction.sequence([fadeIn,labelWaitTime,fadeOut]))
-            //print("hello99999")
-            
+
             let waitTillRemove = SKAction.waitForDuration(labelAnimation.duration)
             let labelRemove = SKAction.removeFromParent()
             
@@ -737,9 +733,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         let displayLabel = SKAction.sequence([SKAction.runBlock(addTheLabelChild),SKAction.runBlock(animateLabel)])
-        
-        //bossSpawnLabel.runAction(displayLabel)
-        
+
         
         //Run the display label action on the GameScene
         self.runAction(displayLabel)
@@ -762,27 +756,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let ans:CGVector = CGVector(dx:v.dx/length,dy:v.dy/length)
         return ans
     }
-    
-    
-
-
-    
-//    override func touchesMoved(touches: Set<UITouch>, withEvent event: UIEvent?) {
-//        for touch : AnyObject in touches {
-//            let location = touch.locationInNode(self)
-//            let actionBouger = SKAction.moveTo(CGPoint(x: location.x, y: location.y), duration: 2.5)
-//            ship.runAction(actionBouger)
-//            let dx = location.x - ship.position.x
-//            let dy = location.y - ship.position.y
-//            var angleInRadians = atan2(dy, dx) - CGFloat(M_PI_2)
-//            if(angleInRadians < 0){
-//                angleInRadians = angleInRadians + 2 * CGFloat(M_PI)
-//            }
-//            ship.zRotation = angleInRadians
-//            let actionAngle = SKAction.rotateToAngle(angleInRadians, duration: 0)
-//            ship.runAction(actionAngle)
-//        }
-//    }
     
 
     
@@ -819,8 +792,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             if(!CGRectContainsPoint(controlBase.frame, location) && !pauseButton!.containsPoint(location) && !scene!.paused){
                 
-                
-                //print("Has actions: ", aShip.gun.hasActions())
                 aShip.gun.shootingFingerDown = true
 
                 aShip.gun.fire()
@@ -860,7 +831,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //Play with this - Is it better than using the controller on??? (Note: u can move into the frame of the controller and move it)
             //if(controllerOn == true){
-            if(CGRectContainsPoint(controlBase.frame, location) && !scene!.paused){
+            if(CGRectContainsPoint(controlBase.frame, touchStartPoint) && !scene!.paused){
             
                 let joyVector = CGVector(dx:location.x - controlBase.position.x, dy:location.y - controlBase.position.y)
                 
@@ -873,12 +844,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let yDist:CGFloat = cos(angle - 1.57879633) * length
                 
                 //Keep the stick on its "base"
-                if(CGRectContainsPoint(controlBase.frame, location)){
-                    controlStick.position = location
-                }
-                else{
-                    controlStick.position = CGPoint(x:controlBase.position.x - xDist, y:controlBase.position.y - yDist)
-                }
+//                if(CGRectContainsPoint(controlBase.frame, location)){
+//                    controlStick.position = location
+//                }
+//                else{
+//                    controlStick.position = CGPoint(x:controlBase.position.x - xDist, y:controlBase.position.y - yDist)
+//                }
+                controlStick.position = location
+                
+                let rangeToCenterSprite = SKRange(lowerLimit: 0, upperLimit: controlBase.size.width/2 - controlStick.size.width/2)
+                let distanceConstraint:SKConstraint = SKConstraint.distance(rangeToCenterSprite, toPoint: controlBase.position)
+                controlStick.constraints = [distanceConstraint]
+                
 
             
                 //Float bc cosf only takes floats not CGFloats -> what is the real difference?
@@ -907,6 +884,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         controlStick.runAction(move)
         controlVector = CGVector(dx:0,dy:0)
     }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     
     override func touchesEnded(touches: Set<UITouch>, withEvent event: UIEvent?) {
@@ -1074,16 +1062,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //print(self.children.count)
         
-        
+        //Uncomment this
         self.aShip.gun.enumerateChildNodesWithName("laser",
                                          usingBlock: { node, _ in
                                             if let aLaser = node as? Laser {
-                                                //print(self.size.width/2)
-                                                //print(self.aShip.position.x)
-                                                //print(aLaser.position.x)
+                                                let positionInScene = self.convertPoint(aLaser.position, fromNode: self.aShip.gun)
+                                                print("realPos:  ",positionInScene)
+                                                print("self.size.width/2:  ",self.size.width/2)
+                                                print("ship.x:  ",self.aShip.position.x)
+                                                print("laser.x:  ",aLaser.position.x)
                                                 //print("hi")
-                                                if(aLaser.position.x > self.size.width*2){
+                                                
+                                                //Should ma
+                                                
+//                                                if(aLaser.position.x > self.size.width){
+                                                if(positionInScene.x > self.size.width*1.05){
+                                                    
+                                                    print("Remove laser")
+                                                
+                                                    
+                                                    
                                                     aLaser.removeFromParent()
+                                                    
+                                                    
                                                 }
                                             }
             }
