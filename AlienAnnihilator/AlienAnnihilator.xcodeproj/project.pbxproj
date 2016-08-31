@@ -19,6 +19,7 @@
 		A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E51D6E625400A1F22C /* ProgressBar.swift */; };
 		A4A124E81D6F3DBB00A1F22C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4A124E71D6F3DBB00A1F22C /* GameKit.framework */; };
 		A4A124EA1D6F4CC600A1F22C /* BackGroundAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */; };
+		A4A124EE1D75009900A1F22C /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124ED1D75009900A1F22C /* Controller.swift */; };
 		A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709461D526D2200E1B50F /* GameOverScene.swift */; };
 		A4E709491D52848900E1B50F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709481D52848900E1B50F /* StartScene.swift */; };
 		A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */; };
@@ -57,6 +58,7 @@
 		A4A124E51D6E625400A1F22C /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		A4A124E71D6F3DBB00A1F22C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackGroundAnimation.swift; sourceTree = "<group>"; };
+		A4A124ED1D75009900A1F22C /* Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
 		A4E709461D526D2200E1B50F /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A4E709481D52848900E1B50F /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 				A4E709481D52848900E1B50F /* StartScene.swift */,
 				A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */,
 				A42099C21D3843BA00C38DEF /* GameViewController.swift */,
+				A4A124ED1D75009900A1F22C /* Controller.swift */,
 				A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */,
 				A42099C41D3843BA00C38DEF /* Main.storyboard */,
 				A42099C71D3843BA00C38DEF /* Assets.xcassets */,
@@ -188,7 +191,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 0730;
-				ORGANIZATIONNAME = GuacGetters;
+				ORGANIZATIONNAME = SamuelStudios;
 				TargetAttributes = {
 					A42099B81D3843BA00C38DEF = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -255,6 +258,7 @@
 				A4FCA7B71D621733003BF287 /* PauseButton.swift in Sources */,
 				A42099C11D3843BA00C38DEF /* GameScene.swift in Sources */,
 				A42099C31D3843BA00C38DEF /* GameViewController.swift in Sources */,
+				A4A124EE1D75009900A1F22C /* Controller.swift in Sources */,
 				A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */,
 				A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */,
 				A4FCA7B31D610C16003BF287 /* SpaceShip.swift in Sources */,
@@ -393,11 +397,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: samsam489@gmail.com (SWM9WTKBNB)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = AlienAnnihilator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = GG.AlienAnnihilator;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.AlienAnnihilator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};
@@ -407,11 +411,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Samuel Cohen (ULK9NT2PC9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = AlienAnnihilator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = GG.AlienAnnihilator;
+				PRODUCT_BUNDLE_IDENTIFIER = SS.AlienAnnihilator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 			};

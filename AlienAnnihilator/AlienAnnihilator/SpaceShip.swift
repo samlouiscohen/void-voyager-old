@@ -22,7 +22,6 @@ protocol GunVariables {
     var loadTimeSet:Double {get set}
     var semiAutomatic:Bool {get set}
     var name:String {get set}
-    
 }
 
 struct normGunVariables:GunVariables{
@@ -32,7 +31,7 @@ struct normGunVariables:GunVariables{
     var loadTimeSet:Double = 0.5
     var semiAutomatic: Bool = true
     var name:String = "normGun"
-    
+    var laserbody:SKPhysicsBody =  SKPhysicsBody(circleOfRadius: laserTexture.size().width/2)
 }
 
 struct hugeGunVariables:GunVariables{
@@ -42,7 +41,7 @@ struct hugeGunVariables:GunVariables{
     var loadTimeSet:Double = 0
     var semiAutomatic:Bool = true
     var name:String = "hugeGun"
-    
+    var laserbody:SKPhysicsBody =  SKPhysicsBody(rectangleOfSize:CGSize(width: hugeLaserTexture.size().width,height: hugeLaserTexture.size().height)) //(circleOfRadius: hugeLaserTexture.size().width/2)
 }
 
 struct machineGunVariables:GunVariables{
@@ -50,6 +49,7 @@ struct machineGunVariables:GunVariables{
     var loadTimeSet:Double = 0
     var semiAutomatic:Bool = false //Automatic- I don't love this variable name (Not as explicit on Automatic case)
     var name:String = "machineGun"
+    var laserbody:SKPhysicsBody =  SKPhysicsBody(circleOfRadius: laserTexture.size().width/2)
 }
 
 
@@ -79,15 +79,19 @@ class SprayGun:GenericGun{
         print("ADD SPRAY LASERS!")
         
         laser1 = Laser(theLaserTexture: sprayLaserTexture)//gunSettings.theLaserTexture)
+        //laser1.moveToParent(self.scene!)
         laser1.physicsBody!.velocity = CGVector(dx:500,dy:0)
         
         laser2 = Laser(theLaserTexture: sprayLaserTexture)//gunSettings.theLaserTexture)
+        //laser2.moveToParent(self.scene!)
         laser2.physicsBody!.velocity = CGVector(dx:450,dy:160)
         
         laser3 = Laser(theLaserTexture: sprayLaserTexture)//gunSettings.theLaserTexture)
+        //laser3.moveToParent(self.scene!)
         laser3.physicsBody!.velocity = CGVector(dx:450,dy:-160)
         
         laser4 = Laser(theLaserTexture: sprayLaserTexture)//gunSettings.theLaserTexture)
+        //laser4.moveToParent(self.scene!)
         laser4.physicsBody!.velocity = CGVector(dx:-500,dy:0)
         
         
@@ -180,20 +184,39 @@ class GenericGun:SKNode, Gun{
     func addLaser(){
         print("Add Laser")
         laser = Laser(theLaserTexture: gunSettings.theLaserTexture)
+
+        
+        if(self.gunSettings.name == "hugeGun"){
+            laser.physicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: hugeLaserTexture.size().width,height: hugeLaserTexture.size().height))
+            laser.physicsBody?.dynamic = true
+            laser.physicsBody?.categoryBitMask = PhysicsCategory.Laser
+            laser.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
+            laser.physicsBody?.collisionBitMask = PhysicsCategory.None
+            laser.physicsBody?.collisionBitMask = 0;
+            laser.physicsBody?.usesPreciseCollisionDetection = true
+            laser.physicsBody?.linearDamping = 0.0;
+        }
+        
         self.addChild(laser)
         
-        //This line was moved from right after the call to addLaser()
-        self.laser.physicsBody!.velocity = CGVector(dx:500,dy:0)
+        //Make the laser a child of the scene so it uses the scenes coordinates
+        //laser.moveToParent(self.scene!)
+
+        
+        if(self.gunSettings.name == "hugeGun"){
+            self.laser.physicsBody!.velocity = CGVector(dx:250,dy:0)
+        }
+        else{
+            self.laser.physicsBody!.velocity = CGVector(dx:500,dy:0)
+
+        }
+        
+        
     }
     
     //Ready laser and apply a foward velocity to it
     func shoot(){
         print("shoot")
-        
-        
-        //        if(!self.gunSettings.semiAutomatic && self.shootingFingerDown){
-        //            continualShooting()
-        //        }
         
         //We cannot shoot if we're still loading the gun
         if(stillLoading){
@@ -202,8 +225,6 @@ class GenericGun:SKNode, Gun{
         
         //If the gun is done loading we can shoot
         addLaser()
-        //self.laser.physicsBody!.velocity = CGVector(dx:500,dy:0)
-        
         
         //After shooting start loading gun timer again
         stillLoading = true
@@ -313,16 +334,18 @@ class GenericGun:SKNode, Gun{
 
 class Laser:SKSpriteNode{
     
-    var scaleSize:CGFloat = 0.6
-    
-    
+    let scaleFactor:CGFloat = 0.07
+
     
     init(theLaserTexture:SKTexture){
         
         super.init(texture: theLaserTexture, color: UIColor.clearColor(), size: theLaserTexture.size())
         
         //Laser physics
-        self.physicsBody = SKPhysicsBody(circleOfRadius: theLaserTexture.size().width/2)
+        
+        //self.setScale(scaleFactor)
+        
+        self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2) //Can be overridden
         self.physicsBody?.dynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
@@ -331,21 +354,14 @@ class Laser:SKSpriteNode{
         self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.linearDamping = 0.0;
         
-        self.setScale(scaleSize)
-        
         self.name = "laser"
-        //remove()
-    }
-    
-    
-    //Is this more sensable than removing from the scene itself?
-    func remove(){
         
-        print("in function")
-        if(self.position.x > (scene?.size.width)!/2){
-            self.removeFromParent()
-        }
+        
+        print("-----------------------------------------------------------------", self.anchorPoint)
+        
+        
     }
+
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -353,13 +369,39 @@ class Laser:SKSpriteNode{
     
 }
 
+class rectLaser:SKSpriteNode{
+    
+    let scaleFactor:CGFloat = 0.07
+    
+    init(theLaserTexture:SKTexture){
+        
+        super.init(texture: theLaserTexture, color: UIColor.clearColor(), size: theLaserTexture.size())
+        
+        //Laser physics
+        //self.setScale(scaleFactor)
+        
+        self.physicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: theLaserTexture.size().width,height: theLaserTexture.size().height))
+        self.physicsBody?.dynamic = true
+        self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
+        self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
+        self.physicsBody?.collisionBitMask = PhysicsCategory.None
+        self.physicsBody?.collisionBitMask = 0;
+        self.physicsBody?.usesPreciseCollisionDetection = true
+        self.physicsBody?.linearDamping = 0.0;
+        
+        self.name = "laser"
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
 
 
 
 
 
-
-
+}
 
 
 //--------------------------------Ship class-------------------------------
@@ -391,6 +433,7 @@ class Ship:SKSpriteNode{
     var lasers = [SKSpriteNode]()
     var canShoot = false
     
+    let las = SKSpriteNode(texture:laserTexture)
     
     
     var gun:GenericGun = GenericGun()
@@ -415,16 +458,27 @@ class Ship:SKSpriteNode{
         attachGun(gun)
         
         //This scale should be corrected within photoshop itself
+        //self.setScale(scaleFactor)
+        //This scale should be corrected within photoshop itself
         self.setScale(scaleFactor)
         
-        //Physics of the ship
-        self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
+        
+        //Physics of the shiptheLaserTexture.size().height)
+        self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.size)//SKPhysicsBody(circleOfRadius: self.size.width/2.2)
+        
+        
+        //self.physicsBody = SKPhysicsBody(circleOfRadius: theLaserTexture.size().width/2)
+        //self.physicsBody = SKPhysicsBody(texture: shipStartTexture, size: shipStartTexture.size())
+        
+        //self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.texture!.size())
+
         self.physicsBody?.dynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Ship
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
         self.physicsBody?.allowsRotation = false
         self.physicsBody?.angularVelocity = CGFloat(0)
+        self.physicsBody?.usesPreciseCollisionDetection = true
         self.physicsBody?.affectedByGravity = false //TBD
         
         self.physicsBody?.velocity.dx = controllerVector.dx * moveSpeed
@@ -434,7 +488,10 @@ class Ship:SKSpriteNode{
         
         //Call animations
         self.animateShip1()
+        self.addChild(las)
         
+        
+
     }
     
     
@@ -445,14 +502,19 @@ class Ship:SKSpriteNode{
     
     
     func attachGun(gun:GenericGun){
-        gun.position = CGPointMake(self.size.width/2 + (self.size.width/15),-self.size.width/30)
+//        gun.position = CGPointMake(self.size.width/2 + (self.size.width/15),-self.size.width/30)
+        
+
+        
+        gun.position = CGPointMake(0, 0)
+
         self.addChild(gun)
     }
     
     
     func animateShip1() {
         //let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.1) //Sam ship
-        let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.3)
+        let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.1)
 
         let forever = SKAction.repeatActionForever(animate)
         self.runAction(forever)
@@ -480,9 +542,7 @@ class Ship:SKSpriteNode{
         progressBar = ProgressBar(progressBarTime: powerupTime, shipSize:self.size)
         
         self.parent?.addChild(progressBar!)
-        print("PARENT!!", self.parent)
-        //self.addChild(progressBar)
-        
+
         print("END THE GUN NOW!!!")
         var timeLeft:CGFloat = powerupTime
         
@@ -496,10 +556,7 @@ class Ship:SKSpriteNode{
                 timeLeft -= 0.1
                 
                 progressBar!.size.height = (progressBar!.startHeight * (timeLeft/powerupTime))
-//                progressBar.position = CGPoint(x: self.position.x - self.size.width, y: self.position.y)
-//                
-//                progressBar.update()
-                
+
                 print(timeLeft)
                 
             }

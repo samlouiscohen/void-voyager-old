@@ -140,15 +140,9 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
                 
                 if(CGRectContainsPoint(leaderboardLabel.frame, location)){
                     
-                    //showLeader()
-                    //saveHighscore(12)
-                    //saveHighscore(deadAliens)
-                    //saveHighscore(deadAliens+50*deadBosses)
+
                     showLeader()
 
-                    
-//                    saveHighScore(deadAliens)
-//                    showLeaderBoard()
                 }
 
                 

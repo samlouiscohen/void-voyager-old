@@ -17,20 +17,7 @@ protocol PowerupBallVariables {
     var texture:SKTexture {get set}
     var ballSpeed:Double {get set}
     var runTime:CGFloat {get set}
-    //var gunVars:normGun {get set}
-    //var ballRadius:Double {get set}
-    
 }
-
-
-//let powerupBallHugeTexture = SKTextureAtlas(named:"Sprites").textureNamed("Hugepowerupball")
-//let powerupBallSprayTexture = SKTextureAtlas(named:"Sprites").textureNamed("spraypowerupBall")
-//let powerupBallRapidTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallRapid")
-//
-//let hugeLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("hugeLaser")
-//let sprayLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("sprayBallLaser")
-
-
 
 
 //Powerup structs that initialize the powerupball type and its associated characteristics
@@ -86,12 +73,6 @@ class PowerUpBall:SKSpriteNode{
         
         super.init(texture: ballSettings.texture, color: UIColor.clearColor(), size: CGSize(width:originalTextureSize.width * imageScale, height:originalTextureSize.height * imageScale))
         
-        
-        //self.setScale(imageScale)
-        
-        //print(self.)
-        
-        
         //self.physicsBody = SKPhysicsBody(circleOfRadius: ballSettings.texture.size().width/2)
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
 
@@ -141,7 +122,6 @@ class PowerUpBall:SKSpriteNode{
     
     
     func apply(theShip:Ship){
-        //theShip.gun.removeActionForKey("shootMachineGunLaser")
 
         //Clean this up for multiple powerups (currently restricted to 1)
         removeAllPreExisting(theShip)
@@ -155,12 +135,9 @@ class PowerUpBall:SKSpriteNode{
             case "huge":
                 //theShip.gun = GenericGun()
                 theShip.gun.gunSettings = hugeGunVariables()
-            
-            
             case "machineGun":
                 theShip.gun.gunSettings = machineGunVariables()
                 //theShip.gun = GenericGun()
-            
             default:
                 print("Default that ass")
                 theShip.gun = GenericGun()
@@ -174,10 +151,6 @@ class PowerUpBall:SKSpriteNode{
     
     
     func removeAllPreExisting(theShip:Ship){
-        
-        
-        print("REmove EXISTING!!!!")
-        
         
         //Restrict to only 1 powerup at a time
         
@@ -193,10 +166,6 @@ class PowerUpBall:SKSpriteNode{
         if((theShip.parent?.childNodeWithName("progressBar")) != nil){
             theShip.parent?.childNodeWithName("progressBar")?.removeFromParent()
         }
-        
-        
-        
-
 
     }
     
