@@ -1,6 +1,15 @@
 # AlienAnnihilator
 
 
+Efficiency issues:
+
+Moved updateShip properties from update to touchesMoved
+
+
+
+
+
+
 
 
 

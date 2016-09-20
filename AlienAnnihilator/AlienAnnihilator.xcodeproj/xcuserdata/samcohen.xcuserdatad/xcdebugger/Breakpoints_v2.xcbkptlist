@@ -15,8 +15,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
             endingLineNumber = "27"
-            landmarkName = "didMoveToView(_:)"
-            landmarkType = "5">
+            landmarkName = "didMove(to:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -48,7 +48,7 @@
             startingLineNumber = "137"
             endingLineNumber = "137"
             landmarkName = "apply(_:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -64,7 +64,7 @@
             startingLineNumber = "32"
             endingLineNumber = "32"
             landmarkName = "init(progressBarTime:shipSize:)"
-            landmarkType = "5">
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -80,21 +80,7 @@
             startingLineNumber = "44"
             endingLineNumber = "44"
             landmarkName = "hugeGunVariables"
-            landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "AlienAnnihilator/GameScene.swift"
-            timestampString = "494278013.676353"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "114"
-            endingLineNumber = "114">
+            landmarkType = "14">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -110,7 +96,103 @@
             startingLineNumber = "55"
             endingLineNumber = "55"
             landmarkName = "update()"
-            landmarkType = "5">
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlienAnnihilator/GameScene.swift"
+            timestampString = "495779231.943259"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "412"
+            endingLineNumber = "412"
+            landmarkName = "didMove(to:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AlienAnnihilator.GameScene.didMoveToView (__ObjC.SKView) -&gt; ()"
+                  moduleName = "AlienAnnihilator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samcohen/Desktop/Programming/Swift/Swift_Projects/AlienAnnihilator/AlienAnnihilator/AlienAnnihilator/GameScene.swift"
+                  timestampString = "495518825.681611"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "462"
+                  endingLineNumber = "462"
+                  offsetFromSymbolStart = "560">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AlienAnnihilator.GameScene.didMoveToView (__ObjC.SKView) -&gt; ()"
+                  moduleName = "AlienAnnihilator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samcohen/Desktop/Programming/Swift/Swift_Projects/AlienAnnihilator/AlienAnnihilator/AlienAnnihilator/GameScene.swift"
+                  timestampString = "495518825.681831"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "462"
+                  endingLineNumber = "462"
+                  offsetFromSymbolStart = "7040">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AlienAnnihilator/SpaceShip.swift"
+            timestampString = "495779231.943259"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "450"
+            endingLineNumber = "450"
+            landmarkName = "init(startPosition:controllerVector:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AlienAnnihilator.Ship.init (startPosition : __C.CGPoint, controllerVector : __C.CGVector) -&gt; AlienAnnihilator.Ship"
+                  moduleName = "AlienAnnihilator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samcohen/Desktop/Programming/Swift/Swift_Projects/AlienAnnihilator/AlienAnnihilator/AlienAnnihilator/SpaceShip.swift"
+                  timestampString = "495662037.708684"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "426"
+                  endingLineNumber = "426"
+                  offsetFromSymbolStart = "44">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AlienAnnihilator.Ship.__allocating_init (startPosition : __C.CGPoint, controllerVector : __C.CGVector) -&gt; AlienAnnihilator.Ship"
+                  moduleName = "AlienAnnihilator"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/samcohen/Desktop/Programming/Swift/Swift_Projects/AlienAnnihilator/AlienAnnihilator/AlienAnnihilator/SpaceShip.swift"
+                  timestampString = "495662037.710478"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "0"
+                  endingLineNumber = "0"
+                  offsetFromSymbolStart = "12">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

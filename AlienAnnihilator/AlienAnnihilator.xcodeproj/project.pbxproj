@@ -14,12 +14,16 @@
 		A42099C81D3843BA00C38DEF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A42099C71D3843BA00C38DEF /* Assets.xcassets */; };
 		A42099CB1D3843BA00C38DEF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A42099C91D3843BA00C38DEF /* LaunchScreen.storyboard */; };
 		A42099D61D3843BA00C38DEF /* AlienAnnihilatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */; };
+		A42B1D1B1D864976008CC8B5 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42B1D1A1D864976008CC8B5 /* Assets.swift */; };
+		A44551C11D89006600CAF315 /* PhysicsBodyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44551C01D89006600CAF315 /* PhysicsBodyExtension.swift */; };
+		A4475B0E1D8CAC1600887ADD /* background.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4475B0D1D8CAC1600887ADD /* background.swift */; };
 		A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */; };
 		A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */; };
 		A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E51D6E625400A1F22C /* ProgressBar.swift */; };
 		A4A124E81D6F3DBB00A1F22C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4A124E71D6F3DBB00A1F22C /* GameKit.framework */; };
 		A4A124EA1D6F4CC600A1F22C /* BackGroundAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */; };
 		A4A124EE1D75009900A1F22C /* Controller.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124ED1D75009900A1F22C /* Controller.swift */; };
+		A4A124F01D790EA200A1F22C /* SKNodeCountExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124EF1D790EA200A1F22C /* SKNodeCountExtension.swift */; };
 		A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709461D526D2200E1B50F /* GameOverScene.swift */; };
 		A4E709491D52848900E1B50F /* StartScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E709481D52848900E1B50F /* StartScene.swift */; };
 		A4E7094B1D5382EE00E1B50F /* InstructionScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */; };
@@ -53,12 +57,16 @@
 		A42099D11D3843BA00C38DEF /* AlienAnnihilatorTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AlienAnnihilatorTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		A42099D51D3843BA00C38DEF /* AlienAnnihilatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlienAnnihilatorTests.swift; sourceTree = "<group>"; };
 		A42099D71D3843BA00C38DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A42B1D1A1D864976008CC8B5 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
+		A44551C01D89006600CAF315 /* PhysicsBodyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsBodyExtension.swift; sourceTree = "<group>"; };
+		A4475B0D1D8CAC1600887ADD /* background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = background.swift; sourceTree = "<group>"; };
 		A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseButton2.swift; sourceTree = "<group>"; };
 		A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		A4A124E51D6E625400A1F22C /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		A4A124E71D6F3DBB00A1F22C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
 		A4A124E91D6F4CC600A1F22C /* BackGroundAnimation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BackGroundAnimation.swift; sourceTree = "<group>"; };
 		A4A124ED1D75009900A1F22C /* Controller.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Controller.swift; sourceTree = "<group>"; };
+		A4A124EF1D790EA200A1F22C /* SKNodeCountExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKNodeCountExtension.swift; sourceTree = "<group>"; };
 		A4E709461D526D2200E1B50F /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		A4E709481D52848900E1B50F /* StartScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartScene.swift; sourceTree = "<group>"; };
 		A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InstructionScene.swift; sourceTree = "<group>"; };
@@ -113,6 +121,10 @@
 			children = (
 				A42099BC1D3843BA00C38DEF /* AppDelegate.swift */,
 				A42099C01D3843BA00C38DEF /* GameScene.swift */,
+				A4475B0D1D8CAC1600887ADD /* background.swift */,
+				A44551C01D89006600CAF315 /* PhysicsBodyExtension.swift */,
+				A42B1D1A1D864976008CC8B5 /* Assets.swift */,
+				A4A124EF1D790EA200A1F22C /* SKNodeCountExtension.swift */,
 				A4FCA7BE1D627190003BF287 /* PowerUps.swift */,
 				A4A124E51D6E625400A1F22C /* ProgressBar.swift */,
 				A4FCA7B61D621733003BF287 /* PauseButton.swift */,
@@ -196,6 +208,7 @@
 					A42099B81D3843BA00C38DEF = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = ULK9NT2PC9;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
 								enabled = 1;
@@ -204,6 +217,7 @@
 					};
 					A42099D01D3843BA00C38DEF = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = A42099B81D3843BA00C38DEF;
 					};
 				};
@@ -254,13 +268,17 @@
 			files = (
 				A4FCA7BF1D627190003BF287 /* PowerUps.swift in Sources */,
 				A4A124EA1D6F4CC600A1F22C /* BackGroundAnimation.swift in Sources */,
+				A42B1D1B1D864976008CC8B5 /* Assets.swift in Sources */,
 				A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */,
 				A4FCA7B71D621733003BF287 /* PauseButton.swift in Sources */,
 				A42099C11D3843BA00C38DEF /* GameScene.swift in Sources */,
+				A4A124F01D790EA200A1F22C /* SKNodeCountExtension.swift in Sources */,
+				A44551C11D89006600CAF315 /* PhysicsBodyExtension.swift in Sources */,
 				A42099C31D3843BA00C38DEF /* GameViewController.swift in Sources */,
 				A4A124EE1D75009900A1F22C /* Controller.swift in Sources */,
 				A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */,
 				A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */,
+				A4475B0E1D8CAC1600887ADD /* background.swift in Sources */,
 				A4FCA7B31D610C16003BF287 /* SpaceShip.swift in Sources */,
 				A4E7094F1D53DC2C00E1B50F /* Timer.swift in Sources */,
 				A4E709471D526D2200E1B50F /* GameOverScene.swift in Sources */,
@@ -399,11 +417,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer: samsam489@gmail.com (SWM9WTKBNB)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ULK9NT2PC9;
 				INFOPLIST_FILE = AlienAnnihilator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SS.AlienAnnihilator;
+				PRODUCT_BUNDLE_IDENTIFIER = GG.AlienAnnihilator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -413,11 +433,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Samuel Cohen (ULK9NT2PC9)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = ULK9NT2PC9;
 				INFOPLIST_FILE = AlienAnnihilator/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = SS.AlienAnnihilator;
+				PRODUCT_BUNDLE_IDENTIFIER = GG.AlienAnnihilator;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -430,6 +452,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = GG.AlienAnnihilatorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlienAnnihilator.app/AlienAnnihilator";
 			};
 			name = Debug;
@@ -442,6 +465,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = GG.AlienAnnihilatorTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AlienAnnihilator.app/AlienAnnihilator";
 			};
 			name = Release;
