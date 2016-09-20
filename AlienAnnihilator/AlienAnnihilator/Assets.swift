@@ -7,3 +7,15 @@
 //
 
 import Foundation
+import SpriteKit
+
+class Assets {
+    static let sharedInstance = Assets()
+    let sprites = SKTextureAtlas(named: "Sprites")
+    
+    func preloadAssets() {
+        sprites.preload {
+            print("Sprites preloaded")
+        }
+    }
+}
