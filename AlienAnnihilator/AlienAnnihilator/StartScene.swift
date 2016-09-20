@@ -19,20 +19,24 @@ class StartScene: SKScene{
     
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-        backgroundColor = SKColor.blackColor()
+        backgroundColor = SKColor.black
 
         
+        
+        
+        //Preload textures
+        Assets.sharedInstance.preloadAssets()
         
         let titleLabel = SKLabelNode(fontNamed: "Chalkduster")
         
         titleLabel.text = "SPACE SURVIVAL"
-        titleLabel.fontSize = 60
-        titleLabel.fontColor = SKColor.redColor()
+        titleLabel.fontSize = size.width*0.1//60
+        titleLabel.fontColor = SKColor.red
         titleLabel.position = CGPoint(x: size.width/2, y: size.height*0.65)
         //To allow for clicks on the label itself
-        titleLabel.userInteractionEnabled = false
+        titleLabel.isUserInteractionEnabled = false
         addChild(titleLabel)
         
         
@@ -40,7 +44,7 @@ class StartScene: SKScene{
         
         creditsLabel.text = "A Samuel Studios Production"
         creditsLabel.fontSize = 10
-        creditsLabel.fontColor = SKColor.redColor()
+        creditsLabel.fontColor = SKColor.red
         creditsLabel.position = CGPoint(x: size.width*0.12, y: size.height*0.025)
 
         addChild(creditsLabel)
@@ -58,11 +62,11 @@ class StartScene: SKScene{
         
         startButton.layer.cornerRadius = 10
         startButton.layer.borderWidth = 1
-        startButton.layer.borderColor = UIColor.greenColor().CGColor
-        startButton.setTitle("Enter the Void", forState: .Normal)
-        startButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        startButton.layer.borderColor = UIColor.green.cgColor
+        startButton.setTitle("Enter the Void", for: UIControlState())
+        startButton.setTitleColor(UIColor.black, for: UIControlState())
 
-        startButton.addTarget(self, action: #selector(startGame), forControlEvents: .TouchUpInside)
+        startButton.addTarget(self, action: #selector(startGame), for: .touchUpInside)
         self.view?.addSubview(startButton)
         
         
@@ -72,18 +76,18 @@ class StartScene: SKScene{
         instructButton.backgroundColor = SKColor.init(red: 0, green: 153/255, blue: 0, alpha: 1)
         instructButton.layer.cornerRadius = 10
         instructButton.layer.borderWidth = 1
-        instructButton.layer.borderColor = UIColor.greenColor().CGColor
-        instructButton.setTitle("Instructions", forState: .Normal)
-        instructButton.setTitleColor(UIColor.blackColor(), forState: .Normal)
+        instructButton.layer.borderColor = UIColor.green.cgColor
+        instructButton.setTitle("Instructions", for: UIControlState())
+        instructButton.setTitleColor(UIColor.black, for: UIControlState())
         instructButton.showsTouchWhenHighlighted = true
-        instructButton.addTarget(self, action: #selector(startInstruction), forControlEvents: .TouchUpInside)
+        instructButton.addTarget(self, action: #selector(startInstruction), for: .touchUpInside)
         self.view?.addSubview(instructButton)
 
         //Color change animation
-        startButton.addTarget(self, action: #selector(holdRelease), forControlEvents: UIControlEvents.TouchUpInside);
-        startButton.addTarget(self, action: #selector(holdDown), forControlEvents: UIControlEvents.TouchDown)
-        instructButton.addTarget(self, action: #selector(holdRelease), forControlEvents: UIControlEvents.TouchUpInside);
-        instructButton.addTarget(self, action: #selector(holdDown), forControlEvents: UIControlEvents.TouchDown)
+        startButton.addTarget(self, action: #selector(holdRelease), for: UIControlEvents.touchUpInside);
+        startButton.addTarget(self, action: #selector(holdDown), for: UIControlEvents.touchDown)
+        instructButton.addTarget(self, action: #selector(holdRelease), for: UIControlEvents.touchUpInside);
+        instructButton.addTarget(self, action: #selector(holdDown), for: UIControlEvents.touchDown)
 
         
         
@@ -106,19 +110,19 @@ class StartScene: SKScene{
     
     //target functions
     
-    func buttonAnimation(sender:UIButton){
+    func buttonAnimation(_ sender:UIButton){
         
         holdDown(sender)
         holdRelease(sender)
     }
     
     
-    func holdDown(sender:UIButton)
+    func holdDown(_ sender:UIButton)
     {
         sender.backgroundColor = SKColor.init(red: 0, green: 102/255, blue: 0, alpha: 1)
     }
     
-    func holdRelease(sender:UIButton)
+    func holdRelease(_ sender:UIButton)
     {
         sender.backgroundColor = SKColor.init(red: 0, green: 102/255, blue: 0, alpha: 1)
     }
@@ -134,59 +138,44 @@ class StartScene: SKScene{
             subview.removeFromSuperview()
         }
     }
-    
-    
-    
+
     func buildInstructionScreen(){
-        runAction(
-            SKAction.runBlock() {
+        run(
+            SKAction.run() {
                 //Make a new gameScene
                 let instructionScene:InstructionScene = InstructionScene(size: self.view!.bounds.size)
-                instructionScene.scaleMode = SKSceneScaleMode.Fill
+                instructionScene.scaleMode = SKSceneScaleMode.fill
                 //Present it with a transition
-                self.view!.presentScene(instructionScene, transition: SKTransition.doorwayWithDuration(0.5))
+                self.view!.presentScene(instructionScene, transition: SKTransition.doorway(withDuration: 0.5))
             }
         )
     }
     
-    
-    
-    
-    func startInstruction(sender:UIButton){
+    func startInstruction(_ sender:UIButton){
         print("Open insrtuctions")
         removeSubViews()
         buildInstructionScreen()
     }
     
-    
-    
-    
     func buildGameScene(){
         
-        runAction(
-            SKAction.runBlock() {
+        run(
+            SKAction.run() {
                 //Make a new gameScene
                 let gameScene:GameScene = GameScene(size: self.view!.bounds.size)
-                gameScene.scaleMode = SKSceneScaleMode.Fill
+                gameScene.scaleMode = SKSceneScaleMode.fill
                 //Present it with a transition
-                self.view!.presentScene(gameScene, transition: SKTransition.crossFadeWithDuration(2))//fadeWithColor(UIColor.blackColor(), duration: 2))
+                self.view!.presentScene(gameScene, transition: SKTransition.crossFade(withDuration: 2))//fadeWithColor(UIColor.blackColor(), duration: 2))
             }
         )
     }
     
-    
-    
-    
-    
-    func startGame(sender:UIButton!){
-        print("Hi")
-        
+    func startGame(_ sender:UIButton!){
+        print("-------------------------------------------------------")
+        print("Start")
 //        sender.removeFromSuperview()
         removeSubViews()
         buildGameScene()
-        
-        
-        
     }
 
     

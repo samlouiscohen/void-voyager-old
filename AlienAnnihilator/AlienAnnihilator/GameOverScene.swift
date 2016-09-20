@@ -23,38 +23,48 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
     var deadAliens:Int
     var deadBosses:Int
     
+    var totalScore:Int = 0
+    var accuracy:Int
+    
+    
     let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
     let leaderboardLabel = SKLabelNode(fontNamed: "Chalkduster")
     
-    init(size: CGSize, aliensKilled:Int, numberBossesKilled:Int) {
+    init(size: CGSize, aliensKilled:Int, numberBossesKilled:Int, laserAccuracy:Int) {
         deadBosses = numberBossesKilled
         deadAliens = aliensKilled
+        accuracy = laserAccuracy
+        
         super.init(size: size)
     }
     
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
         //Leaderboard
         //authPlayer()
 //        saveHighscore(deadAliens)
         //saveHighscore(15)
-        saveHighscore(deadAliens + deadBosses*50)
+        
+        totalScore = deadAliens + deadBosses*50
+        //accuracy = shotsHit/shotsFired
+        
+        saveHighscore(totalScore)
 
         
         
         // 1
-        backgroundColor = SKColor.blackColor()
+        backgroundColor = SKColor.black
         
         let defeatLabel = SKLabelNode(fontNamed: "Chalkduster")
         
         defeatLabel.text = "You have been destroyed..."
         defeatLabel.fontSize = 40
-        defeatLabel.fontColor = SKColor.redColor()
+        defeatLabel.fontColor = SKColor.red
         defeatLabel.position = CGPoint(x: size.width/2, y: size.height/2)
         //To allow for clicks on the label itself
-        defeatLabel.userInteractionEnabled = false
+        defeatLabel.isUserInteractionEnabled = false
         addChild(defeatLabel)
         
         
@@ -66,9 +76,9 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
         killedLabel.text = "However, you managed to kill " + String(deadAliens) + " Aliens and " + String(deadBosses) + " Bosses."
 
         killedLabel.fontSize = 20
-        killedLabel.fontColor = SKColor.redColor()
+        killedLabel.fontColor = SKColor.red
         killedLabel.position = CGPoint(x: size.width/2, y: size.height/2.8)
-        killedLabel.userInteractionEnabled = false
+        killedLabel.isUserInteractionEnabled = false
         addChild(killedLabel)
         
 
@@ -79,18 +89,18 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
         
         samLabel.text = "Far less then Sam's record of 10k lol"
         samLabel.fontSize = 5
-        samLabel.fontColor = SKColor.redColor()
+        samLabel.fontColor = SKColor.red
         samLabel.position = CGPoint(x: 65, y: 10)
-        samLabel.userInteractionEnabled = false
+        samLabel.isUserInteractionEnabled = false
         addChild(samLabel)
         
 //        let restartLabel = SKLabelNode(fontNamed: "Chalkduster")
         
         restartLabel.text = "Tap here to restart!"
         restartLabel.fontSize = 12
-        restartLabel.fontColor = SKColor.redColor()
+        restartLabel.fontColor = SKColor.red
         restartLabel.position = CGPoint(x: size.width*0.85, y: size.height*0.1)
-        restartLabel.userInteractionEnabled = false
+        restartLabel.isUserInteractionEnabled = false
         addChild(restartLabel)
         
         
@@ -99,7 +109,7 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
         
         leaderboardLabel.text = "Tap for Leaderboard"
         leaderboardLabel.fontSize = 12
-        leaderboardLabel.fontColor = SKColor.redColor()
+        leaderboardLabel.fontColor = SKColor.red
         leaderboardLabel.position = CGPoint(x: size.width*0.5, y: size.height*0.2)
 //        leaderboardLabel.userInteractionEnabled = false
         addChild(leaderboardLabel)
@@ -111,14 +121,14 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
     
     func restartGame(){
         
-        runAction(
-            SKAction.runBlock() {
+        run(
+            SKAction.run() {
                 //Create the scene
                 let gameScene:StartScene = StartScene(size: self.view!.bounds.size)
-                gameScene.scaleMode = SKSceneScaleMode.Fill
+                gameScene.scaleMode = SKSceneScaleMode.fill
                 
                 //Open it with a transition
-                self.view!.presentScene(gameScene, transition: SKTransition.doorwayWithDuration(1))
+                self.view!.presentScene(gameScene, transition: SKTransition.doorway(withDuration: 1))
             }
         )
 
@@ -127,18 +137,18 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
     
     
     
-        override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
             
             for touch : AnyObject in touches {
-                let location = touch.locationInNode(self)
+                let location = touch.location(in: self)
                 
                 
-                if(CGRectContainsPoint(restartLabel.frame, location)){
+                if(restartLabel.frame.contains(location)){
                     restartGame()
                 }
                 
                 
-                if(CGRectContainsPoint(leaderboardLabel.frame, location)){
+                if(leaderboardLabel.frame.contains(location)){
                     
 
                     showLeader()
@@ -170,27 +180,44 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
         let viewControllerVar = self.view?.window?.rootViewController
         let gKGCViewController = GKGameCenterViewController()
         gKGCViewController.gameCenterDelegate = self
-        viewControllerVar?.presentViewController(gKGCViewController, animated: true, completion: nil)
+        viewControllerVar?.present(gKGCViewController, animated: true, completion: nil)
     }
     
-    func gameCenterViewControllerDidFinish(gameCenterViewController: GKGameCenterViewController) {
-        gameCenterViewController.dismissViewControllerAnimated(true, completion: nil)
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
     
     
     
-    func saveHighscore(gameScore: Int) {
-        print("Player has been authenticated.")
+    func saveHighscore(_ gameScore: Int) {
+        //print("Player has been authenticated.")
         print("Save that shit")
-        print(GKLocalPlayer.localPlayer().authenticated)
+        print(GKLocalPlayer.localPlayer().isAuthenticated)
         
-        if GKLocalPlayer.localPlayer().authenticated {
+        if GKLocalPlayer.localPlayer().isAuthenticated {
             
             print("OFFICIALLY IN")
+            var scoreArray: [GKScore] = []
+            
+            
+            //Total Score
             let scoreReporter = GKScore(leaderboardIdentifier: "scoreBoard")
             scoreReporter.value = Int64(gameScore)
-            let scoreArray: [GKScore] = [scoreReporter]
-            GKScore.reportScores(scoreArray, withCompletionHandler: nil)
+            scoreArray.append(scoreReporter)
+            
+            //Aliens killed
+            //let killedReporter = GKScore(leaderboardIdentifier: "AliensKilled")
+            //killedReporter.value = Int64(aliensKilled)
+            //scoreArray.append(killedReporter)
+            
+            //Accuracy
+            //let accuracyReporter = GKScore(leaderboardIdentifier: "accuracyLeaderBoard")
+            //accuracyReporter.value = Int64(accuracy)
+            //scoreArray.append(accuracyReporter)
+
+            
+            //Report all scores
+            GKScore.report(scoreArray, withCompletionHandler: nil)
 
             
 //            GKScore.reportScores(scoreArray, withCompletionHandler: {error -> Void in

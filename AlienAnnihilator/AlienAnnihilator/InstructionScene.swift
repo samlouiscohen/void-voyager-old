@@ -19,38 +19,38 @@ class InstructionScene: SKScene{
     
     
     
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         
-       backgroundColor = SKColor.lightGrayColor()
+       backgroundColor = SKColor.lightGray
         
         
         let gobackButton = UIButton(frame: CGRect(x:size.width*0.9,y:size.height*0.8,width: size.width*0.1,height: size.height*0.1) )
-        gobackButton.backgroundColor = SKColor.greenColor()
-        gobackButton.setTitle("Back", forState: .Normal)
-        gobackButton.addTarget(self, action: #selector(openStartScene), forControlEvents: .TouchUpInside)
+        gobackButton.backgroundColor = SKColor.green
+        gobackButton.setTitle("Back", for: UIControlState())
+        gobackButton.addTarget(self, action: #selector(openStartScene), for: .touchUpInside)
         self.view?.addSubview(gobackButton)
         
         
-        let titleLabel = instructText("GAME INSTRUCTIONS", fontSize: 30, color: SKColor.redColor(), posMultiplier: CGPoint(x:0.5,y:0.8))
+        let titleLabel = instructText("GAME INSTRUCTIONS", fontSize: 30, color: SKColor.red, posMultiplier: CGPoint(x:0.5,y:0.8))
         
         addChild(titleLabel)
         
         let label1 = instructText("Kill Aliens for as long as you can.",
-                     fontSize: 15, color: SKColor.redColor(), posMultiplier: CGPoint(x: 0.5,y: 0.7))
+                     fontSize: 15, color: SKColor.red, posMultiplier: CGPoint(x: 0.5,y: 0.7))
         
         addChild(label1)
         
         let label2 = instructText("You got three lives, make em' count.",
-                                  fontSize: 15, color: SKColor.redColor(), posMultiplier: CGPoint(x: 0.5,y: 0.6))
+                                  fontSize: 15, color: SKColor.red, posMultiplier: CGPoint(x: 0.5,y: 0.6))
         
         addChild(label2)
         
-        let tipsLabel = instructText("Tips:", fontSize: 20, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.32))
+        let tipsLabel = instructText("Tips:", fontSize: 20, color: SKColor.blue, posMultiplier: CGPoint(x:0.5, y:0.32))
         addChild(tipsLabel)
         
-        let tip1Label = instructText("- Continuously move: try to never lift your finger from the virtual joystick.", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.25))
-        let tip2Label = instructText("- Be cautious of the sceen edges as aliens spawn from them (Except the bottom edge!)", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.2))
-        let tip3Label = instructText("- Every thirty seconds a powerup spawns, try and time it up with a boss level.", fontSize: 10, color: SKColor.blueColor(), posMultiplier: CGPoint(x:0.5, y:0.15))
+        let tip1Label = instructText("- Continuously move: try to never lift your finger from the virtual joystick.", fontSize: 10, color: SKColor.blue, posMultiplier: CGPoint(x:0.5, y:0.25))
+        let tip2Label = instructText("- Be cautious of the sceen edges as aliens spawn from them (Except the bottom edge!)", fontSize: 10, color: SKColor.blue, posMultiplier: CGPoint(x:0.5, y:0.2))
+        let tip3Label = instructText("- Every thirty seconds a powerup spawns, try and time it up with a boss level.", fontSize: 10, color: SKColor.blue, posMultiplier: CGPoint(x:0.5, y:0.15))
         
         
         
@@ -65,7 +65,7 @@ class InstructionScene: SKScene{
     
     
     
-    func instructText(text:String,fontSize:CGFloat,color:SKColor, posMultiplier:CGPoint) -> SKLabelNode{
+    func instructText(_ text:String,fontSize:CGFloat,color:SKColor, posMultiplier:CGPoint) -> SKLabelNode{
         
         let label = SKLabelNode(fontNamed: "Chalkduster")
         label.text = text
@@ -79,7 +79,7 @@ class InstructionScene: SKScene{
     
 
     
-    func openStartScene(sender:UIButton){
+    func openStartScene(_ sender:UIButton){
         print("Go back to start scene")
         sender.removeFromSuperview()
         buildStartScene()
@@ -87,13 +87,13 @@ class InstructionScene: SKScene{
     
     
     func buildStartScene(){
-        runAction(
-            SKAction.runBlock() {
+        run(
+            SKAction.run() {
                 //Make a new gameScene
                 let startScene:StartScene = StartScene(size: self.view!.bounds.size)
-                startScene.scaleMode = SKSceneScaleMode.Fill
+                startScene.scaleMode = SKSceneScaleMode.fill
                 //Present it with a transition
-                self.view!.presentScene(startScene, transition: SKTransition.doorwayWithDuration(0.5))
+                self.view!.presentScene(startScene, transition: SKTransition.doorway(withDuration: 0.5))
                 }
             )
     }
