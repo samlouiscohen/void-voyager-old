@@ -41,7 +41,7 @@ struct hugeGunVariables:GunVariables{
     var loadTimeSet:Double = 0
     var semiAutomatic:Bool = true
     var name:String = "hugeGun"
-    var laserbody:SKPhysicsBody =  SKPhysicsBody(rectangleOfSize:CGSize(width: hugeLaserTexture.size().width,height: hugeLaserTexture.size().height)) //(circleOfRadius: hugeLaserTexture.size().width/2)
+    var laserbody:SKPhysicsBody =  SKPhysicsBody(rectangleOf:CGSize(width: hugeLaserTexture.size().width,height: hugeLaserTexture.size().height)) //(circleOfRadius: hugeLaserTexture.size().width/2)
 }
 
 struct machineGunVariables:GunVariables{
@@ -136,7 +136,7 @@ protocol Gun{
     
     var gunSettings:GunVariables {get set}
     var laser: Laser {get set}
-    var loadingTime:NSTimer? {get set}
+    var loadingTime:Foundation.Timer? {get set}
     //    var loadTimeSet:Double {get set}
     var stillLoading: Bool {get set}
     func shoot()
@@ -160,7 +160,7 @@ class GenericGun:SKNode, Gun{
     var laser: Laser// = Laser()
     
     //Loading time properties of the gun
-    var loadingTime:NSTimer?
+    var loadingTime:Foundation.Timer?
     //var loadTimeSet:Double = 0.5
     var stillLoading: Bool
     
@@ -184,11 +184,13 @@ class GenericGun:SKNode, Gun{
     func addLaser(){
         print("Add Laser")
         laser = Laser(theLaserTexture: gunSettings.theLaserTexture)
-
+    
+        //Increment shots fired
+        
         
         if(self.gunSettings.name == "hugeGun"){
-            laser.physicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: hugeLaserTexture.size().width,height: hugeLaserTexture.size().height))
-            laser.physicsBody?.dynamic = true
+            laser.physicsBody = SKPhysicsBody(rectangleOf:CGSize(width: hugeLaserTexture.size().width,height: hugeLaserTexture.size().height))
+            laser.physicsBody?.isDynamic = true
             laser.physicsBody?.categoryBitMask = PhysicsCategory.Laser
             laser.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
             laser.physicsBody?.collisionBitMask = PhysicsCategory.None
@@ -230,7 +232,7 @@ class GenericGun:SKNode, Gun{
         stillLoading = true
         
         
-        self.loadingTime = NSTimer.scheduledTimerWithTimeInterval(gunSettings.loadTimeSet, target: self, selector: #selector(self.finishLoading), userInfo: nil, repeats: false)
+        self.loadingTime = Foundation.Timer.scheduledTimer(timeInterval: gunSettings.loadTimeSet, target: self, selector: #selector(self.finishLoading), userInfo: nil, repeats: false)
         
     }
     
@@ -296,14 +298,14 @@ class GenericGun:SKNode, Gun{
          
          */
         
-        let fractionalWait = SKAction.waitForDuration(0.1)
+        let fractionalWait = SKAction.wait(forDuration: 0.1)
         
-        let loadLaser = SKAction.runBlock(addLaser)
+        let loadLaser = SKAction.run(addLaser)
         
         let rapidReloadAndFire = SKAction.sequence([loadLaser, fractionalWait])
-        let shootMachineGun = SKAction.repeatActionForever(rapidReloadAndFire)
+        let shootMachineGun = SKAction.repeatForever(rapidReloadAndFire)
         
-        self.runAction(shootMachineGun, withKey: "shootMachineGunLaser")
+        self.run(shootMachineGun, withKey: "shootMachineGunLaser")
         
     }
     
@@ -339,14 +341,14 @@ class Laser:SKSpriteNode{
     
     init(theLaserTexture:SKTexture){
         
-        super.init(texture: theLaserTexture, color: UIColor.clearColor(), size: theLaserTexture.size())
+        super.init(texture: theLaserTexture, color: UIColor.clear, size: theLaserTexture.size())
         
         //Laser physics
         
         //self.setScale(scaleFactor)
         
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2) //Can be overridden
-        self.physicsBody?.dynamic = true
+        self.physicsBody?.isDynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
         self.physicsBody?.collisionBitMask = PhysicsCategory.None
@@ -375,13 +377,13 @@ class rectLaser:SKSpriteNode{
     
     init(theLaserTexture:SKTexture){
         
-        super.init(texture: theLaserTexture, color: UIColor.clearColor(), size: theLaserTexture.size())
+        super.init(texture: theLaserTexture, color: UIColor.clear, size: theLaserTexture.size())
         
         //Laser physics
         //self.setScale(scaleFactor)
         
-        self.physicsBody = SKPhysicsBody(rectangleOfSize:CGSize(width: theLaserTexture.size().width,height: theLaserTexture.size().height))
-        self.physicsBody?.dynamic = true
+        self.physicsBody = SKPhysicsBody(rectangleOf:CGSize(width: theLaserTexture.size().width,height: theLaserTexture.size().height))
+        self.physicsBody?.isDynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Laser
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
         self.physicsBody?.collisionBitMask = PhysicsCategory.None
@@ -408,7 +410,7 @@ class rectLaser:SKSpriteNode{
 
 class Ship:SKSpriteNode{
     
-    var progressBar = ProgressBar?()
+    var progressBar : ProgressBar? = nil    //var progressBar:ProgressBar?// = ProgressBar?()
     
     static var shipState = "norm"
     //var laser: Laser = Laser()
@@ -435,6 +437,7 @@ class Ship:SKSpriteNode{
     
     let las = SKSpriteNode(texture:laserTexture)
     
+    var shotsFired:Int = 0
     
     var gun:GenericGun = GenericGun()
     
@@ -449,7 +452,7 @@ class Ship:SKSpriteNode{
         self.lives = 3
         self.moveSpeed = 160
         
-        super.init(texture: shipStartTexture, color: UIColor.clearColor(), size: shipStartTexture.size())
+        super.init(texture: ship0, color: UIColor.clear, size: ship0.size())
         
         //Set position
         self.position = startPos
@@ -472,7 +475,7 @@ class Ship:SKSpriteNode{
         
         //self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.texture!.size())
 
-        self.physicsBody?.dynamic = true
+        self.physicsBody?.isDynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.Ship
         self.physicsBody?.collisionBitMask = 0
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Alien
@@ -488,25 +491,23 @@ class Ship:SKSpriteNode{
         
         //Call animations
         self.animateShip1()
-        self.addChild(las)
-        
-        
+        //self.addChild(las)
 
     }
     
     
-    func updateVelocity(v:CGVector){
+    func updateVelocity(_ v:CGVector){
         self.physicsBody?.velocity.dx = v.dx * moveSpeed
         self.physicsBody?.velocity.dy = v.dy * moveSpeed
     }
     
     
-    func attachGun(gun:GenericGun){
+    func attachGun(_ gun:GenericGun){
 //        gun.position = CGPointMake(self.size.width/2 + (self.size.width/15),-self.size.width/30)
         
 
         
-        gun.position = CGPointMake(0, 0)
+        gun.position = CGPoint(x: 290, y: -160)
 
         self.addChild(gun)
     }
@@ -514,17 +515,20 @@ class Ship:SKSpriteNode{
     
     func animateShip1() {
         //let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.1) //Sam ship
-        let animate = SKAction.animateWithTextures(shipFrames, timePerFrame: 0.1)
+        let animate = SKAction.animate(with: shipFrames, timePerFrame: 0.1)
 
-        let forever = SKAction.repeatActionForever(animate)
-        self.runAction(forever)
+        let forever = SKAction.repeatForever(animate)
+        self.run(forever)
     }
     
+    func updateProgressBar(){
+        progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
+    }
     
     func updateShipProperties(shipVelocity v:CGVector,laserStartPos laserStart:CGPoint){
         updateVelocity(v)
         
-        progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
+        //progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
         
         //ect. ect.
     }
@@ -534,7 +538,7 @@ class Ship:SKSpriteNode{
     
     //Timer to deactivate a given powerup
     
-    func startPowerupTimer(powerupTime:CGFloat){
+    func startPowerupTimer(_ powerupTime:CGFloat){
         
         
         
@@ -546,7 +550,7 @@ class Ship:SKSpriteNode{
         print("END THE GUN NOW!!!")
         var timeLeft:CGFloat = powerupTime
         
-        let oneSecondWait = SKAction.waitForDuration(0.1)
+        let oneSecondWait = SKAction.wait(forDuration: 0.1)
         
         //Function to add the timer label HERE
         
@@ -557,7 +561,7 @@ class Ship:SKSpriteNode{
                 
                 progressBar!.size.height = (progressBar!.startHeight * (timeLeft/powerupTime))
 
-                print(timeLeft)
+                //print(timeLeft)
                 
             }
             else{
@@ -567,14 +571,14 @@ class Ship:SKSpriteNode{
                 if(self.gun.gunSettings.name == "machineGun"){ removeMachineGun() }
                 resetGun()
                 print("PowerUp over")
-                self.removeActionForKey("powerupTimer")
+                self.removeAction(forKey: "powerupTimer")
                 
             }
         }
         
         
         func removeMachineGun(){
-            self.gun.removeActionForKey("shootMachineGunLaser")
+            self.gun.removeAction(forKey: "shootMachineGunLaser")
             //self.gun.shootingFingerDown = false
             print("Remove action for shootMAchine")
             //Without this line then it isnt updated after the powerup HERE
@@ -595,13 +599,13 @@ class Ship:SKSpriteNode{
         }
         
         
-        let checkTimeLeft = SKAction.runBlock(modifyTimer)
+        let checkTimeLeft = SKAction.run(modifyTimer)
         
         
         
-        let runPowerupClock = SKAction.repeatActionForever(SKAction.sequence([oneSecondWait, checkTimeLeft]))
+        let runPowerupClock = SKAction.repeatForever(SKAction.sequence([oneSecondWait, checkTimeLeft]))
         
-        self.runAction(runPowerupClock, withKey: "powerupTimer")
+        self.run(runPowerupClock, withKey: "powerupTimer")
         
     }
     
