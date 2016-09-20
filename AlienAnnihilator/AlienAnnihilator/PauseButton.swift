@@ -43,9 +43,9 @@ class PauseButton:SKSpriteNode{
                 
         theGameScene = gameScene
         
-        super.init(texture: theTexture, color: UIColor.clearColor(), size: theTexture.size())
+        super.init(texture: theTexture, color: UIColor.clear, size: theTexture.size())
         pausedLabel.text = "PAUSED"
-        pausedLabel.color = SKColor.redColor()
+        pausedLabel.color = SKColor.red
         pausedLabel.fontSize = 50
         pausedLabel.position = CGPoint(x:(theGameScene.view?.scene?.size.width)!/2, y:(theGameScene.view?.scene?.size.height)!/2)
         
@@ -70,7 +70,7 @@ class PauseButton:SKSpriteNode{
             self.setScale(0.9)
             
             down = true
-            scene!.paused = true
+            scene!.isPaused = true
             
             
             for child in children{
@@ -90,7 +90,7 @@ class PauseButton:SKSpriteNode{
             self.setScale(0.7)
             
             down = false
-            scene!.paused = false
+            scene!.isPaused = false
             for child in children{
                 child.alpha = 1
                 
