@@ -20,14 +20,14 @@ class bossAlien1:Alien{
     
     
     //Create all sub spriteNodes and set their textures
-    var aEyeBig:SKSpriteNode = SKSpriteNode(texture: boss1BigEyeTexture, color: UIColor.clearColor(), size: boss1BigEyeTexture.size()) //Now we can scale here btw (CHANGE THIS)
-    var socketBig:SKSpriteNode = SKSpriteNode(texture: boss1BigEyeSocketTexture, color: UIColor.clearColor(), size: boss1BigEyeSocketTexture.size())
+    var aEyeBig:SKSpriteNode = SKSpriteNode(texture: boss1BigEyeTexture, color: UIColor.clear, size: boss1BigEyeTexture.size()) //Now we can scale here btw (CHANGE THIS)
+    var socketBig:SKSpriteNode = SKSpriteNode(texture: boss1BigEyeSocketTexture, color: UIColor.clear, size: boss1BigEyeSocketTexture.size())
     
-    var aEyeSmall1:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeTexture, color: UIColor.clearColor(), size: boss1SmallEyeTexture.size())
-    var socketSmall1:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeSocketTexture, color: UIColor.clearColor(), size: boss1SmallEyeSocketTexture.size())
+    var aEyeSmall1:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeTexture, color: UIColor.clear, size: boss1SmallEyeTexture.size())
+    var socketSmall1:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeSocketTexture, color: UIColor.clear, size: boss1SmallEyeSocketTexture.size())
     
-    var aEyeSmall2:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeTexture, color: UIColor.clearColor(), size: boss1SmallEyeTexture.size())
-    var socketSmall2:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeSocketTexture, color: UIColor.clearColor(), size: boss1SmallEyeSocketTexture.size())
+    var aEyeSmall2:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeTexture, color: UIColor.clear, size: boss1SmallEyeTexture.size())
+    var socketSmall2:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeSocketTexture, color: UIColor.clear, size: boss1SmallEyeSocketTexture.size())
     
     let scaleSize:CGFloat = 0.1
     
@@ -36,10 +36,10 @@ class bossAlien1:Alien{
         
         let velocity = CGVector(dx: 0, dy:0)
         
-        super.init(texture:boss1StartTexture, startPosition: startPos, moveSpeed:velocityMagnitude, velocityVector:velocity)
+        super.init(texture:bossAlienReal0, startPosition: startPos, moveSpeed:velocityMagnitude, velocityVector:velocity)
         
         
-        
+        totalNodes+=1
         //Overwrite general aliens physics
         self.physicsBody?.categoryBitMask = PhysicsCategory.AlienBoss
         self.physicsBody?.collisionBitMask = 0//PhysicsCategory.Laser
@@ -50,7 +50,8 @@ class bossAlien1:Alien{
         self.name = "bossAlien"
         
         //Add Eye balls (Frame drop comes from here)
-        addEye(self.aEyeBig, theSocket:self.socketBig, position:CGPoint(x:0,y: self.size.height*1.58), scaleEye:1, scaleSocket:1)
+        addEye(self.aEyeBig, theSocket:self.socketBig, position:CGPoint(x:0,y: self.size.height*0.3), scaleEye:1, scaleSocket:1)
+//        addEye(self.aEyeBig, theSocket:self.socketBig, position:CGPoint(x:0,y: self.size.height*1.58), scaleEye:1, scaleSocket:1)
         addEye(self.aEyeSmall1, theSocket:self.socketSmall1, position:CGPoint(x: -240,y: 110), scaleEye:0.4, scaleSocket:0.35)
         addEye(self.aEyeSmall2, theSocket:self.socketSmall2, position:CGPoint(x: 240,y: 110), scaleEye:0.4, scaleSocket:0.35)
         
@@ -62,7 +63,7 @@ class bossAlien1:Alien{
     }
     
     
-    func addEye(theEye:SKSpriteNode, theSocket:SKSpriteNode, position:CGPoint, scaleEye:CGFloat, scaleSocket:CGFloat){
+    func addEye(_ theEye:SKSpriteNode, theSocket:SKSpriteNode, position:CGPoint, scaleEye:CGFloat, scaleSocket:CGFloat){
         
         
         /**
@@ -70,8 +71,8 @@ class bossAlien1:Alien{
          */
         
 
-        theEye.position = CGPointMake(position.x, position.y)
-        theSocket.position = CGPointMake(position.x, position.y)
+        theEye.position = CGPoint(x: position.x, y: position.y)
+        theSocket.position = CGPoint(x: position.x, y: position.y)
         
         //Build the eye physics body
         theEye.physicsBody = SKPhysicsBody(circleOfRadius: theEye.size.width/2)
@@ -92,7 +93,7 @@ class bossAlien1:Alien{
     
     
     
-    func animateEye(theEye:SKSpriteNode, theSocket:SKSpriteNode, bossBodyVector:CGVector, aShip:Ship){
+    func animateEye(_ theEye:SKSpriteNode, theSocket:SKSpriteNode, bossBodyVector:CGVector, aShip:Ship){
         
         /**
          Creates a vector from a given eye's socket to the ship center 
@@ -115,7 +116,7 @@ class bossAlien1:Alien{
         //Keep the eye within eyeSocket bounds
         let rangeToCenterSprite = SKRange(lowerLimit: 0, upperLimit: theSocket.size.width/2 - theEye.size.width/2)
         var distanceConstraint: SKConstraint
-        distanceConstraint = SKConstraint.distance(rangeToCenterSprite, toNode: theSocket)
+        distanceConstraint = SKConstraint.distance(rangeToCenterSprite, to: theSocket)
         theEye.constraints = [distanceConstraint]
 
     }
@@ -123,16 +124,16 @@ class bossAlien1:Alien{
     
     
     
-    func updateAllEyes(aShip:Ship, bossBodyVector:CGVector){
+    func updateAllEyes(_ aShip:Ship, bossBodyVector:CGVector){
         animateEye(aEyeBig,theSocket: socketBig, bossBodyVector: bossBodyVector, aShip: aShip)
         animateEye(aEyeSmall1,theSocket: socketSmall1,bossBodyVector: bossBodyVector, aShip: aShip)
         animateEye(aEyeSmall2,theSocket: socketSmall2,bossBodyVector: bossBodyVector, aShip: aShip)
     }
     
     func animateMouth() {
-        let animate = SKAction.animateWithTextures(bossFrames, timePerFrame: 0.03)
-        let forever = SKAction.repeatActionForever(animate)
-        self.runAction(forever, withKey: "facialMotion")
+        let animate = SKAction.animate(with: bossFrames, timePerFrame: 0.03)
+        let forever = SKAction.repeatForever(animate)
+        self.run(forever, withKey: "facialMotion")
     }
 
     
@@ -143,7 +144,7 @@ class bossAlien1:Alien{
     
     
     
-    func update(aShip:Ship){
+    func update(_ aShip:Ship){
         let unitToShipVector = normalizeVector(CGVector(dx: aShip.position.x - self.position.x, dy: aShip.position.y - self.position.y))
         let toShipVector = CGVector(dx: unitToShipVector.dx * self.velocityMagnitude ,dy:unitToShipVector.dy*self.velocityMagnitude)
         
@@ -168,9 +169,9 @@ class bossAlien1:Alien{
         
         let blendFactor:CGFloat = 1 - ratio
         
-        let color = SKAction.colorizeWithColor(SKColor.redColor(), colorBlendFactor: blendFactor, duration: 0)
+        let color = SKAction.colorize(with: SKColor.red, colorBlendFactor: blendFactor, duration: 0)
         
-        self.runAction(color)
+        self.run(color)
         
         self.lives -= 1
         
@@ -181,7 +182,7 @@ class bossAlien1:Alien{
     
     
     
-    func boss_laser_contact(contact:SKPhysicsContact){
+    func boss_laser_contact(_ contact:SKPhysicsContact){
         
         var boss:SKNode? = nil
         if contact.bodyA.categoryBitMask == PhysicsCategory.AlienBoss && contact.bodyB.categoryBitMask == PhysicsCategory.Laser{
@@ -202,9 +203,9 @@ class bossAlien1:Alien{
 
         let blendFactor:CGFloat = 1 - ratio
         
-        let color = SKAction.colorizeWithColor(SKColor.redColor(), colorBlendFactor: blendFactor, duration: 0)
+        let color = SKAction.colorize(with: SKColor.red, colorBlendFactor: blendFactor, duration: 0)
         
-        boss?.runAction(color)
+        boss?.run(color)
         
         self.lives -= 1
 

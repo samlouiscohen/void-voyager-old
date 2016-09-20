@@ -7,3 +7,13 @@
 //
 
 import Foundation
+import SpriteKit
+
+extension SKSpriteNode{
+    func copyWithPhysicsBody()->SKSpriteNode
+    {
+        let node = self.copy() as! SKSpriteNode;
+        node.physicsBody = self.physicsBody;
+        return node;
+    }
+}

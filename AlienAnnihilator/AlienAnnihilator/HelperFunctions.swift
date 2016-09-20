@@ -11,14 +11,14 @@ import SpriteKit
 
 
 
-func normalizeVector(vector:CGVector) -> CGVector{
+func normalizeVector(_ vector:CGVector) -> CGVector{
     let len = sqrt(vector.dx * vector.dx + vector.dy * vector.dy)
     
     return CGVector(dx:vector.dx / len, dy:vector.dy / len)
 }
 
 
-func random(min:UInt32, max:UInt32) -> CGFloat{
+func random(_ min:UInt32, max:UInt32) -> CGFloat{
     return CGFloat(arc4random_uniform(max - min) + min)
     //return CGFloat(arc4random_uniform(2))*(max-min) + min
 }

@@ -71,12 +71,12 @@ class PowerUpBall:SKSpriteNode{
         originalTextureSize = ballSettings.texture.size()
         
         
-        super.init(texture: ballSettings.texture, color: UIColor.clearColor(), size: CGSize(width:originalTextureSize.width * imageScale, height:originalTextureSize.height * imageScale))
+        super.init(texture: ballSettings.texture, color: UIColor.clear, size: CGSize(width:originalTextureSize.width * imageScale, height:originalTextureSize.height * imageScale))
         
         //self.physicsBody = SKPhysicsBody(circleOfRadius: ballSettings.texture.size().width/2)
         self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2)
 
-        self.physicsBody?.dynamic = true
+        self.physicsBody?.isDynamic = true
         self.physicsBody?.categoryBitMask = PhysicsCategory.PowerUp
         self.physicsBody?.contactTestBitMask = PhysicsCategory.Ship
         
@@ -88,7 +88,7 @@ class PowerUpBall:SKSpriteNode{
         self.physicsBody?.usesPreciseCollisionDetection = true //Do I even need this..?
         
         self.physicsBody?.linearDamping = 0.0;
-        
+        self.name = "powerupBall"
         
         
         
@@ -110,18 +110,18 @@ class PowerUpBall:SKSpriteNode{
             self.removeFromParent()
         }
         
-        let stopBallMotion = SKAction.runBlock(freezePowerupBall)
-        let animate = SKAction.fadeOutWithDuration(1)
-        let removeFromParent = SKAction.runBlock(remove)
+        let stopBallMotion = SKAction.run(freezePowerupBall)
+        let animate = SKAction.fadeOut(withDuration: 1)
+        let removeFromParent = SKAction.run(remove)
         
         let used = SKAction.sequence([stopBallMotion, animate, removeFromParent])
         
-        runAction(used)
+        run(used)
         
     }
     
     
-    func apply(theShip:Ship){
+    func apply(_ theShip:Ship){
 
         //Clean this up for multiple powerups (currently restricted to 1)
         removeAllPreExisting(theShip)
@@ -150,21 +150,21 @@ class PowerUpBall:SKSpriteNode{
     
     
     
-    func removeAllPreExisting(theShip:Ship){
+    func removeAllPreExisting(_ theShip:Ship){
         
         //Restrict to only 1 powerup at a time
         
         //Remove the action before changing from the gun the action was called on
         if(!theShip.gun.gunSettings.semiAutomatic){
-            theShip.gun.removeActionForKey("shootMachineGunLaser")
+            theShip.gun.removeAction(forKey: "shootMachineGunLaser")
         }
         theShip.gun = GenericGun()
         theShip.attachGun(theShip.gun)
         theShip.gun.gunSettings = normGunVariables()
         
         
-        if((theShip.parent?.childNodeWithName("progressBar")) != nil){
-            theShip.parent?.childNodeWithName("progressBar")?.removeFromParent()
+        if((theShip.parent?.childNode(withName: "progressBar")) != nil){
+            theShip.parent?.childNode(withName: "progressBar")?.removeFromParent()
         }
 
     }

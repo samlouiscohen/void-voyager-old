@@ -36,7 +36,7 @@ class ProgressBar:SKSpriteNode{
         startTime = progressBarTime
         remainingTime = startTime
         
-        super.init(texture: nil ,color: UIColor.redColor(), size: CGSize(width: startWidth, height: startHeight))
+        super.init(texture: nil ,color: UIColor.red, size: CGSize(width: startWidth, height: startHeight))
         
         
         

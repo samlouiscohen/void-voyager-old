@@ -1238,9 +1238,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //print("Total Nodes: ",allNodes)
 
 
-        progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
+        //Maybe optimize
+        //aShip.progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
+        //print(aShip.progressBar)
+        //print(aShip.progressBar?.position)
 
-
+        aShip.updateProgressBar()
+        
         
         // list all values
 //        print("Values of startingTouches: ")

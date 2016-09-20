@@ -15,42 +15,42 @@ import SpriteKit
 //Timer class and Protocol
 
 protocol TimerDelegate {
-    func timerWillStart(timer : Timer)
-    func timerDidFire(timer : Timer)
-    func timerDidPause(timer : Timer)
-    func timerWillResume(timer : Timer)
-    func timerDidStop(timer : Timer)
+    func timerWillStart(_ timer : Timer)
+    func timerDidFire(_ timer : Timer)
+    func timerDidPause(_ timer : Timer)
+    func timerWillResume(_ timer : Timer)
+    func timerDidStop(_ timer : Timer)
 }
 
 
 
 class Timer : NSObject {
     
-    var timer : NSTimer!
-    var interval : NSTimeInterval
-    var difference : NSTimeInterval = 0.0
+    var timer : Foundation.Timer!
+    var interval : TimeInterval
+    var difference : TimeInterval = 0.0
     var delegate : TimerDelegate?
     
-    init(interval: NSTimeInterval, delegate: TimerDelegate?)
+    init(interval: TimeInterval, delegate: TimerDelegate?)
     {
         self.interval = interval
         self.delegate = delegate
     }
     
-    func start(aTimer : NSTimer?){
+    func start(_ aTimer : Foundation.Timer?){
         if aTimer != nil {
             fire()
         }
         
         if timer == nil {
             delegate?.timerWillStart(self)
-            timer = NSTimer.scheduledTimerWithTimeInterval(interval, target: self, selector: #selector(fire), userInfo: nil, repeats: true)
+            timer = Foundation.Timer.scheduledTimer(timeInterval: interval, target: self, selector: #selector(fire), userInfo: nil, repeats: true)
         }
     }
     
     func pause(){
         if timer != nil {
-            difference = timer.fireDate.timeIntervalSinceDate(NSDate())
+            difference = timer.fireDate.timeIntervalSince(Date())
             timer.invalidate()
             timer = nil
             delegate?.timerDidPause(self)
@@ -63,7 +63,7 @@ class Timer : NSObject {
             if difference == 0.0 {
                 start(nil)
             } else {
-                NSTimer.scheduledTimerWithTimeInterval(difference, target: self, selector: #selector(start), userInfo: nil, repeats: false)
+                Foundation.Timer.scheduledTimer(timeInterval: difference, target: self, selector: #selector(start), userInfo: nil, repeats: false)
                 difference = 0.0
             }
         }

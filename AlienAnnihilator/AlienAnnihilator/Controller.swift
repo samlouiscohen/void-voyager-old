@@ -52,7 +52,7 @@ class Controller:SKNode{
     func update(){
         
         let rangeToCenterSprite = SKRange(lowerLimit: 0, upperLimit: base.size.width/2 - stick.size.width/2)
-        let distanceConstraint:SKConstraint = SKConstraint.distance(rangeToCenterSprite, toPoint: base.position)
+        let distanceConstraint:SKConstraint = SKConstraint.distance(rangeToCenterSprite, to: base.position)
         stick.constraints = [distanceConstraint]
         
         

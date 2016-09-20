@@ -7,3 +7,11 @@
 //
 
 import Foundation
+import SpriteKit
+
+
+extension SKNode {
+    func subtreeCount() -> Int {
+        return children.reduce(1) { $0 + $1.subtreeCount() }
+    }
+}
