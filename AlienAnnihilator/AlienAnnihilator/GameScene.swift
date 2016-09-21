@@ -329,13 +329,28 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var downNotCalledYet = true
     var behindNotCalledYet = true
     
+    
+    fileprivate var score = 0 {
+        didSet{
+            
+            //score = aliensKilled + numberBossesKilled * 50
+            self.scoreLabel?.text = "Score: " + String(score)
+        }
+    }
+    fileprivate var scoreLabel:SKLabelNode?
+
+    
     //Build the Aliens killed Label
     fileprivate var aliensKilled = 0 {
         didSet{
             self.aliensKilledLabel?.text = "Dead Foes: " + String(aliensKilled)
+            score = aliensKilled + numberBossesKilled * 50
+
         }
+        
     }
     fileprivate var aliensKilledLabel:SKLabelNode?
+    
     var numberBossesKilled = 0
     
     //Instantiate the ship
@@ -501,6 +516,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //So when we go back to scene the ship isnt moving from the last played game
         controlVector = CGVector(dx: 0,dy: 0)
 
+        let scoreLabel = SKLabelNode(fontNamed: "Times New Roman")
+        scoreLabel.text = "Score Label: " + String(score)
+        scoreLabel.fontSize = self.frame.width * 0.02
+        scoreLabel.position = CGPoint(x:self.frame.midX*0.8,y:self.frame.midY*0.05)
+        self.addChild(scoreLabel)
+        self.scoreLabel = scoreLabel
+        
+        
+        
         let aliensKilledLabel = SKLabelNode(fontNamed: "Times New Roman")
         //aliensKilledLabel.text = aliensKilled.description
         aliensKilledLabel.text = "Foes Killed: " + String(aliensKilled)
@@ -582,7 +606,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
 
     }
-    
     
     
     
@@ -921,14 +944,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //Functions to create new alien instances with progressive difficulty
     func addNormAlien(){
-
         let mult = normAlienMultiplers
-        
         let alienInst = normAlien(startPos:CGPoint(x: 10,y: 10), speed: random(UInt32(10), max: UInt32(50))*mult[0])
-        
         let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
         alienInst.position = CGPoint(x:size.width+alienInst.size.width/2, y:yStart)
-        
         addChild(alienInst)
         totalNodes+=1
     }
