@@ -56,6 +56,8 @@ var controlVector:CGVector = CGVector(dx: 0, dy: 0)
 
 
 
+let heartTexture = Assets.sharedInstance.sprites.textureNamed("gHeart-1")
+
 //Ship textures
 let ship0 = Assets.sharedInstance.sprites.textureNamed("ship0")
 let ship1 = Assets.sharedInstance.sprites.textureNamed("ship1")
@@ -391,7 +393,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let progressBar : ProgressBar? = nil
     //var backGround:BackGroundAnimation?
     
-    
+    var heartArray:[SKSpriteNode] = []
+
+    func removeHeart(){
+        let lostHeart = heartArray.removeLast()
+        
+        lostHeart.removeFromParent()
+        
+    }
     
     //var backGround:BackGroundAnimation
     
@@ -498,8 +507,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseButton!.position = CGPoint(x: (screenSize.width) - pauseButton!.size.width*0.7, y:(screenSize.height) - pauseButton!.size.height*0.7)
         addChild(pauseButton!)
         
-//
         
+        
+        //Draw lives (HardCode for now)
+        //var heartArray:[SKSpriteNode] = []
+        
+    
+        for index in 0...shipLives-1 {
+            let heart:SKSpriteNode = SKSpriteNode(texture: heartTexture)
+            //heart.setScale(0.1)
+            let spaceFactor = 1.2 * heart.size.width * CGFloat(index)
+            heart.position = CGPoint(x:screenSize.width*0.3 + spaceFactor, y:heart.size.height * 0.7)//screenSize.height*0.1)
+            heartArray.append(heart)
+            addChild(heart)
+        }
+        
+        
+
+        
+        
+        let removeHearts = SKAction.repeatForever(
+            SKAction.sequence([
+            
+            SKAction.wait(forDuration: 1),
+            
+            SKAction.run {
+                let theHeart = self.heartArray.removeLast()
+                
+                print(self.heartArray)
+                print(theHeart)
+                
+                theHeart.removeFromParent()
+            }
+            
+            
+            ])
+            )
+        
+        
+//
+            //self.run(removeHearts)
 //        
 //        pauseButton.alpha = 0.5
 //        addChild(pauseButton)
@@ -515,11 +562,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //So when we go back to scene the ship isnt moving from the last played game
         controlVector = CGVector(dx: 0,dy: 0)
+        aShip.physicsBody?.velocity = CGVector(dx:0, dy:0)
 
         let scoreLabel = SKLabelNode(fontNamed: "Times New Roman")
-        scoreLabel.text = "Score Label: " + String(score)
-        scoreLabel.fontSize = self.frame.width * 0.02
-        scoreLabel.position = CGPoint(x:self.frame.midX*0.8,y:self.frame.midY*0.05)
+        scoreLabel.text = "Score: " + String(score)
+        scoreLabel.fontSize = screenSize.width * 0.04
+        scoreLabel.position = CGPoint(x:screenSize.width*0.6,y:screenSize.height*0.02)
         self.addChild(scoreLabel)
         self.scoreLabel = scoreLabel
         
@@ -530,7 +578,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         aliensKilledLabel.text = "Foes Killed: " + String(aliensKilled)
         aliensKilledLabel.fontSize = self.frame.width * 0.02 //screenSize.width * 0.1// 14
         aliensKilledLabel.position = CGPoint(x:self.frame.midX*0.8,y:self.frame.midY*0.02)
-        self.addChild(aliensKilledLabel)
+        //self.addChild(aliensKilledLabel)
         self.aliensKilledLabel = aliensKilledLabel
         
         
@@ -538,7 +586,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         shipLivesLabel.text = "Lives: " + String(aShip.lives)
         shipLivesLabel.fontSize = self.frame.width * 0.02 //14
         shipLivesLabel.position = CGPoint(x:self.frame.midX*1.3,y:self.frame.midY*0.02)
-        self.addChild(shipLivesLabel)
+        //self.addChild(shipLivesLabel)
         self.shipLivesLabel = shipLivesLabel
         
 
@@ -824,7 +872,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         aliensKilled = aliensKilled + 1
         shipLives = shipLives-1
         aShip.lives = aShip.lives - 1
+        removeHeart()
 
+        
+        
         print("ship/alien contact")
         
     }
