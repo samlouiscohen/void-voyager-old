@@ -336,7 +336,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         didSet{
             
             //score = aliensKilled + numberBossesKilled * 50
-            self.scoreLabel?.text = "Score: " + String(score)
+            self.scoreLabel?.text = String(score)//"Score: " + String(score)
         }
     }
     fileprivate var scoreLabel:SKLabelNode?
@@ -564,10 +564,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         controlVector = CGVector(dx: 0,dy: 0)
         aShip.physicsBody?.velocity = CGVector(dx:0, dy:0)
 
-        let scoreLabel = SKLabelNode(fontNamed: "Times New Roman")
-        scoreLabel.text = "Score: " + String(score)
+        
+        let scoreWordLabel = SKLabelNode(fontNamed: "Chalkduster")//"Times New Roman")
+        scoreWordLabel.text = "Score: "// + String(score)
+        scoreWordLabel.fontSize = screenSize.width * 0.04
+        scoreWordLabel.position = CGPoint(x:screenSize.width*0.6,y:screenSize.height*0.02)
+        self.addChild(scoreWordLabel)
+        //self.scoreLabel = scoreWordLabel
+        
+        let scoreLabel = SKLabelNode(fontNamed: "Chalkduster")//"Times New Roman")
+        scoreLabel.text = String(score)//"Score: " + String(score)
         scoreLabel.fontSize = screenSize.width * 0.04
-        scoreLabel.position = CGPoint(x:screenSize.width*0.6,y:screenSize.height*0.02)
+        
+        let scoreLabelWidth = scoreLabel.frame.width
+        
+        let scoreNumXPos = scoreWordLabel.position.x + scoreWordLabel.frame.width/1.5
+        
+        scoreLabel.position = CGPoint(x:scoreNumXPos + scoreLabel.frame.width,y:scoreWordLabel.position.y)
+        
+        //scoreLabel.position = CGPoint(x:screenSize.width*0.6+scoreLabelWidth,y:screenSize.height*0.02)
         self.addChild(scoreLabel)
         self.scoreLabel = scoreLabel
         
