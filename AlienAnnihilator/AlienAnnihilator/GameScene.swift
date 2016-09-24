@@ -187,118 +187,6 @@ let controllerHandleTexture = Assets.sharedInstance.sprites.textureNamed("contro
 //Pause button texture
 let pauseButtonTexture = Assets.sharedInstance.sprites.textureNamed("pauseButton")
 
-//--------------------------------------REAL SHIT------------------------------------------
-
-//var shipAnimationFrames : [SKTexture]!
-//Preload textures of GameScene before running it
-//let laserTexture = SKTextureAtlas(named:"Sprites").textureNamed("laserTexture")
-
-//let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("samShip1")
-//let shipStartTexture = SKTextureAtlas(named:"Sprites").textureNamed("ship0")//("ship0")
-
-
-//let powerupBallTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBall")
-//let powerupBallHugeTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallHuge")
-//let powerupBallSprayTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallSpray")
-//let powerupBallRapidTexture = SKTextureAtlas(named:"Sprites").textureNamed("powerupBallRapid")
-
-
-
-//let hugeLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("HugeLaserTexture")//("hugeLaser")
-//let sprayLaserTexture = SKTextureAtlas(named:"Sprites").textureNamed("SprayLaserTexture")//("sprayBallLaser")
-
-
-
-//let mainAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("betterAlien2")//mainAlien0
-//let behindAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("betterAlien2")
-//let downAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("betterAlien2")
-//let mainAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("mainAlien0")//mainAlien0
-//let behindAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("behindAlien0")
-//let downAlienTexture = SKTextureAtlas(named:"Sprites").textureNamed("down0")
-
-//
-//let boss1StartTexture = SKTextureAtlas(named:"Sprites").textureNamed("bossAlienReal0")
-//let boss1BigEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1Eye")
-//let boss1BigEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1BigEyeSocket")
-//let boss1SmallEyeTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEye")
-//let boss1SmallEyeSocketTexture = SKTextureAtlas(named:"Sprites").textureNamed("boss1SmallEyeSocket2")
-
-//let starTexture = SKTextureAtlas(named:"Sprites").textureNamed("star")
-
-//let spaceBackgroundTexture = SKTextureAtlas(named:"Sprites").textureNamed("spaceBackground")
-
-
-
-//let textureAtlas = SKTextureAtlas(named:"Sprites")
-
-//let backgroundFrames = ["bg1","bg2","bg3","bg4","bg5","bg6","bg7","bg8"]
-
-
-
-
-
-
-//let shipFrames = ["ship0","ship1","ship2","ship3","ship4","ship5","ship6","ship7","ship8","ship9","ship9","ship9","ship8","ship7","ship6","ship5","ship4","ship3","ship2","ship1","ship0"].map{textureAtlas.textureNamed($0)}// look up map
-
-
-//let mainAlienFrames = ["mainAlien0","mainAlien1","mainAlien2","mainAlien3","mainAlien4","mainAlien5","mainAlien6","mainAlien7","mainAlien8","mainAlien9","mainAlien10","mainAlien9","mainAlien8","mainAlien7","mainAlien6","mainAlien5","mainAlien4","mainAlien3","mainAlien2","mainAlien1","mainAlien0"].map{textureAtlas.textureNamed($0)}
-
-//let mainAlienFrames2 = ["mainAlien0_2","mainAlien1_2","mainAlien2_2","mainAlien3_2","mainAlien4_2","mainAlien5_2","mainAlien6_2","mainAlien7_2","mainAlien8_2","mainAlien9_2","mainAlien10_2","mainAlien9_2","mainAlien8_2","mainAlien7_2","mainAlien6_2","mainAlien5_2","mainAlien4_2","mainAlien3_2","mainAlien2_2","mainAlien1_2","mainAlien0_2"].map{textureAtlas.textureNamed($0)}
-
-
-
-//let downAlienFrames = ["down0","down1","down2","down3","down4","down5","down6","down5","down4","down3","down2","down1"].map{textureAtlas.textureNamed($0)}
-//
-//let down2AlienFrames = ["down0","down1","down2","down3","down4","down5","down6","down7","down8","down9","down10","down11","down12","down13","down14","down15","down16","down17","down18","down19","down20","down21","down22","down23","down24",
-//    "down23","down22","down21","down20","down19","down18","down17","down16","down15","down14","down13","down12", "down11","down10","down9","down8","down7","down6","down5","down4","down3","down2","down1"].map{textureAtlas.textureNamed($0)}
-//
-//
-//
-//let behindAlienFrames = ["behindAlien7","behindAlien6","behindAlien5","behindAlien4","behindAlien3","behindAlien2","behindAlien1","behindAlien0","behindAlien1","behindAlien2","behindAlien3","behindAlien4","behindAlien5","behindAlien6"].map{textureAtlas.textureNamed($0)}
-//
-//
-//
-//let bossFrames = ["bossAlienReal10","bossAlienReal10","bossAlienReal10","bossAlienReal9","bossAlienReal9","bossAlienReal9","bossAlienReal8","bossAlienReal8","bossAlienReal7","bossAlienReal7","bossAlienReal6","bossAlienReal6","bossAlienReal5","bossAlienReal4","bossAlienReal3","bossAlienReal2","bossAlienReal1","bossAlienReal0","bossAlienReal1","bossAlienReal2","bossAlienReal3","bossAlienReal4","bossAlienReal5","bossAlienReal6","bossAlienReal6","bossAlienReal7","bossAlienReal7","bossAlienReal8","bossAlienReal8","bossAlienReal9","bossAlienReal9","bossAlienReal9","bossAlienReal10","bossAlienReal10","bossAlienReal10"].map{textureAtlas.textureNamed($0)}// look up map
-
-
-//let controllerBaseTexture = SKTextureAtlas(named:"Sprites").textureNamed("controllerBase")
-//let controllerHandleTexture = SKTextureAtlas(named:"Sprites").textureNamed("controllerHandle")
-//
-//let pauseButtonTexture = SKTextureAtlas(named:"Sprites").textureNamed("pauseButton")
-
-
-//--------------------------------------REAL SHIT------------------------------------------
-
-
-
-
-//let allisonFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("allisonFace")
-//let sydFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("sydParty")
-//let trumpFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("baseBlock")//("mainAlien1")//"behindAlien0"baseBlock
-//let mikeFaceTexture = SKTextureAtlas(named:"Sprites").textureNamed("down0")//("mikeAlien")
-
-
-//let samShipFrames = ["shipSam1","shipSam2","shipSam3","shipSam4","shipSam5","shipSam6","shipSam7","shipSam8","shipSam9",
-//    "shipSam10","shipSam10","shipSam10","shipSam10","shipSam10",
-//    "shipSam9","shipSam8","shipSam7","shipSam6","shipSam5","shipSam4","shipSam3","shipSam2","shipSam1"].map{textureAtlas.textureNamed($0)}// look up map
-//
-
-//let trumpFrames = ["trumpFaceOpen1","trumpFaceOpen2","trumpFaceOpen3","trumpFaceOpen4"].map{textureAtlas.textureNamed($0)}// look up map
-//let behindFrames = ["alien1_1","alien1_2","alien1_3","alien1_4","alien1_5","alien1_6","alien1_7","alien1_8",
-//"alien1_8","alien1_7","alien1_6","alien1_5","alien1_4","alien1_3","alien1_2","alien1_1",
-//
-//    ].map{textureAtlas.textureNamed($0)}// look up map
-
-
-
-
-
-//End of texture preloading
-
-
-
-
-
 
 
 
@@ -410,109 +298,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         shotsFired = 0
         
-        //Preload all aliens 50 max?
-//        
-//        //Normal aliens
-//        let totalNorm = 1
-//        var holder:[normAlien] = []
-//        holder.reserveCapacity(totalNorm)
-//        
-//        let aNormAlien = normAlien(startPos: CGPoint(x: 0,y: 0), speed: 0)
-//        
-//        for _ in 1...totalNorm {
-//            
-////            let aCopy = aNormAlien.copyWithPhysicsBody();
-////            holder.append(aCopy)
-//            
-//            let spriteCopy = aNormAlien.copy() as! normAlien
-//            let physicsCopy:SKPhysicsBody = aNormAlien.physicsBody!;
-//            
-//            
-//            //COPY PHYSICS BODY HARD MODE
-//            spriteCopy.physicsBody = physicsCopy;
-//            
-//        }
-//        
-        
-        
-        
-        //Down aliens
-        
-        
-        //Behind aliens
-        
 
-        
-        
-        
-        
-        
-        
-        
-        
-//        
-//        SKTextureAtlas(named: "Sprites").preloadWithCompletionHandler {
-//            // Now everything you put into the texture atlas has been loaded in memory
-//        }
-
-        
-        
-        //let allNodes =
-
-        
-        //backGround = BackGroundAnimation(aView: view)
-        
-        //self.addChild(backGround!)
-        
-//        let background = SKSpriteNode(texture: spaceBackgroundTexture)
-////        background.size = CGSize(width: frame.size.width, height: frame.size.height)
-//        background.size = CGSize(width: self.size.width, height: self.size.height)
-//
-//        background.position = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-//        addChild(background)
-//        print(background.size.width, "HELELEOEOEOEOOOOOOOOOOOOOOOOOOOOO")
-
-        
-        
-//        background = BackGroundAnimation(aView:view)
-//        background.animate()
-//        
-//        self.addChild(background)
-        
-        
-        //let powerup = PowerUpBall(startPos: CGPoint(x:200,y:200), ballSpeed: 8)
-//        let powerup = increaseFireRateBall()
-        
-        
-        //print("hi")
-        //self.runAction(SKAction.fadeInWithDuration(0))
-        
-        //super.didMoveToView(view)
-        //self.size = view.frame.size
         
         let screenSize:CGSize = (view.scene?.size)!
-        
-        //let progressBar : ProgressBar? = nil
-        //var pauseButton: PauseButton?()
-        
-        //var pauseButton:PauseButton? = nil
-        
-        //var pauseButton = PauseButton?()//(theTexture: pauseButtonTexture)//, gameScene: self)//SKSpriteNode(imageNamed: "pauseButton")
-        //let pauseButton = PauseButton(texture: pauseButtonTexture, viewSceneSize: (view.scene?.size)!)//SKSpriteNode(imageNamed: "pauseButton")
-        
-        
-        
+
         //Pause button...
-        pauseButton = PauseButton(theTexture: pauseButtonTexture, gameScene: self)
+        pauseButton = PauseButton(theTexture: pauseButtonTexture, aScene: self)
         pauseButton!.position = CGPoint(x: (screenSize.width) - pauseButton!.size.width*0.7, y:(screenSize.height) - pauseButton!.size.height*0.7)
         addChild(pauseButton!)
+
         
-        
-        
-        //Draw lives (HardCode for now)
-        //var heartArray:[SKSpriteNode] = []
-        
-    
         for index in 0...shipLives-1 {
             let heart:SKSpriteNode = SKSpriteNode(texture: heartTexture)
             //heart.setScale(0.1)
@@ -524,40 +319,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
 
-        
-        
-        let removeHearts = SKAction.repeatForever(
-            SKAction.sequence([
-            
-            SKAction.wait(forDuration: 1),
-            
-            SKAction.run {
-                let theHeart = self.heartArray.removeLast()
-                
-                print(self.heartArray)
-                print(theHeart)
-                
-                theHeart.removeFromParent()
-            }
-            
-            
-            ])
-            )
-        
-        
-//
-            //self.run(removeHearts)
-//        
-//        pauseButton.alpha = 0.5
-//        addChild(pauseButton)
-        //spawnBoss()
-        
-        
-        //Preload all textures for preformance improvements
-//        SKTextureAtlas(named: "Sprites").preloadWithCompletionHandler {
-//            // Now everything you put into the texture atlas has been loaded in memory????
-//            
-//        }
+    
         
         
         //So when we go back to scene the ship isnt moving from the last played game
@@ -575,7 +337,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let scoreLabel = SKLabelNode(fontNamed: "Chalkduster")//"Times New Roman")
         scoreLabel.text = String(score)//"Score: " + String(score)
         scoreLabel.fontSize = screenSize.width * 0.04
-        
+        //scoreLabel.anchorPoint
         let scoreLabelWidth = scoreLabel.frame.width
         
         let scoreNumXPos = scoreWordLabel.position.x + scoreWordLabel.frame.width/1.5
@@ -887,7 +649,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         aliensKilled = aliensKilled + 1
         shipLives = shipLives-1
         aShip.lives = aShip.lives - 1
-        removeHeart()
+        //removeHeart()
 
         
         
