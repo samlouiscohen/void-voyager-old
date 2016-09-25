@@ -10,6 +10,10 @@ import Foundation
 import SpriteKit
 
 
+
+
+
+
 class StartScene: SKScene{
     
     override init(size: CGSize){
@@ -101,6 +105,30 @@ class StartScene: SKScene{
         TrainingButton.addTarget(self, action: #selector(startDemo), for: .touchUpInside)
         self.view?.addSubview(TrainingButton)
 
+        //Info button
+        
+        let infoButton = UIButton(frame: CGRect(x:self.view!.center.x, y:self.view!.center.y, width:size.width*0.05, height:size.width*0.05) )
+
+        
+        infoButton.center.x = self.view!.bounds.width-infoButton.bounds.width/1.8// * 2 * 0.75
+        infoButton.center.y = self.view!.bounds.height - infoButton.bounds.height/1.8//center.y //+ TrainingButton.bounds.height*2*1.1// * 2 * 0.75
+        infoButton.backgroundColor = SKColor.init(red: 0, green: 153/255, blue: 0, alpha: 1)
+        infoButton.layer.masksToBounds = true
+        infoButton.layer.cornerRadius = size.width*0.025// half the size of your width.
+        //infoButton.layer.cornerRadius = 30
+        infoButton.layer.borderWidth = 1
+        infoButton.layer.borderColor = UIColor.green.cgColor
+        infoButton.setTitle("i", for: UIControlState())
+        infoButton.titleLabel?.font = UIFont(name: "open sans", size: 25)
+        infoButton.setTitleColor(UIColor.black, for: UIControlState())
+        infoButton.showsTouchWhenHighlighted = true
+        
+        infoButton.addTarget(self, action: #selector(startInfoScene), for: .touchUpInside)
+        self.view?.addSubview(infoButton)
+        
+        
+        
+        
         //Color change animation
         startButton.addTarget(self, action: #selector(holdRelease), for: UIControlEvents.touchUpInside);
         startButton.addTarget(self, action: #selector(holdDown), for: UIControlEvents.touchDown)
@@ -108,6 +136,8 @@ class StartScene: SKScene{
         instructButton.addTarget(self, action: #selector(holdDown), for: UIControlEvents.touchDown)
         TrainingButton.addTarget(self, action: #selector(holdRelease), for: UIControlEvents.touchUpInside);
         TrainingButton.addTarget(self, action: #selector(holdDown), for: UIControlEvents.touchDown)
+        infoButton.addTarget(self, action: #selector(holdRelease), for: UIControlEvents.touchUpInside);
+        infoButton.addTarget(self, action: #selector(holdDown), for: UIControlEvents.touchDown)
 
         
         
@@ -204,7 +234,7 @@ class StartScene: SKScene{
                 let gameScene:GameScene = GameScene(size: self.view!.bounds.size)
                 gameScene.scaleMode = SKSceneScaleMode.fill
                 //Present it with a transition
-                self.view!.presentScene(gameScene, transition: SKTransition.crossFade(withDuration: 2))//fadeWithColor(UIColor.blackColor(), duration: 2))
+                self.view!.presentScene(gameScene, transition: SKTransition.doorway(withDuration: 0.5))//fadeWithColor(UIColor.blackColor(), duration: 2))
             }
         )
     }
@@ -218,6 +248,27 @@ class StartScene: SKScene{
     }
 
     
+    
+    func buildInfoScene(){
+        
+        run(
+            SKAction.run() {
+                //Make a new gameScene
+                let infoScene:InfoScene = InfoScene(size: self.view!.bounds.size)
+                infoScene.scaleMode = SKSceneScaleMode.fill
+                //Present it with a transition
+                self.view!.presentScene(infoScene, transition: SKTransition.doorway(withDuration: 0.5))//fadeWithColor(UIColor.blackColor(), duration: 2))
+            }
+        )
+    }
+    
+    func startInfoScene(_ sender:UIButton!){
+        print("-------------------------------------------------------")
+        print("Start")
+        //        sender.removeFromSuperview()
+        removeSubViews()
+        buildInfoScene()
+    }
     
 
     

@@ -55,7 +55,7 @@ var controlVector:CGVector = CGVector(dx: 0, dy: 0)
 //------------------------------------- Preload sprites-------------
 
 
-
+let infoIconTexture = Assets.sharedInstance.sprites.textureNamed("info_icon") 
 let heartTexture = Assets.sharedInstance.sprites.textureNamed("gHeart-1")
 
 //Ship textures
