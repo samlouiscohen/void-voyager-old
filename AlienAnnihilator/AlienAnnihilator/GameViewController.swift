@@ -43,7 +43,7 @@ class GameViewController: UIViewController{//, GKGameCenterControllerDelegate {
             UserDefaults.standard.set(true, forKey: "HasLaunchedOnce")
             UserDefaults.standard.synchronize()
             //scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
-            scene = DemoScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
+            scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
 
         }
         
@@ -52,7 +52,7 @@ class GameViewController: UIViewController{//, GKGameCenterControllerDelegate {
         
         //let scene = DemoScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
         let skView = view as! SKView
-        //skView.frameInterval = 4
+        //skView.frameInterval = 8
         //skView.showsFPS = true
         //skView.showsNodeCount = true
         skView.ignoresSiblingOrder = false

@@ -96,7 +96,7 @@ class normAlien:Alien{
         
         super.init(texture:mainAlien0, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: -1,dy: 0))
         
-        self.setScale(0.05)//New alien type
+        self.setScale(0.5)//New alien type
         self.animateAlien()
         //self.setScale(0.625)
         //self.setScale(0.5)
@@ -131,7 +131,7 @@ class downAlien:Alien{
         
         super.init(texture:down0, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 0,dy: -1))
 
-        self.setScale(0.05)
+        self.setScale(0.5)
         //self.setScale(0.5)
         self.name = "downAlien"
         animateAlien()
@@ -160,7 +160,7 @@ class behindAlien:Alien{
         
         super.init(texture:behindAlien0, startPosition: startPos, moveSpeed:speed, velocityVector:CGVector(dx: 1,dy: 0))
         //Alien set scale size
-        self.setScale(0.05)
+        self.setScale(0.5)
         //self.xScale = -self.xScale
         //self.setScale(0.5)
         self.name = "behindAlien"

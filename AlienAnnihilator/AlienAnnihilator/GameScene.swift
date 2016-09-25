@@ -9,7 +9,7 @@
 //Get global timer for everything- alien spwans, when to add new alein types, ect.
 //Kills should be a currency of sorts
 //
-
+//Use lazy var for efficiemcy
 
 
 //To Do:
@@ -59,59 +59,59 @@ var controlVector:CGVector = CGVector(dx: 0, dy: 0)
 let heartTexture = Assets.sharedInstance.sprites.textureNamed("gHeart-1")
 
 //Ship textures
-let ship0 = Assets.sharedInstance.sprites.textureNamed("ship0")
-let ship1 = Assets.sharedInstance.sprites.textureNamed("ship1")
-let ship2 = Assets.sharedInstance.sprites.textureNamed("ship2")
-let ship3 = Assets.sharedInstance.sprites.textureNamed("ship3")
-let ship4 = Assets.sharedInstance.sprites.textureNamed("ship4")
-let ship5 = Assets.sharedInstance.sprites.textureNamed("ship5")
-let ship6 = Assets.sharedInstance.sprites.textureNamed("ship6")
-let ship7 = Assets.sharedInstance.sprites.textureNamed("ship7")
-let ship8 = Assets.sharedInstance.sprites.textureNamed("ship8")
-let ship9 = Assets.sharedInstance.sprites.textureNamed("ship9")
+let ship0 = Assets.sharedInstance.sprites.textureNamed("ship0_r")
+let ship1 = Assets.sharedInstance.sprites.textureNamed("ship1_r")
+let ship2 = Assets.sharedInstance.sprites.textureNamed("ship2_r")
+let ship3 = Assets.sharedInstance.sprites.textureNamed("ship3_r")
+let ship4 = Assets.sharedInstance.sprites.textureNamed("ship4_r")
+let ship5 = Assets.sharedInstance.sprites.textureNamed("ship5_r")
+let ship6 = Assets.sharedInstance.sprites.textureNamed("ship6_r")
+let ship7 = Assets.sharedInstance.sprites.textureNamed("ship7_r")
+let ship8 = Assets.sharedInstance.sprites.textureNamed("ship8_r")
+let ship9 = Assets.sharedInstance.sprites.textureNamed("ship9_r")
 let shipFrames = [ship0,ship1,ship2,ship3,ship4,ship5,ship6,ship7,ship8,ship9,ship9,ship9,ship8,ship7,ship6,ship5,ship4,ship3,ship2,ship1,ship0]
 
 
 //Main alien textures
-let mainAlien0 = Assets.sharedInstance.sprites.textureNamed("mainAlien0")
-let mainAlien1 = Assets.sharedInstance.sprites.textureNamed("mainAlien1")
-let mainAlien2 = Assets.sharedInstance.sprites.textureNamed("mainAlien2")
-let mainAlien3 = Assets.sharedInstance.sprites.textureNamed("mainAlien3")
-let mainAlien4 = Assets.sharedInstance.sprites.textureNamed("mainAlien4")
-let mainAlien5 = Assets.sharedInstance.sprites.textureNamed("mainAlien5")
-let mainAlien6 = Assets.sharedInstance.sprites.textureNamed("mainAlien6")
-let mainAlien7 = Assets.sharedInstance.sprites.textureNamed("mainAlien7")
-let mainAlien8 = Assets.sharedInstance.sprites.textureNamed("mainAlien8")
-let mainAlien9 = Assets.sharedInstance.sprites.textureNamed("mainAlien9")
-let mainAlien10 = Assets.sharedInstance.sprites.textureNamed("mainAlien10")
+let mainAlien0 = Assets.sharedInstance.sprites.textureNamed("mainAlien0_r")//("mainAlien0")
+let mainAlien1 = Assets.sharedInstance.sprites.textureNamed("mainAlien1_r")
+let mainAlien2 = Assets.sharedInstance.sprites.textureNamed("mainAlien2_r")
+let mainAlien3 = Assets.sharedInstance.sprites.textureNamed("mainAlien3_r")
+let mainAlien4 = Assets.sharedInstance.sprites.textureNamed("mainAlien4_r")
+let mainAlien5 = Assets.sharedInstance.sprites.textureNamed("mainAlien5_r")
+let mainAlien6 = Assets.sharedInstance.sprites.textureNamed("mainAlien6_r")
+let mainAlien7 = Assets.sharedInstance.sprites.textureNamed("mainAlien7_r")
+let mainAlien8 = Assets.sharedInstance.sprites.textureNamed("mainAlien8_r")
+let mainAlien9 = Assets.sharedInstance.sprites.textureNamed("mainAlien9_r")
+let mainAlien10 = Assets.sharedInstance.sprites.textureNamed("mainAlien10_r")
 let mainAlienFrames = [mainAlien0,mainAlien1,mainAlien2,mainAlien3,mainAlien4,mainAlien5,mainAlien6,mainAlien7,mainAlien8,mainAlien9,mainAlien10,mainAlien9,mainAlien8,mainAlien7,mainAlien6,mainAlien5,mainAlien4,mainAlien3,mainAlien2,mainAlien1,mainAlien0]
 
 //Down alien textures
-let down0 = Assets.sharedInstance.sprites.textureNamed("down0")
-let down1 = Assets.sharedInstance.sprites.textureNamed("down1")
-let down2 = Assets.sharedInstance.sprites.textureNamed("down2")
-let down3 = Assets.sharedInstance.sprites.textureNamed("down3")
-let down4 = Assets.sharedInstance.sprites.textureNamed("down4")
-let down5 = Assets.sharedInstance.sprites.textureNamed("down5")
-let down6 = Assets.sharedInstance.sprites.textureNamed("down6")
-let down7 = Assets.sharedInstance.sprites.textureNamed("down7")
-let down8 = Assets.sharedInstance.sprites.textureNamed("down8")
-let down9 = Assets.sharedInstance.sprites.textureNamed("down9")
-let down10 = Assets.sharedInstance.sprites.textureNamed("down10")
-let down11 = Assets.sharedInstance.sprites.textureNamed("down11")
-let down12 = Assets.sharedInstance.sprites.textureNamed("down12")
-let down13 = Assets.sharedInstance.sprites.textureNamed("down13")
-let down14 = Assets.sharedInstance.sprites.textureNamed("down14")
-let down15 = Assets.sharedInstance.sprites.textureNamed("down15")
-let down16 = Assets.sharedInstance.sprites.textureNamed("down16")
-let down17 = Assets.sharedInstance.sprites.textureNamed("down17")
-let down18 = Assets.sharedInstance.sprites.textureNamed("down18")
-let down19 = Assets.sharedInstance.sprites.textureNamed("down19")
-let down20 = Assets.sharedInstance.sprites.textureNamed("down20")
-let down21 = Assets.sharedInstance.sprites.textureNamed("down21")
-let down22 = Assets.sharedInstance.sprites.textureNamed("down22")
-let down23 = Assets.sharedInstance.sprites.textureNamed("down23")
-let down24 = Assets.sharedInstance.sprites.textureNamed("down24")
+let down0 = Assets.sharedInstance.sprites.textureNamed("down1_r")
+let down1 = Assets.sharedInstance.sprites.textureNamed("down1_r")
+let down2 = Assets.sharedInstance.sprites.textureNamed("down2_r")
+let down3 = Assets.sharedInstance.sprites.textureNamed("down3_r")
+let down4 = Assets.sharedInstance.sprites.textureNamed("down4_r")
+let down5 = Assets.sharedInstance.sprites.textureNamed("down5_r")
+let down6 = Assets.sharedInstance.sprites.textureNamed("down6_r")
+let down7 = Assets.sharedInstance.sprites.textureNamed("down7_r")
+let down8 = Assets.sharedInstance.sprites.textureNamed("down8_r")
+let down9 = Assets.sharedInstance.sprites.textureNamed("down9_r")
+let down10 = Assets.sharedInstance.sprites.textureNamed("down10_r")
+let down11 = Assets.sharedInstance.sprites.textureNamed("down11_r")
+let down12 = Assets.sharedInstance.sprites.textureNamed("down12_r")
+let down13 = Assets.sharedInstance.sprites.textureNamed("down13_r")
+let down14 = Assets.sharedInstance.sprites.textureNamed("down14_r")
+let down15 = Assets.sharedInstance.sprites.textureNamed("down15_r")
+let down16 = Assets.sharedInstance.sprites.textureNamed("down16_r")
+let down17 = Assets.sharedInstance.sprites.textureNamed("down17_r")
+let down18 = Assets.sharedInstance.sprites.textureNamed("down18_r")
+let down19 = Assets.sharedInstance.sprites.textureNamed("down19_r")
+let down20 = Assets.sharedInstance.sprites.textureNamed("down20_r")
+let down21 = Assets.sharedInstance.sprites.textureNamed("down21_r")
+let down22 = Assets.sharedInstance.sprites.textureNamed("down22_r")
+let down23 = Assets.sharedInstance.sprites.textureNamed("down23_r")
+let down24 = Assets.sharedInstance.sprites.textureNamed("down24_r")
 
 let downAlienFrames = [down0,down1,down2,down3,down4,down5,down6,down7,down8,down9,down10,down11,down12,down13,down14,down15,down16,down17,down18,down19,down20,down21,down22,down23,down24,
     down23,down22,down21,down20,down19,down18,down17,down16,down15,down14,down13,down12, down11,down10,down9,down8,down7,down6,down5,down4,down3,down2,down1]
@@ -132,25 +132,25 @@ let behindAlienFrames = [behindAlien7,behindAlien6,behindAlien5,behindAlien4,beh
 
 
 //Boss 1 textures
-let bossAlienReal0 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal0")
-let bossAlienReal1 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal1")
-let bossAlienReal2 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal2")
-let bossAlienReal3 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal3")
-let bossAlienReal4 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal4")
-let bossAlienReal5 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal5")
-let bossAlienReal6 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal6")
-let bossAlienReal7 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal7")
-let bossAlienReal8 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal8")
-let bossAlienReal9 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal9")
-let bossAlienReal10 = Assets.sharedInstance.sprites.textureNamed("bossAlienReal10")
+let bossAlienReal0 = Assets.sharedInstance.sprites.textureNamed("bossAlien0")
+let bossAlienReal1 = Assets.sharedInstance.sprites.textureNamed("bossAlien1")
+let bossAlienReal2 = Assets.sharedInstance.sprites.textureNamed("bossAlien2")
+let bossAlienReal3 = Assets.sharedInstance.sprites.textureNamed("bossAlien3")
+let bossAlienReal4 = Assets.sharedInstance.sprites.textureNamed("bossAlien4")
+let bossAlienReal5 = Assets.sharedInstance.sprites.textureNamed("bossAlien5")
+let bossAlienReal6 = Assets.sharedInstance.sprites.textureNamed("bossAlien6")
+let bossAlienReal7 = Assets.sharedInstance.sprites.textureNamed("bossAlien7")
+let bossAlienReal8 = Assets.sharedInstance.sprites.textureNamed("bossAlien8")
+let bossAlienReal9 = Assets.sharedInstance.sprites.textureNamed("bossAlien9")
+let bossAlienReal10 = Assets.sharedInstance.sprites.textureNamed("bossAlien10")
 
 let bossFrames = [bossAlienReal10,bossAlienReal10,bossAlienReal10,bossAlienReal9,bossAlienReal9,bossAlienReal9,bossAlienReal8,bossAlienReal8,bossAlienReal7,bossAlienReal7,bossAlienReal6,bossAlienReal6,bossAlienReal5,bossAlienReal4,bossAlienReal3,bossAlienReal2,bossAlienReal1,bossAlienReal0,bossAlienReal1,bossAlienReal2,bossAlienReal3,bossAlienReal4,bossAlienReal5,bossAlienReal6,bossAlienReal6,bossAlienReal7,bossAlienReal7,bossAlienReal8,bossAlienReal8,bossAlienReal9,bossAlienReal9,bossAlienReal9,bossAlienReal10,bossAlienReal10,bossAlienReal10]
 
 
-let boss1BigEyeTexture = Assets.sharedInstance.sprites.textureNamed("boss1Eye")
-let boss1BigEyeSocketTexture = Assets.sharedInstance.sprites.textureNamed("boss1BigEyeSocket")
-let boss1SmallEyeTexture = Assets.sharedInstance.sprites.textureNamed("boss1SmallEye")
-let boss1SmallEyeSocketTexture = Assets.sharedInstance.sprites.textureNamed("boss1SmallEyeSocket2")
+let boss1BigEyeTexture = Assets.sharedInstance.sprites.textureNamed("bossEye")
+let boss1BigEyeSocketTexture = Assets.sharedInstance.sprites.textureNamed("bossBigEyeSocket")
+let boss1SmallEyeTexture = Assets.sharedInstance.sprites.textureNamed("bossSmallEye")
+let boss1SmallEyeSocketTexture = Assets.sharedInstance.sprites.textureNamed("bossSmallEyeSocket")
 
 
 
@@ -164,7 +164,7 @@ let boss1SmallEyeSocketTexture = Assets.sharedInstance.sprites.textureNamed("bos
 
 
 //Normal laser
-let laserTexture = Assets.sharedInstance.sprites.textureNamed("laserTexture")
+let laserTexture = Assets.sharedInstance.sprites.textureNamed("laser_r")
 
 
 //Powerup balls
@@ -172,7 +172,7 @@ let powerupBallHugeTexture = Assets.sharedInstance.sprites.textureNamed("powerup
 let powerupBallSprayTexture = Assets.sharedInstance.sprites.textureNamed("powerupBallSpray")
 let powerupBallRapidTexture = Assets.sharedInstance.sprites.textureNamed("powerupBallRapid")
 //Powerup lasers
-let hugeLaserTexture = Assets.sharedInstance.sprites.textureNamed("HugeLaserTexture")
+let hugeLaserTexture = Assets.sharedInstance.sprites.textureNamed("hugeLaserTexture")
 let sprayLaserTexture = Assets.sharedInstance.sprites.textureNamed("SprayLaserTexture")
 
 
@@ -182,8 +182,8 @@ let sprayLaserTexture = Assets.sharedInstance.sprites.textureNamed("SprayLaserTe
 
 
 //Controller textures
-let controllerBaseTexture = Assets.sharedInstance.sprites.textureNamed("controllerBase")
-let controllerHandleTexture = Assets.sharedInstance.sprites.textureNamed("controllerHandle")
+let controllerBaseTexture = Assets.sharedInstance.sprites.textureNamed("controllerBase-1")
+let controllerHandleTexture = Assets.sharedInstance.sprites.textureNamed("controllerHandle-1")
 //Pause button texture
 let pauseButtonTexture = Assets.sharedInstance.sprites.textureNamed("pauseButton")
 
@@ -284,7 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var heartArray:[SKSpriteNode] = []
 
     func removeHeart(){
-        let lostHeart = heartArray.removeLast()
+        let lostHeart = heartArray.removeFirst()
         
         lostHeart.removeFromParent()
         
@@ -298,7 +298,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         shotsFired = 0
         
-
+        
         
         let screenSize:CGSize = (view.scene?.size)!
 
@@ -338,7 +338,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.text = String(score)//"Score: " + String(score)
         scoreLabel.fontSize = screenSize.width * 0.04
         //scoreLabel.anchorPoint
-        let scoreLabelWidth = scoreLabel.frame.width
         
         let scoreNumXPos = scoreWordLabel.position.x + scoreWordLabel.frame.width/1.5
         
@@ -381,12 +380,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Where should this be added from?
         //self.addChild(powerupTimerLabel)
         
-        
-        //size.width = 667.0
-        //base side = size.width*0.075
-        
-        
-        
         //Set up the scene structure
         backgroundColor = SKColor.black
         
@@ -401,7 +394,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("TITIS",size.width,self.frame.width)
         
         controlBase.size = CGSize(width: self.frame.width/8, height: self.frame.width/8) //90
-        controlBase.position = CGPoint(x:controlBase.size.width/2,y:controlBase.size.height/2)//size.width*0.075, y:size.height*0.1)
+        controlBase.position = CGPoint(x:controlBase.size.width*0.55,y:controlBase.size.height*0.55)//size.width*0.075, y:size.height*0.1)
         controlBase.zPosition = 1
         controlBase.name = "controlBase"
         addChild(controlBase)
@@ -415,7 +408,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 
         //Make semi-transparent
         controlBase.alpha = 0.25
-        controlStick.alpha = 0.25
+        controlStick.alpha = 0.5
         
         
         
@@ -426,7 +419,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Begin count down for bosses
         startSpawningBosses()
         //spawnPowerup()
-        //startSpawningPowerUps()
+        startSpawningPowerUps()
         //startSpawningPowerUps()
 
 
@@ -495,7 +488,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.repeatForever(SKAction.sequence([
             
-            SKAction.wait(forDuration: Double(random(40, max: 60))),
+            SKAction.wait(forDuration: Double(random(4, max: 6))),
             SKAction.run(spawnBoss)
         ])))
         
@@ -649,7 +642,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         aliensKilled = aliensKilled + 1
         shipLives = shipLives-1
         aShip.lives = aShip.lives - 1
-        //removeHeart()
+        removeHeart()
 
         
         
@@ -954,35 +947,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if(controlBase.frame.contains(touchStartPoint) && !scene!.isPaused){
             
                 let joyVector = CGVector(dx:location.x - controlBase.position.x, dy:location.y - controlBase.position.y)
-                
-                
-                //Get angle between two components opp/adj of controlStick vector with arctan
-                let angle = atan2(joyVector.dy, joyVector.dx)
-                //Revise this- it's unneccasary because I normalize the vector anyway
-                let length:CGFloat = controlBase.frame.size.height
-                let xDist:CGFloat = sin(angle - 1.5879633) * length
-                let yDist:CGFloat = cos(angle - 1.57879633) * length
-                
-                //Keep the stick on its "base"
-//                if(CGRectContainsPoint(controlBase.frame, location)){
-//                    controlStick.position = location
-//                }
-//                else{
-//                    controlStick.position = CGPoint(x:controlBase.position.x - xDist, y:controlBase.position.y - yDist)
-//                }
                 controlStick.position = location
                 
                 let rangeToCenterSprite = SKRange(lowerLimit: 0, upperLimit: controlBase.size.width/2 - controlStick.size.width/2)
                 let distanceConstraint:SKConstraint = SKConstraint.distance(rangeToCenterSprite, to: controlBase.position)
                 controlStick.constraints = [distanceConstraint]
-                
-
-            
-                //Float bc cosf only takes floats not CGFloats -> what is the real difference?
-                //let degree = angle * CGFloat(180/M_PI)
-                //var calcRotation:Float = Float(angle-1.57879633) + Float(M_PI_2)
-                //let xVelocity = 50 * CGFloat(cosf(calcRotation))
-                //let yVelocity = 50 * CGFloat(sinf(calcRotation))
                 
                 let v:CGVector = CGVector(dx:joyVector.dx,dy:joyVector.dy)
                 let unitVector:CGVector = normalizeVector(v)
@@ -1010,74 +979,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch : AnyObject in touches {
-            
-            //Does this make any more sense than the commented code below it?
-            //difference is that this code if speaking strictly about touch's location at start time rather than location at end time!
             
             //Reset if touch that is on controller is lifted or if no fingers are on the screen
             if(controlBase.frame.contains(startingTouches[touch as! UITouch]!)){
                 resetController()
                 aShip.updateShipProperties(shipVelocity: controlVector, laserStartPos: CGPoint(x:0,y:0))
 
-                //aShip.physicsBody?.velocity = CGVector(dx:0, dy:0)
             }
                 
             //If it wasn't in the move box then the potential continual shot ended
             else{
-                
-                
                 //If user lifts finger while automatic enabled then stop firing
                 //aShip.gun.shootingFingerDown = false
                 if(!aShip.gun.gunSettings.semiAutomatic){
-                    
                     aShip.gun.removeAction(forKey: "shootMachineGunLaser")
                 }
-                
-               
-                
-                
-                //Force a call to this method to update it (****************THIS ISNT EVEN NEEDED? WHERE IS IT NEEDED?)
-                //aShip.gun.updatefingerState()
             }
-            
-            
-//            if(startingTouches.count < 1){
-//                resetController()
-//            }
-            
-            
-        
+
             //Remove the touch
             startingTouches.removeValue(forKey: touch as! UITouch)
         }
 
     }
-    
-//    
-//    override func touchesCancelled(touches: Set<UITouch>?, withEvent event: UIEvent?) {
-//        for touch:AnyObject in touches!{
-//            
-//            startingTouches.removeAll()
-//            
-//        }
-//    }
-//    
-    
-    
-    
+
     
     override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
@@ -1085,33 +1013,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //print("Total Nodes: ",allNodes)
 
 
-        //Maybe optimize
-        //aShip.progressBar?.position = CGPoint(x: self.position.x - (self.size.width/2 + self.size.width/7.0), y: self.position.y)
-        //print(aShip.progressBar)
-        //print(aShip.progressBar?.position)
-
         aShip.updateProgressBar()
-        
-        
-        // list all values
-//        print("Values of startingTouches: ")
-//        for (key, value) in startingTouches {
-//            print(value)
-//        }
-        
 
-//        print(startingTouches.count)
-//        if(startingTouches.count < 1){
-//            resetController()
-//        }
-//        print(aShip.position)
-
-//        boss.moveBody()
-        
-        
-        //This should just be called in
-        //aShip.updateShipProperties(shipVelocity: controlVector, laserStartPos: CGPoint(x:0,y:0))
-        
 //        if(shipLives<1){
 //            enumerateChildNodesWithName("normAlien", usingBlock: gameOverBounceMode)
 //            enumerateChildNodesWithName("downAlien", usingBlock: gameOverBounceMode)
@@ -1133,17 +1036,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             aShip.position.y = self.size.height - aShip.size.height/2
         }
         
-
-        
-//        self.enumerateChildNodesWithName("progressBar",
-//                                         usingBlock: { node, _ in
-//                                            if let progressBar = node as? ProgressBar {
-//                                                progressBar.update()
-//                                                
-//                                            }
-//            }
-//        )
-
         
         self.enumerateChildNodes(withName: "bossAlien",
             using: { node, _ in

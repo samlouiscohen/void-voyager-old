@@ -444,7 +444,8 @@ class Ship:SKSpriteNode{
     
     //let scaleFactor:CGFloat = 0.5
     
-    let scaleFactor:CGFloat = 0.07
+    let scaleFactor:CGFloat = 0.7
+    var shipSize:CGSize = CGSize(width:0,height:0)
 
     
     init(startPosition startPos:CGPoint, controllerVector:CGVector){
@@ -452,8 +453,11 @@ class Ship:SKSpriteNode{
         self.lives = 3
         self.moveSpeed = 160
         
+        
         super.init(texture: ship0, color: UIColor.clear, size: ship0.size())
         
+        self.shipSize = CGSize(width:(self.texture?.size().width)!*scaleFactor,height:(self.texture?.size().height)!*scaleFactor)
+
         //Set position
         self.position = startPos
         
@@ -467,8 +471,10 @@ class Ship:SKSpriteNode{
         
         
         //Physics of the shiptheLaserTexture.size().height)
-        self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.size)//SKPhysicsBody(circleOfRadius: self.size.width/2.2)
-        
+        self.physicsBody = SKPhysicsBody(texture: self.texture!, size: self.size) //(texture: self.texture!, size: self.size)//SKPhysicsBody(circleOfRadius: self.size.width/2.2)
+        print(self.physicsBody,"----Physicsbody")
+        //self.physicsBody = SKPhysicsBody(circleOfRadius: self.size.width/2) //Can be overridden
+
         
         //self.physicsBody = SKPhysicsBody(circleOfRadius: theLaserTexture.size().width/2)
         //self.physicsBody = SKPhysicsBody(texture: shipStartTexture, size: shipStartTexture.size())
@@ -506,8 +512,8 @@ class Ship:SKSpriteNode{
 //        gun.position = CGPointMake(self.size.width/2 + (self.size.width/15),-self.size.width/30)
         
 
-        
-        gun.position = CGPoint(x: 290, y: -160)
+        //Relative to ship
+        gun.position = CGPoint(x: shipSize.width/1.6, y: -shipSize.height/5)
 
         self.addChild(gun)
     }
