@@ -44,7 +44,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
     var stage4_reset_good = false
     //var screenSize:CGSize = nil
     
-    
+    var demoOn = true
     var shotsFired:Int = 0
     var shotsHit:Int = 0
     
@@ -77,7 +77,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
     //Build the Aliens killed Label
     fileprivate var aliensKilled = 0 {
         didSet{
-            self.aliensKilledLabel?.text = "Killed: " + String(aliensKilled)
+            self.aliensKilledLabel?.text = "Killed: " + String(aliensKilled) + "/20"
             score = aliensKilled + numberBossesKilled * 50
             
         }
@@ -207,8 +207,9 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         
         let aliensKilledLabel = SKLabelNode(fontNamed: "Times New Roman")
         //aliensKilledLabel.text = aliensKilled.description
-        aliensKilledLabel.text = "Killed: " + String(aliensKilled)
-        aliensKilledLabel.fontSize = self.frame.width * 0.0 //screenSize.width * 0.1// 14
+        aliensKilledLabel.text = "Killed: " + String(aliensKilled) + "/20"
+        aliensKilledLabel.fontSize = 30
+        //aliensKilledLabel.fontSize = self.frame.width * 0.0 //screenSize.width * 0.1// 14
         aliensKilledLabel.position = CGPoint(x:self.frame.midX,y:self.frame.midY*1.5)
         aliensKilledLabel.isHidden = true
         self.addChild(aliensKilledLabel)
@@ -296,6 +297,8 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         //startSpawningPowerUps()
         //startSpawningPowerUps()
         startStage1()
+        //stage5()
+        //stage6()
         
     }
     
@@ -409,7 +412,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         }
         let disBoldController = SKAction.run {
             self.controlBase.alpha = 0.25
-            self.controlStick.alpha = 0.25
+            self.controlStick.alpha = 0.5
         }
         
         controlBase.run(SKAction.sequence([boldController,wait,disBoldController]))
@@ -436,13 +439,13 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         let wait = SKAction.wait(forDuration: 1)
         let baselabelAnimation = SKAction.sequence([fadeIn,wait,fadeOut])
         
-        let actionLabel1 = makeLabel(text: "Good Job! With a little more work you may actually survive!.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
+        let actionLabel1 = makeLabel(text: "Okay. A little shakey, but we'll make do.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
         actionLabel1.isHidden = true
         self.addChild(actionLabel1)
         
         actionLabel1.run(SKAction.sequence([wait,SKAction.run {actionLabel1.isHidden = false},baselabelAnimation,labelRemove]))
         
-        let actionLabel2 = makeLabel(text: "This universe is riddled with wormholes.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
+        let actionLabel2 = makeLabel(text: "Know- this universe is riddled with wormholes.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
         actionLabel2.isHidden = true
         self.addChild(actionLabel2)
         
@@ -587,6 +590,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
     func stage5(){
         
         currentStage = 5
+        //self.activeComponenets["controller"] = true
         print("In stage 5")
         let labelRemove = SKAction.removeFromParent()
         
@@ -622,11 +626,11 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         let actionLabel4 = makeLabel(text: "with your non-steering hand to shoot.", position: CGPoint(x:self.frame.midX,y:actionLabel3.position.y-actionLabel3.frame.height*1.5))
         actionLabel4.isHidden = true
         self.addChild(actionLabel4)
-        let animate4 = SKAction.sequence([nextWait,nextWait,SKAction.run {actionLabel4.isHidden = false; self.activeComponenets["laser"] = true},baselabelAnimation,labelRemove])
+        let animate4 = SKAction.sequence([nextWait,nextWait,SKAction.run {actionLabel4.isHidden = false;},baselabelAnimation,labelRemove])
         actionLabel4.run(SKAction.sequence([animate4]))
         print("In stage 5.....")
 
-        let actionLabel5 = makeLabel(text: "Blast through some Extraterrestrials!!", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
+        let actionLabel5 = makeLabel(text: "Blast through some extraterrestrials!!", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
         actionLabel5.isHidden = true
         self.addChild(actionLabel5)
         print("hello")
@@ -634,7 +638,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
                                           SKAction.run {actionLabel5.isHidden = false;
                                             
                                             self.aliensKilledLabel?.isHidden=false;},
-                                          baselabelAnimation,SKAction.run(self.buildAliens),nextWait,SKAction.run(self.buildAliens), labelRemove])
+                                          baselabelAnimation,SKAction.run(self.buildAliens),SKAction.run(self.buildAliens), labelRemove])
         actionLabel5.run(SKAction.sequence([animate5]))
         
         
@@ -677,12 +681,15 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         actionLabel2.isHidden = true
         self.addChild(actionLabel2)
         print("in stage 4")
-        let animate2 = SKAction.sequence([nextWait,SKAction.run {actionLabel2.isHidden = false},baselabelAnimation,SKAction.run(self.buildAliens),nextWait,SKAction.run(self.buildAliens),labelRemove])
+        let animate2 = SKAction.sequence([nextWait,SKAction.run {actionLabel2.isHidden = false},baselabelAnimation,SKAction.run(self.buildAliens),SKAction.run(self.buildAliens),labelRemove])
         actionLabel2.run(SKAction.sequence([animate2]))
         
     }
     
     func stage6(){
+        
+        //self.run(SKAction.sequence(self.aliensKilledLabel.)){self.aliensKilledLabel?.isHidden=false;}
+        
         
         currentStage = 6
         
@@ -695,11 +702,16 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         let baselabelAnimation = SKAction.sequence([fadeIn,wait,fadeOut])
         let nextWait = SKAction.wait(forDuration: baselabelAnimation.duration)
         
-        let actionLabel1 = makeLabel(text: "Congrats! You have completed training.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
-        self.addChild(actionLabel1)
+        let theactionlabel1 = makeLabel(text: "Congrats! You have completed training.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
+        self.addChild(theactionlabel1)
         
-        actionLabel1.run(SKAction.sequence([baselabelAnimation,labelRemove]))
+        theactionlabel1.run(SKAction.sequence([fadeIn,wait,fadeOut,labelRemove]))
         
+        let theactionlabel2 = makeLabel(text: "You're ready to go out on your own now.", position: CGPoint(x:self.frame.midX,y:self.frame.midY))
+        theactionlabel2.isHidden = true
+        self.addChild(theactionlabel2)
+        
+        theactionlabel2.run(SKAction.sequence([nextWait,SKAction.run {theactionlabel2.isHidden = false},baselabelAnimation,labelRemove]))
         
         
         func buildStartScene(){
@@ -709,13 +721,13 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
                     let startScene:StartScene = StartScene(size: self.view!.bounds.size)
                     startScene.scaleMode = SKSceneScaleMode.fill
                     //Present it with a transition
-                    self.view!.presentScene(startScene, transition: SKTransition.doorway(withDuration: 0.5))
+                    self.view!.presentScene(startScene)//, transition: SKTransition.doorway(withDuration: 0.5))
                 }
             )
         }
         
         
-        self.run(SKAction.sequence([SKAction.fadeOut(withDuration: 3) ,SKAction.run(buildStartScene)]))
+        self.run(SKAction.sequence([nextWait,nextWait,SKAction.fadeOut(withDuration: 3) ,SKAction.run(buildStartScene)]))
         
         
         
@@ -1074,30 +1086,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         
         ship_powerup_contact(contact)
         
-        
-        if(aliensKilled > 20 && downNotCalledYet){
-            startSpawningDown()
-            downNotCalledYet = false
-        }
-        if(aliensKilled > 40 && behindNotCalledYet){
-            startSpawningBehind()
-            behindNotCalledYet = false
-        }
-        
-        if(aliensKilled % 60 == 0 && aliensKilled != 0 && aliensKilled != currentAliensKilled){
-            spawnPowerup()
-            currentAliensKilled = aliensKilled
-        }
-        
-        
-        
-        
-        //Create and go to the game over scene if the ship has 0 lives
-        //if(shipLives<1){
-        //    gameOver()
-        //}
-        
-        
+
     }
     
     
@@ -1131,7 +1120,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
     //Functions to create new alien instances with progressive difficulty
     func addNormAlien(){
         let mult = normAlienMultiplers
-        let alienInst = normAlien(startPos:CGPoint(x: 10,y: 10), speed: random(UInt32(30), max: UInt32(50))*mult[0])
+        let alienInst = normAlien(startPos:CGPoint(x: 10,y: 10), speed: random(UInt32(30), max: UInt32(60))*mult[0])
         let yStart = random(UInt32(alienInst.size.height/2), max: UInt32(size.height-alienInst.size.height))
         alienInst.position = CGPoint(x:size.width+alienInst.size.width/2, y:yStart)
         addChild(alienInst)
@@ -1459,8 +1448,9 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         }
         
         //Done!
-        if(aliensKilled>=20){
+        if(aliensKilled>=20 && demoOn){
             stage6()
+            demoOn = false
 
             
         }

@@ -373,10 +373,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //self.addChild(totalNodesLabel)
         //self.totalNodesLabel = totalNodesLabel
         
-        var powerupTimerLabel = SKLabelNode(fontNamed:"Times New Roman")
-        powerupTimerLabel.text = "PU Time: " //this should be modified within the ship class
-        powerupTimerLabel.fontSize = 14
-        powerupTimerLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
+        //var powerupTimerLabel = SKLabelNode(fontNamed:"Times New Roman")
+        //powerupTimerLabel.text = "PU Time: " //this should be modified within the ship class
+        //powerupTimerLabel.fontSize = 14
+        //powerupTimerLabel.position = CGPoint(x:self.frame.midX, y:self.frame.midY)
         //Where should this be added from?
         //self.addChild(powerupTimerLabel)
         
@@ -419,7 +419,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //Begin count down for bosses
         startSpawningBosses()
         //spawnPowerup()
-        startSpawningPowerUps()
+        //startSpawningPowerUps()
         //startSpawningPowerUps()
 
 
@@ -488,7 +488,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.repeatForever(SKAction.sequence([
             
-            SKAction.wait(forDuration: Double(random(4, max: 6))),
+            SKAction.wait(forDuration: Double(random(40, max: 60))),
             SKAction.run(spawnBoss)
         ])))
         
@@ -874,16 +874,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     //A dictionary to hold all touch start locations
     var startingTouches = [UITouch : CGPoint]()
-    
-//    func goToGameScene(){
-//        let gameScene:GameScene = GameScene(size: self.view!.bounds.size) // create your new scene
-//        let transition = SKTransition.fadeWithDuration(1.0) // create type of transition (you can check in documentation for more transtions)
-//        gameScene.scaleMode = SKSceneScaleMode.Fill
-//        self.view!.presentScene(gameScene, transition: transition)
-//    }
-    
 
-    
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
@@ -1063,42 +1054,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //            }
 //        )
         
-//
-//        
-//        self.enumerateChildNodesWithName("normAlien",
-//            usingBlock: { node, _ in
-//                
-//                if let aNormAlien = node as? normAlien {
-//                    
-//                    if(aNormAlien.position.x < -aNormAlien.size.width){
-//                        aNormAlien.removeFromParent()
-//                    }
-//                }
-//            }
-//        )
-        
-        
-        
-        
-        
-        //Remove Code run every time interval
-        
-        //print(self.children.count)
-        
+
         //Uncomment this
         self.aShip.gun.enumerateChildNodes(withName: "laser",
                                          using: { node, _ in
                                             if let aLaser = node as? Laser {
                                                 let positionInScene = self.convert(aLaser.position, from: self.aShip.gun)
-//                                                print("realPos:  ",positionInScene)
-//                                                print("self.size.width/2:  ",self.size.width/2)
-//                                                print("ship.x:  ",self.aShip.position.x)
-//                                                print("laser.x:  ",aLaser.position.x)
-                                                //print("hi")
+
                                                 
-                                                //Should ma
-                                                
-//                                                if(aLaser.position.x > self.size.width){
+//                                          if(aLaser.position.x > self.size.width){
                                                 if(positionInScene.x > self.size.width*1.05 || positionInScene.x < 0 - aLaser.size.width/2  ||
                                                    positionInScene.y > self.size.height*1.05 || positionInScene.y < 0 - aLaser.size.height/2){
                                                     

@@ -43,7 +43,7 @@ class GameViewController: UIViewController{//, GKGameCenterControllerDelegate {
             UserDefaults.standard.set(true, forKey: "HasLaunchedOnce")
             UserDefaults.standard.synchronize()
             //scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
-            scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
+            scene = NewUserScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
 
         }
         
@@ -58,9 +58,6 @@ class GameViewController: UIViewController{//, GKGameCenterControllerDelegate {
         skView.ignoresSiblingOrder = false
         //skView.showsPhysics = true
         
-        
-        //scene.size = skView.bounds.size //???Added becuase screen dimensions didnt make sense?
-
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         authenticateLocalPlayer()

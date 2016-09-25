@@ -234,7 +234,7 @@ class StartScene: SKScene{
                 let gameScene:GameScene = GameScene(size: self.view!.bounds.size)
                 gameScene.scaleMode = SKSceneScaleMode.fill
                 //Present it with a transition
-                self.view!.presentScene(gameScene, transition: SKTransition.doorway(withDuration: 0.5))//fadeWithColor(UIColor.blackColor(), duration: 2))
+                self.view!.presentScene(gameScene, transition: SKTransition.fade(with: UIColor.black, duration: 2))
             }
         )
     }

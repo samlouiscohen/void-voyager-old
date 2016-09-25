@@ -26,7 +26,7 @@ class InfoScene: SKScene{
         
         
         let gobackButton = UIButton(frame: CGRect(x:size.width*0.9,y:size.height*0.8,width: size.width*0.1,height: size.height*0.1) )
-        gobackButton.backgroundColor = SKColor.blue
+        gobackButton.backgroundColor = SKColor.red
         gobackButton.setTitle("Back", for: UIControlState())
         gobackButton.setTitleColor(SKColor.black, for: UIControlState())
         gobackButton.layer.cornerRadius = 10
