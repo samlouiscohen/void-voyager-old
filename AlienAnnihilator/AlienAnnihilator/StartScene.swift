@@ -187,7 +187,7 @@ class StartScene: SKScene{
                 let demoScene:DemoScene = DemoScene(size: self.view!.bounds.size)
                 demoScene.scaleMode = SKSceneScaleMode.fill
                 //Present it with a transition
-                self.view!.presentScene(demoScene, transition: SKTransition.doorway(withDuration: 0.5))
+                self.view!.presentScene(demoScene, transition: SKTransition.fade(withDuration: 2))//SKTransition.doorway(withDuration: 0.5))
             }
         )
     }

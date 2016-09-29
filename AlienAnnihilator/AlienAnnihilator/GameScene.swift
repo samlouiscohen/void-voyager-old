@@ -199,14 +199,14 @@ var totalNodes = 0
 //Build the Game Scene
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
-    
+    var powerUpWasSpawned = false
     
     var shotsFired:Int = 0
     var shotsHit:Int = 0
     
     var accuracy:Int = 0
     
-    var bossOn = false
+    //var bossOn = false
     var currentAliensKilled = 0
     
     
@@ -293,6 +293,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     //var backGround:BackGroundAnimation
     
 //    let allNodes:Int = subtreeCount()
+    
+    
+    var bossSpeed:CGFloat = 20
+    
     
     //Main scene did move to view drawing
     override func didMove(to view: SKView) {
@@ -719,7 +723,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             behindNotCalledYet = false
         }
 
-        if(aliensKilled % 60 == 0 && aliensKilled != 0 && aliensKilled != currentAliensKilled){
+        
+        if(aliensKilled % 30 == 0 && aliensKilled != 0 && !powerUpWasSpawned){
+            spawnPowerup()
+            powerUpWasSpawned = true
+        }
+        
+        if(aliensKilled % 50 == 0 && aliensKilled != 0 && aliensKilled != 50 && aliensKilled != currentAliensKilled){
             spawnPowerup()
             currentAliensKilled = aliensKilled
         }
@@ -749,7 +759,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func updateNormMultipliers(){
         //if(normAlienMultiplers[0]<)
         
-        normAlienMultiplers[0] = normAlienMultiplers[0]*1.01
+        if(normAlienMultiplers[0]<4){
+            normAlienMultiplers[0] = normAlienMultiplers[0]*1.01 //Speed
+        }
         normAlienMultiplers[1] = normAlienMultiplers[1]*1.01
     }
     func updateDownMultipliers(){
@@ -801,7 +813,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func spawnBoss(){
-        bossOn = true
+        //bossOn = true
         
         let bossSpawnLabel = SKLabelNode(fontNamed: "Times New Roman")
         //aliensKilledLabel.text = aliensKilled.description
@@ -853,11 +865,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
+        //Add the boss itself
         
-        let xCoord:CGFloat = -200//random(UInt32(0), max: UInt32(size.width))
+        let xDecision = random(UInt32(0), max: UInt32(1))
+        print(xDecision,"xDecision")
+        
+        
+        
+        var xCoord:CGFloat = 0//-200//random(UInt32(0), max: UInt32(size.width))
+        //xDecision == 0 ? xCoord = CGFloat(-200) :xCoord = CGFloat(self.size.width + 200)
+        
+        if(xDecision == 0){
+            xCoord = CGFloat(-200)
+        }
+        else{
+            xCoord = CGFloat(self.size.width + 200)
+        }
+        
         let yCoord = random(UInt32(0), max: UInt32(size.height))
         
-        let boss = bossAlien1(startPos: CGPoint(x:xCoord,y:yCoord))
+        let boss = bossAlien1(startPos: CGPoint(x:xCoord,y:yCoord), bossSpeed:bossSpeed)
         addChild(boss)
         
     }

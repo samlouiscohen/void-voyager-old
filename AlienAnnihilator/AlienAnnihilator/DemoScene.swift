@@ -88,7 +88,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
     var numberBossesKilled = 0
     
     //Instantiate the ship
-    var aShip = Ship(startPosition: CGPoint(x:50,y:200), controllerVector: controlVector)
+    var aShip = Ship(startPosition: CGPoint(x:50,y:100), controllerVector: controlVector)
     
     
     //Build the shipLives label
@@ -152,6 +152,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         
         
         let screenSize:CGSize = (view.scene?.size)!
+        aShip.position = CGPoint(x:screenSize.width/2,y:screenSize.height*0.2)
         
         //Pause button...
         pauseButton = PauseButton(theTexture: pauseButtonTexture, aScene: self)
@@ -297,6 +298,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         //startSpawningPowerUps()
         //startSpawningPowerUps()
         startStage1()
+        
         //stage5()
         //stage6()
         
@@ -721,7 +723,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
                     let startScene:StartScene = StartScene(size: self.view!.bounds.size)
                     startScene.scaleMode = SKSceneScaleMode.fill
                     //Present it with a transition
-                    self.view!.presentScene(startScene)//, transition: SKTransition.doorway(withDuration: 0.5))
+                    self.view!.presentScene(startScene, transition: SKTransition.fade(withDuration: 2))//    Scene(startScene)//, transition: SKTransition.doorway(withDuration: 0.5))
                 }
             )
         }
@@ -1211,7 +1213,7 @@ class DemoScene: SKScene, SKPhysicsContactDelegate {
         let xCoord:CGFloat = -200//random(UInt32(0), max: UInt32(size.width))
         let yCoord = random(UInt32(0), max: UInt32(size.height))
         
-        let boss = bossAlien1(startPos: CGPoint(x:xCoord,y:yCoord))
+        let boss = bossAlien1(startPos: CGPoint(x:xCoord,y:yCoord), bossSpeed:CGFloat(20))
         addChild(boss)
         
     }

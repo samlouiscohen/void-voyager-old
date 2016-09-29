@@ -13,7 +13,7 @@ import SpriteKit
 class bossAlien1:Alien{
     
     //Variable eye movement
-    var velocityMagnitude:CGFloat = 50
+    var velocityMagnitude:CGFloat = 0
     
     var totalLives = 10
     var lives:Int = 10
@@ -32,8 +32,10 @@ class bossAlien1:Alien{
     let scaleSize:CGFloat = 1//0.1
     
     
-    init(startPos:CGPoint){
+    init(startPos:CGPoint,bossSpeed:CGFloat){
         
+        
+        self.velocityMagnitude = bossSpeed
         let velocity = CGVector(dx: 0, dy:0)
         
         super.init(texture:bossAlienReal0, startPosition: startPos, moveSpeed:velocityMagnitude, velocityVector:velocity)
