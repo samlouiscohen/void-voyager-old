@@ -1,0 +1,25 @@
+{
+  "images" : [
+    {
+      "idiom" : "universal",
+<<<<<<< HEAD:AlienAnnihilator/AlienAnnihilator/Assets.xcassets/Sprites.spriteatlas/bossBigEyeSocket.imageset/Contents.json:AlienAnnihilator/AlienAnnihilator/Assets.xcassets/Sprites.spriteatlas/bossBigEyeSocket.imageset/Contents.json
+      "filename" : "bossBigEyeSocket.png",
+=======
+      "filename" : "hugeLaser.png",
+>>>>>>> fa1b6212792b3b66d056dcc874a468915d6b8380:AlienAnnihilator/AlienAnnihilator/Assets.xcassets/Sprites.spriteatlas/HugeLaserTexture.imageset/Contents.json:AlienAnnihilator/AlienAnnihilator/Assets.xcassets/Sprites.spriteatlas/HugeLaserTexture.imageset/Contents.json
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "version" : 1,
+    "author" : "xcode"
+  }
+}
