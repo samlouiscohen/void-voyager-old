@@ -37,17 +37,17 @@ class PauseButton:SKSpriteNode{
     
     let pausedLabel:SKLabelNode = SKLabelNode(fontNamed: "Chalkduster")
     
-    let theGameScene:GameScene
+    let theScene:SKScene//GameScene
     
-    init(theTexture:SKTexture, gameScene:GameScene){
+    init(theTexture:SKTexture, aScene:SKScene){//GameScene){
                 
-        theGameScene = gameScene
+        theScene = aScene
         
         super.init(texture: theTexture, color: UIColor.clear, size: theTexture.size())
         pausedLabel.text = "PAUSED"
         pausedLabel.color = SKColor.red
         pausedLabel.fontSize = 50
-        pausedLabel.position = CGPoint(x:(theGameScene.view?.scene?.size.width)!/2, y:(theGameScene.view?.scene?.size.height)!/2)
+        pausedLabel.position = CGPoint(x:(theScene.view?.scene?.size.width)!/2, y:(theScene.view?.scene?.size.height)!/2)
         
 
         self.setScale(0.7)
@@ -63,7 +63,7 @@ class PauseButton:SKSpriteNode{
     func switchState(){
         
         //Grab all of the GameScene children
-        let children = theGameScene.children
+        let children = theScene.children
         
         //Button logic
         if(!down){
@@ -84,7 +84,7 @@ class PauseButton:SKSpriteNode{
             }
             
             //Apparently labels should be added from within gamescene not from this class
-            theGameScene.addChild(pausedLabel)
+            theScene.addChild(pausedLabel)
         }
         else{
             self.setScale(0.7)

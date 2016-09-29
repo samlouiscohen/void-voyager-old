@@ -81,6 +81,16 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
         killedLabel.isUserInteractionEnabled = false
         addChild(killedLabel)
         
+        let pointsLabel = SKLabelNode(fontNamed: "Chalkduster")
+        
+        pointsLabel.text = "For a total of: " + String(totalScore) + " points."
+        
+        pointsLabel.fontSize = 20
+        pointsLabel.fontColor = SKColor.red
+        pointsLabel.position = CGPoint(x: size.width/2, y: size.height/4)
+        pointsLabel.isUserInteractionEnabled = false
+        addChild(pointsLabel)
+        
 
         
         
@@ -107,10 +117,10 @@ class GameOverScene: SKScene, GKGameCenterControllerDelegate  {
         
         
         
-        leaderboardLabel.text = "Tap for Leaderboard"
+        leaderboardLabel.text = "Tap here for leaderboards"
         leaderboardLabel.fontSize = 12
         leaderboardLabel.fontColor = SKColor.red
-        leaderboardLabel.position = CGPoint(x: size.width*0.5, y: size.height*0.2)
+        leaderboardLabel.position = CGPoint(x: size.width*0.5, y: size.height*0.15)
 //        leaderboardLabel.userInteractionEnabled = false
         addChild(leaderboardLabel)
 

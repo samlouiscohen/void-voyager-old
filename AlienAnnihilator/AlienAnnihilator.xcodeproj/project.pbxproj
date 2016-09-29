@@ -17,7 +17,10 @@
 		A42B1D1B1D864976008CC8B5 /* Assets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A42B1D1A1D864976008CC8B5 /* Assets.swift */; };
 		A44551C11D89006600CAF315 /* PhysicsBodyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44551C01D89006600CAF315 /* PhysicsBodyExtension.swift */; };
 		A4475B0E1D8CAC1600887ADD /* background.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4475B0D1D8CAC1600887ADD /* background.swift */; };
-		A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */; };
+		A4475B161D94245200887ADD /* DemoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4475B151D94245200887ADD /* DemoScene.swift */; };
+		A4475B1E1D96001900887ADD /* newUserScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4475B1D1D96001900887ADD /* newUserScene.swift */; };
+		A4475B231D96DBC200887ADD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4475B221D96DBC200887ADD /* StoreKit.framework */; };
+		A4475B2D1D97966700887ADD /* InfoScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4475B2C1D97966600887ADD /* InfoScene.swift */; };
 		A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */; };
 		A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A4A124E51D6E625400A1F22C /* ProgressBar.swift */; };
 		A4A124E81D6F3DBB00A1F22C /* GameKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A4A124E71D6F3DBB00A1F22C /* GameKit.framework */; };
@@ -60,7 +63,10 @@
 		A42B1D1A1D864976008CC8B5 /* Assets.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assets.swift; sourceTree = "<group>"; };
 		A44551C01D89006600CAF315 /* PhysicsBodyExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsBodyExtension.swift; sourceTree = "<group>"; };
 		A4475B0D1D8CAC1600887ADD /* background.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = background.swift; sourceTree = "<group>"; };
-		A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PauseButton2.swift; sourceTree = "<group>"; };
+		A4475B151D94245200887ADD /* DemoScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoScene.swift; sourceTree = "<group>"; };
+		A4475B1D1D96001900887ADD /* newUserScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = newUserScene.swift; path = ../newUserScene.swift; sourceTree = "<group>"; };
+		A4475B221D96DBC200887ADD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		A4475B2C1D97966600887ADD /* InfoScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoScene.swift; sourceTree = "<group>"; };
 		A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HelperFunctions.swift; sourceTree = "<group>"; };
 		A4A124E51D6E625400A1F22C /* ProgressBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProgressBar.swift; sourceTree = "<group>"; };
 		A4A124E71D6F3DBB00A1F22C /* GameKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GameKit.framework; path = System/Library/Frameworks/GameKit.framework; sourceTree = SDKROOT; };
@@ -84,6 +90,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A4A124E81D6F3DBB00A1F22C /* GameKit.framework in Frameworks */,
+				A4475B231D96DBC200887ADD /* StoreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -104,6 +111,7 @@
 				A42099BB1D3843BA00C38DEF /* AlienAnnihilator */,
 				A42099D41D3843BA00C38DEF /* AlienAnnihilatorTests */,
 				A42099BA1D3843BA00C38DEF /* Products */,
+				A4475B211D96DBC200887ADD /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -121,6 +129,8 @@
 			children = (
 				A42099BC1D3843BA00C38DEF /* AppDelegate.swift */,
 				A42099C01D3843BA00C38DEF /* GameScene.swift */,
+				A4475B151D94245200887ADD /* DemoScene.swift */,
+				A4475B1D1D96001900887ADD /* newUserScene.swift */,
 				A4475B0D1D8CAC1600887ADD /* background.swift */,
 				A44551C01D89006600CAF315 /* PhysicsBodyExtension.swift */,
 				A42B1D1A1D864976008CC8B5 /* Assets.swift */,
@@ -128,7 +138,6 @@
 				A4FCA7BE1D627190003BF287 /* PowerUps.swift */,
 				A4A124E51D6E625400A1F22C /* ProgressBar.swift */,
 				A4FCA7B61D621733003BF287 /* PauseButton.swift */,
-				A4A124DD1D6CD4B600A1F22C /* PauseButton2.swift */,
 				A4FCA7B01D610C0A003BF287 /* Aliens.swift */,
 				A4A124DF1D6CD57500A1F22C /* HelperFunctions.swift */,
 				A4FCA7B21D610C16003BF287 /* SpaceShip.swift */,
@@ -136,6 +145,7 @@
 				A4E7094E1D53DC2C00E1B50F /* Timer.swift */,
 				A4E709461D526D2200E1B50F /* GameOverScene.swift */,
 				A4E709481D52848900E1B50F /* StartScene.swift */,
+				A4475B2C1D97966600887ADD /* InfoScene.swift */,
 				A4E7094A1D5382ED00E1B50F /* InstructionScene.swift */,
 				A42099C21D3843BA00C38DEF /* GameViewController.swift */,
 				A4A124ED1D75009900A1F22C /* Controller.swift */,
@@ -155,6 +165,14 @@
 				A42099D71D3843BA00C38DEF /* Info.plist */,
 			);
 			path = AlienAnnihilatorTests;
+			sourceTree = "<group>";
+		};
+		A4475B211D96DBC200887ADD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A4475B221D96DBC200887ADD /* StoreKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -202,7 +220,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0730;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = SamuelStudios;
 				TargetAttributes = {
 					A42099B81D3843BA00C38DEF = {
@@ -211,6 +229,9 @@
 						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
+								enabled = 1;
+							};
+							com.apple.InAppPurchase = {
 								enabled = 1;
 							};
 						};
@@ -272,12 +293,14 @@
 				A4A124E61D6E625400A1F22C /* ProgressBar.swift in Sources */,
 				A4FCA7B71D621733003BF287 /* PauseButton.swift in Sources */,
 				A42099C11D3843BA00C38DEF /* GameScene.swift in Sources */,
+				A4475B1E1D96001900887ADD /* newUserScene.swift in Sources */,
 				A4A124F01D790EA200A1F22C /* SKNodeCountExtension.swift in Sources */,
+				A4475B2D1D97966700887ADD /* InfoScene.swift in Sources */,
 				A44551C11D89006600CAF315 /* PhysicsBodyExtension.swift in Sources */,
 				A42099C31D3843BA00C38DEF /* GameViewController.swift in Sources */,
 				A4A124EE1D75009900A1F22C /* Controller.swift in Sources */,
 				A4A124E01D6CD57500A1F22C /* HelperFunctions.swift in Sources */,
-				A4A124DE1D6CD4B600A1F22C /* PauseButton2.swift in Sources */,
+				A4475B161D94245200887ADD /* DemoScene.swift in Sources */,
 				A4475B0E1D8CAC1600887ADD /* background.swift in Sources */,
 				A4FCA7B31D610C16003BF287 /* SpaceShip.swift in Sources */,
 				A4E7094F1D53DC2C00E1B50F /* Timer.swift in Sources */,

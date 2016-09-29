@@ -13,7 +13,7 @@ import SpriteKit
 class bossAlien1:Alien{
     
     //Variable eye movement
-    var velocityMagnitude:CGFloat = 50
+    var velocityMagnitude:CGFloat = 0
     
     var totalLives = 10
     var lives:Int = 10
@@ -29,11 +29,13 @@ class bossAlien1:Alien{
     var aEyeSmall2:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeTexture, color: UIColor.clear, size: boss1SmallEyeTexture.size())
     var socketSmall2:SKSpriteNode = SKSpriteNode(texture: boss1SmallEyeSocketTexture, color: UIColor.clear, size: boss1SmallEyeSocketTexture.size())
     
-    let scaleSize:CGFloat = 0.1
+    let scaleSize:CGFloat = 1//0.1
     
     
-    init(startPos:CGPoint){
+    init(startPos:CGPoint,bossSpeed:CGFloat){
         
+        
+        self.velocityMagnitude = bossSpeed
         let velocity = CGVector(dx: 0, dy:0)
         
         super.init(texture:bossAlienReal0, startPosition: startPos, moveSpeed:velocityMagnitude, velocityVector:velocity)
@@ -52,8 +54,8 @@ class bossAlien1:Alien{
         //Add Eye balls (Frame drop comes from here)
         addEye(self.aEyeBig, theSocket:self.socketBig, position:CGPoint(x:0,y: self.size.height*0.3), scaleEye:1, scaleSocket:1)
 //        addEye(self.aEyeBig, theSocket:self.socketBig, position:CGPoint(x:0,y: self.size.height*1.58), scaleEye:1, scaleSocket:1)
-        addEye(self.aEyeSmall1, theSocket:self.socketSmall1, position:CGPoint(x: -240,y: 110), scaleEye:0.4, scaleSocket:0.35)
-        addEye(self.aEyeSmall2, theSocket:self.socketSmall2, position:CGPoint(x: 240,y: 110), scaleEye:0.4, scaleSocket:0.35)
+        addEye(self.aEyeSmall1, theSocket:self.socketSmall1, position:CGPoint(x: -24,y: 11), scaleEye:0.4, scaleSocket:0.35)
+        addEye(self.aEyeSmall2, theSocket:self.socketSmall2, position:CGPoint(x: 24,y: 11), scaleEye:0.4, scaleSocket:0.35)
         
         //Start mouth animation (This is static)
         self.animateMouth()

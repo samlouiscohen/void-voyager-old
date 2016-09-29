@@ -26,18 +26,38 @@ class GameViewController: UIViewController{//, GKGameCenterControllerDelegate {
         
         
         self.view.isMultipleTouchEnabled = true;
-    
-        let scene = StartScene(size: view.bounds.size)
+        let scene:SKScene
+        
+        //Is the user a first-time user or not?
+        if(UserDefaults.standard.bool(forKey: "HasLaunchedOnce"))
+        {
+            // app already launched
+            //scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
+            scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
+
+            
+        }
+        else
+        {
+            // This is the first launch ever
+            UserDefaults.standard.set(true, forKey: "HasLaunchedOnce")
+            UserDefaults.standard.synchronize()
+            //scene = StartScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
+            scene = NewUserScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
+
+        }
+        
+        
+        
+        
+        //let scene = DemoScene(size: view.bounds.size)//StartScene(size: view.bounds.size)
         let skView = view as! SKView
-        //skView.frameInterval = 4
+        //skView.frameInterval = 8
         //skView.showsFPS = true
         //skView.showsNodeCount = true
         skView.ignoresSiblingOrder = false
         //skView.showsPhysics = true
         
-        
-        //scene.size = skView.bounds.size //???Added becuase screen dimensions didnt make sense?
-
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         authenticateLocalPlayer()

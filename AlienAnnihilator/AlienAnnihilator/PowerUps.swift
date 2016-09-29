@@ -55,7 +55,7 @@ struct MachineGunBall:PowerupBallVariables{
 class PowerUpBall:SKSpriteNode{
     //The 'container' for powerups
     
-    let imageScale:CGFloat = 0.06
+    let imageScale:CGFloat = 0.6
     let originalTextureSize:CGSize
     
     var ballSettings:PowerupBallVariables //What does this really do?
